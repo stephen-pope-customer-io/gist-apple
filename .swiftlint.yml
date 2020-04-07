@@ -1,0 +1,8 @@
+excluded:
+  - Pods
+  - Demo/Pods
+identifier_name:
+  min_length:
+    error: 4
+  excluded:
+    - id

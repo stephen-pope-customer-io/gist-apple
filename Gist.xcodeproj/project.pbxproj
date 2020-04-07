@@ -8,16 +8,40 @@
 
 /* Begin PBXBuildFile section */
 		77448096063977B65417BCA0 /* Pods_Gist.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 10C1E97E8D391296567854DD /* Pods_Gist.framework */; };
+		A1446560243CB9F200F69093 /* GistNetworkRequestError.swift in Sources */ = {isa = PBXBuildFile; fileRef = A144655F243CB9F200F69093 /* GistNetworkRequestError.swift */; };
 		A164A44A243C74BE007A4DED /* Gist.h in Headers */ = {isa = PBXBuildFile; fileRef = A164A448243C74BE007A4DED /* Gist.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		A164A48E243C8267007A4DED /* Gist.swift in Sources */ = {isa = PBXBuildFile; fileRef = A164A48D243C8267007A4DED /* Gist.swift */; };
+		A164A491243C82C9007A4DED /* ConfigurationResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = A164A490243C82C9007A4DED /* ConfigurationResponse.swift */; };
+		A164A493243C82D3007A4DED /* UserQueueResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = A164A492243C82D3007A4DED /* UserQueueResponse.swift */; };
+		A164A495243C8327007A4DED /* LogViewRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = A164A494243C8327007A4DED /* LogViewRequest.swift */; };
+		A164A497243C85B3007A4DED /* GistNetwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = A164A496243C85B3007A4DED /* GistNetwork.swift */; };
+		A164A49A243C9A78007A4DED /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = A164A499243C9A78007A4DED /* Settings.swift */; };
+		A164A49E243C9BC9007A4DED /* ConfigurationEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = A164A49D243C9BC9007A4DED /* ConfigurationEndpoint.swift */; };
+		A164A4A0243C9BE0007A4DED /* QueueEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = A164A49F243C9BE0007A4DED /* QueueEndpoint.swift */; };
+		A164A4A2243C9C18007A4DED /* LogEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = A164A4A1243C9C18007A4DED /* LogEndpoint.swift */; };
+		A164A4A6243C9E96007A4DED /* GistNetworkRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = A164A4A5243C9E96007A4DED /* GistNetworkRequest.swift */; };
+		A164A4A8243C9EAD007A4DED /* Headers.swift in Sources */ = {isa = PBXBuildFile; fileRef = A164A4A7243C9EAD007A4DED /* Headers.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		10C1E97E8D391296567854DD /* Pods_Gist.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Gist.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2F3171E40D989DD54AA76B66 /* Pods-Gist.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Gist.release.xcconfig"; path = "Target Support Files/Pods-Gist/Pods-Gist.release.xcconfig"; sourceTree = "<group>"; };
 		6E084BDBA7876DE42CA69C31 /* Pods-Gist.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Gist.debug.xcconfig"; path = "Target Support Files/Pods-Gist/Pods-Gist.debug.xcconfig"; sourceTree = "<group>"; };
+		A144655F243CB9F200F69093 /* GistNetworkRequestError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GistNetworkRequestError.swift; sourceTree = "<group>"; };
 		A164A445243C74BE007A4DED /* Gist.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Gist.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A164A448243C74BE007A4DED /* Gist.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Gist.h; sourceTree = "<group>"; };
 		A164A449243C74BE007A4DED /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A164A48D243C8267007A4DED /* Gist.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gist.swift; sourceTree = "<group>"; };
+		A164A490243C82C9007A4DED /* ConfigurationResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigurationResponse.swift; sourceTree = "<group>"; };
+		A164A492243C82D3007A4DED /* UserQueueResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserQueueResponse.swift; sourceTree = "<group>"; };
+		A164A494243C8327007A4DED /* LogViewRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogViewRequest.swift; sourceTree = "<group>"; };
+		A164A496243C85B3007A4DED /* GistNetwork.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GistNetwork.swift; sourceTree = "<group>"; };
+		A164A499243C9A78007A4DED /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
+		A164A49D243C9BC9007A4DED /* ConfigurationEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigurationEndpoint.swift; sourceTree = "<group>"; };
+		A164A49F243C9BE0007A4DED /* QueueEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueueEndpoint.swift; sourceTree = "<group>"; };
+		A164A4A1243C9C18007A4DED /* LogEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogEndpoint.swift; sourceTree = "<group>"; };
+		A164A4A5243C9E96007A4DED /* GistNetworkRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GistNetworkRequest.swift; sourceTree = "<group>"; };
+		A164A4A7243C9EAD007A4DED /* Headers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Headers.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -53,10 +77,54 @@
 		A164A447243C74BE007A4DED /* Gist */ = {
 			isa = PBXGroup;
 			children = (
+				A164A48C243C8250007A4DED /* Network */,
 				A164A448243C74BE007A4DED /* Gist.h */,
 				A164A449243C74BE007A4DED /* Info.plist */,
+				A164A48D243C8267007A4DED /* Gist.swift */,
 			);
 			path = Gist;
+			sourceTree = "<group>";
+		};
+		A164A48C243C8250007A4DED /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				A164A4A3243C9E13007A4DED /* Endpoints */,
+				A164A48F243C8293007A4DED /* Models */,
+				A164A496243C85B3007A4DED /* GistNetwork.swift */,
+				A164A499243C9A78007A4DED /* Settings.swift */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		A164A48F243C8293007A4DED /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				A164A490243C82C9007A4DED /* ConfigurationResponse.swift */,
+				A164A492243C82D3007A4DED /* UserQueueResponse.swift */,
+				A164A494243C8327007A4DED /* LogViewRequest.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		A164A4A3243C9E13007A4DED /* Endpoints */ = {
+			isa = PBXGroup;
+			children = (
+				A164A4A4243C9E25007A4DED /* Utilities */,
+				A164A49D243C9BC9007A4DED /* ConfigurationEndpoint.swift */,
+				A164A49F243C9BE0007A4DED /* QueueEndpoint.swift */,
+				A164A4A1243C9C18007A4DED /* LogEndpoint.swift */,
+			);
+			path = Endpoints;
+			sourceTree = "<group>";
+		};
+		A164A4A4243C9E25007A4DED /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				A164A4A5243C9E96007A4DED /* GistNetworkRequest.swift */,
+				A164A4A7243C9EAD007A4DED /* Headers.swift */,
+				A144655F243CB9F200F69093 /* GistNetworkRequestError.swift */,
+			);
+			path = Utilities;
 			sourceTree = "<group>";
 		};
 		CEDA4DCC9E971CA1B96AE83A /* Pods */ = {
@@ -94,6 +162,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = A164A44D243C74BE007A4DED /* Build configuration list for PBXNativeTarget "Gist" */;
 			buildPhases = (
+				A164A498243C87A2007A4DED /* Swiftlint */,
 				BF98DB10F4937F52C74888E0 /* [CP] Check Pods Manifest.lock */,
 				A164A440243C74BE007A4DED /* Headers */,
 				A164A441243C74BE007A4DED /* Sources */,
@@ -120,6 +189,7 @@
 				TargetAttributes = {
 					A164A444243C74BE007A4DED = {
 						CreatedOnToolsVersion = 11.4;
+						LastSwiftMigration = 1140;
 					};
 				};
 			};
@@ -152,6 +222,24 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		A164A498243C87A2007A4DED /* Swiftlint */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = Swiftlint;
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which swiftlint >/dev/null; then\n  swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+		};
 		BF98DB10F4937F52C74888E0 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -181,6 +269,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A164A49A243C9A78007A4DED /* Settings.swift in Sources */,
+				A164A49E243C9BC9007A4DED /* ConfigurationEndpoint.swift in Sources */,
+				A164A493243C82D3007A4DED /* UserQueueResponse.swift in Sources */,
+				A164A495243C8327007A4DED /* LogViewRequest.swift in Sources */,
+				A1446560243CB9F200F69093 /* GistNetworkRequestError.swift in Sources */,
+				A164A491243C82C9007A4DED /* ConfigurationResponse.swift in Sources */,
+				A164A48E243C8267007A4DED /* Gist.swift in Sources */,
+				A164A497243C85B3007A4DED /* GistNetwork.swift in Sources */,
+				A164A4A2243C9C18007A4DED /* LogEndpoint.swift in Sources */,
+				A164A4A0243C9BE0007A4DED /* QueueEndpoint.swift in Sources */,
+				A164A4A6243C9E96007A4DED /* GistNetworkRequest.swift in Sources */,
+				A164A4A8243C9EAD007A4DED /* Headers.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -311,6 +411,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 6E084BDBA7876DE42CA69C31 /* Pods-Gist.debug.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = FYY5BQDCXQ;
@@ -327,6 +428,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = sh.bourbon.gist;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -336,6 +438,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 2F3171E40D989DD54AA76B66 /* Pods-Gist.release.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = FYY5BQDCXQ;
