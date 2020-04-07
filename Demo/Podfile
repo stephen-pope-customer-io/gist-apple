@@ -1,0 +1,7 @@
+source 'https://cdn.cocoapods.org/'
+platform :ios, '10.0'
+
+target 'Demo' do
+  use_frameworks!
+  pod 'Gist', :path => '../Gist.podspec'
+end
