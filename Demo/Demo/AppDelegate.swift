@@ -1,22 +1,17 @@
-//
-//  AppDelegate.swift
-//  Demo
-//
-//  Created by Bernard Gatt on 07/04/2020.
-//  Copyright © 2020 Bourbon Ltd. All rights reserved.
-//
-
 import UIKit
+import Gist
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
+    var gist: Gist!
     func application(_ application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        gist = Gist(organizationId: "905faec2-ef79-4606-886c-eec98ded2add")
+        gist.setup()
+
         return true
     }
-
-    // MARK: UISceneSession Lifecycle
 
     func application(_ application: UIApplication,
                      configurationForConnecting connectingSceneSession: UISceneSession,

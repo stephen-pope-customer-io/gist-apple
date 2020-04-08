@@ -2,7 +2,7 @@ import Foundation
 import Alamofire
 
 enum LogEndpoint: GistNetworkRequest {
-    case logView(messageId: String, userToken: String)
+    case logView(messageId: String, userToken: String?)
 
     var method: HTTPMethod {
         switch self {

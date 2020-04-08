@@ -8,12 +8,12 @@ class GistNetwork {
         self.organizationId = organizationId
     }
 
-    func request(_ request: GistNetworkRequest) throws -> Request {
+    func request(_ request: GistNetworkRequest) throws -> DataRequest {
         guard let baseURL = URL(string: Settings.Production.baseURL) else {
             throw GistNetworkRequestError.invalidBaseURL
         }
 
-        var urlRequest = URLRequest(url: baseURL)
+        var urlRequest = URLRequest(url: baseURL.appendingPathComponent(request.path))
         urlRequest.httpMethod = request.method.rawValue
         urlRequest.addValue(organizationId, forHTTPHeaderField: HTTPHeader.organizationId.rawValue)
         urlRequest.addValue(ContentTypes.json.rawValue, forHTTPHeaderField: HTTPHeader.contentType.rawValue)

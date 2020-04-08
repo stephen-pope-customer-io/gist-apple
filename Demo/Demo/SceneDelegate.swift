@@ -1,11 +1,3 @@
-//
-//  SceneDelegate.swift
-//  Demo
-//
-//  Created by Bernard Gatt on 07/04/2020.
-//  Copyright © 2020 Bourbon Ltd. All rights reserved.
-//
-
 import UIKit
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
@@ -15,7 +7,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func scene(_ scene: UIScene,
                willConnectTo session: UISceneSession,
                options connectionOptions: UIScene.ConnectionOptions) {
-        if !scene as? UIWindowScene { return }
+        if (scene as? UIWindowScene) != nil { return }
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {}
