@@ -12,6 +12,7 @@ class MessageManager: BourbonEngineDelegate {
 
     init(configuration: Configuration, messageId: String) {
         self.organizationId = configuration.organizationId
+        self.messageId = messageId
         let engineConfiguration = EngineConfiguration(organizationId: configuration.organizationId,
                                                       projectId: configuration.projectId,
                                                       engineEndpoint: configuration.engineEndpoint,
@@ -19,8 +20,8 @@ class MessageManager: BourbonEngineDelegate {
                                                       mainRoute: messageId,
                                                       engineVersion: 1,
                                                       configurationVersion: 1)
-        engine = BourbonEngine.init(configuration: engineConfiguration)
-        self.messageId = messageId
+        engine = BourbonEngine(configuration: engineConfiguration)
+        engine.delegate = self
     }
 
     func showMessage() {
@@ -38,6 +39,7 @@ class MessageManager: BourbonEngineDelegate {
         if let modalViewManager = modalViewManager {
             modalViewManager.dismissModelView {
                 completionHandler()
+                self.delegate?.messageDismissed(messageId: self.messageId)
             }
         }
     }
@@ -48,6 +50,11 @@ class MessageManager: BourbonEngineDelegate {
 
     func tap(action: String) {
         Logger.instance.debug(message: "Action triggered: \(action)")
+        if action == "gist://close" {
+            dismissMessage {
+                Logger.instance.debug(message: "Dismissing from action: \(action)")
+            }
+        }
         delegate?.action(action: action)
     }
 

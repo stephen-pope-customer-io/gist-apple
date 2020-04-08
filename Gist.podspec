@@ -13,6 +13,6 @@ Pod::Spec.new do |s|
   s.source = { :git => 'https://gitlab.com/bourbonltd/gist-apple', :tag => s.version }
 
   s.source_files  = 'Gist/*.{swift,h,m}', 'Gist/**/*.{swift,h,m}'
-  s.dependency "BourbonEngine", '~> 0.0.8'
+  s.dependency "BourbonEngine", '~> 0.0.9'
   s.dependency "Alamofire", '~> 5.1'
 end

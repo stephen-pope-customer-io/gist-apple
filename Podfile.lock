@@ -1,23 +1,20 @@
 PODS:
   - Alamofire (5.1.0)
-  - BourbonEngine (0.0.8)
+  - BourbonEngine (0.0.9)
 
 DEPENDENCIES:
   - Alamofire (~> 5.1)
-  - BourbonEngine (from `../../Bourbon/engine-apple/BourbonEngine.podspec`)
+  - BourbonEngine (~> 0.0.9)
 
 SPEC REPOS:
   trunk:
     - Alamofire
-
-EXTERNAL SOURCES:
-  BourbonEngine:
-    :path: "../../Bourbon/engine-apple/BourbonEngine.podspec"
+    - BourbonEngine
 
 SPEC CHECKSUMS:
   Alamofire: 9d5c5f602928e512395b30950c5984eca840093c
-  BourbonEngine: 6f9f664c015bd934dd3f6306f25e46c2c064e30d
+  BourbonEngine: da850d4427690a253037207f54fd79b8bb02352d
 
-PODFILE CHECKSUM: 082518cf6e1c84d36cacbd3471db5fc56ecb2b07
+PODFILE CHECKSUM: 17a2e2c9a6f267ae509a543ed533616bd07484be
 
 COCOAPODS: 1.8.3

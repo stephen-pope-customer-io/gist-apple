@@ -1,9 +1,9 @@
 PODS:
   - Alamofire (5.1.0)
-  - BourbonEngine (0.0.8)
+  - BourbonEngine (0.0.9)
   - Gist (0.0.1):
     - Alamofire (~> 5.1)
-    - BourbonEngine (~> 0.0.8)
+    - BourbonEngine (~> 0.0.9)
 
 DEPENDENCIES:
   - Gist (from `../Gist.podspec`)
@@ -19,8 +19,8 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   Alamofire: 9d5c5f602928e512395b30950c5984eca840093c
-  BourbonEngine: 6f9f664c015bd934dd3f6306f25e46c2c064e30d
-  Gist: c96f16820b88fe8337c7c310b9d0ab010bb6f7e8
+  BourbonEngine: da850d4427690a253037207f54fd79b8bb02352d
+  Gist: 801a4316deb4786a08378b5d8a02dbace95dbcf5
 
 PODFILE CHECKSUM: 842b9168fec23445b62ccf211472cdcbaf81be31
 

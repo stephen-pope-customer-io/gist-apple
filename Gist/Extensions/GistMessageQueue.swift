@@ -5,5 +5,6 @@ class GistMessageQueue: GistExtendable {
 
     func setup() {}
     func messageShown(messageId: String, userToken: String?) {}
+    func messageDismissed(messageId: String, userToken: String?) {}
     func actionPerformed(action: String) {}
 }

@@ -10,14 +10,14 @@ class Logger {
     var enabled = false
 
     func info(message: String) {
-        if enabled { os_log("%{message}", log: OSLog.gist, type: .info, message) }
+        if enabled { os_log("%@", log: OSLog.gist, type: .info, message) }
     }
 
     func debug(message: String) {
-        if enabled { os_log("%{message}", log: OSLog.gist, type: .debug, message) }
+        if enabled { os_log("%@", log: OSLog.gist, type: .debug, message) }
     }
 
     func error(message: String) {
-        os_log("%{message}", log: OSLog.gist, type: .error, message)
+        os_log("%@", log: OSLog.gist, type: .error, message)
     }
 }

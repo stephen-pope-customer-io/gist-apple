@@ -41,7 +41,7 @@ public class Gist: GistDelegate {
         } else {
             Logger.instance.error(message:
                 """
-                Message not shown because configuration was not set,\
+                Message not shown because configuration was not set, \
                 make sure Gist.setup() is called before showing a message.
                 """
             )
@@ -68,6 +68,17 @@ public class Gist: GistDelegate {
         for gistExtention in extensions {
             Logger.instance.debug(message:
                 "Calling message shown event for message id: \(messageId) on gist extension: \(gistExtention.name)")
+            gistExtention.messageShown(messageId: messageId, userToken: userToken)
+        }
+    }
+
+    public func messageDismissed(messageId: String) {
+        Logger.instance.debug(message: "Message with id: \(messageId) dismissed")
+        delegate?.messageDismissed(messageId: messageId)
+        let userToken = UserManager().getUserToken()
+        for gistExtention in extensions {
+            Logger.instance.debug(message:
+                "Calling message dismissed event for message id: \(messageId) on gist extension: \(gistExtention.name)")
             gistExtention.messageShown(messageId: messageId, userToken: userToken)
         }
     }

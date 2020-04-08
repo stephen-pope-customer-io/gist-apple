@@ -28,11 +28,11 @@ class Bootstrap {
                     }
                 }
                 completionHandler(.success(configuration))
+                Logger.instance.debug(message: "Bootstrap Complete")
             case .failure(let error):
                 Logger.instance.error(message: "Failed to fetch configuration: \(error)")
                 completionHandler(.failure(error))
             }
         }
-        Logger.instance.debug(message: "Bootstrap Complete")
     }
 }
