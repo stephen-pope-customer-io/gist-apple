@@ -3,9 +3,9 @@ import Alamofire
 
 class Bootstrap {
     let organizationId: String
-    let extensions: [GistExtendable]?
+    let extensions: [GistExtendable]
 
-    init(organizationId: String, extensions: [GistExtendable]? = nil) {
+    init(organizationId: String, extensions: [GistExtendable]) {
         self.organizationId = organizationId
         self.extensions = extensions
     }
@@ -21,11 +21,9 @@ class Bootstrap {
                                                   identityEndpoint: configurationResponse.identityEndpoint,
                                                   projectId: configurationResponse.projectId)
                 // Initialize Gist extentions
-                if let extensions = self.extensions {
-                    for gistExtension in extensions {
-                        gistExtension.setup()
-                        Logger.instance.info(message: "Extension \(gistExtension.name) setup")
-                    }
+                for gistExtension in self.extensions {
+                    gistExtension.setup()
+                    Logger.instance.info(message: "Extension \(gistExtension.name) setup")
                 }
                 completionHandler(.success(configuration))
                 Logger.instance.debug(message: "Bootstrap Complete")

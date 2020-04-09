@@ -1,22 +1,22 @@
 import Foundation
 
 public class Gist: GistDelegate {
-    private let organizationId: String
     private var configuration: Configuration?
     private var messageManager: MessageManager?
     private var extensions: [GistExtendable]
 
+    public let organizationId: String
     weak public var delegate: GistDelegate?
 
     public init(organizationId: String, extensions: [GistExtendable] = [], logging: Bool = false) {
         self.organizationId = organizationId
         self.extensions = extensions
-        self.extensions.append(GistMessageQueue())
+        self.extensions.append(GistMessageQueue(gist: self))
         Logger.instance.enabled = logging
     }
 
     public func setup() {
-        let bootstrap = Bootstrap(organizationId: organizationId)
+        let bootstrap = Bootstrap(organizationId: organizationId, extensions: extensions)
         bootstrap.setup { [weak self] response in
             if case let Result.success(configuration) = response {
                 self?.configuration = configuration

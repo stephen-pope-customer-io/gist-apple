@@ -13,15 +13,25 @@ class QueueManager {
         do {
             try GistNetwork(organizationId: organizationId)
                 .request(QueueEndpoint.getUserQueue(userToken: userToken))
-                .validate(statusCode: 200..<204)
-                .responseDecodable { (response: DataResponse<[UserQueueResponse], AFError>) in
+                .validate(statusCode: 200..<205)
+                .responseJSON { (response: DataResponse<Any, AFError>) in
                     switch response.result {
-                    case .success(let response):
-                        completionHandler(.success(response))
+                    case .success(let userQueueResponseJSON):
+                        if let statusCode = response.response?.statusCode, statusCode == 204 {
+                            completionHandler(.success([]))
+                        } else {
+                            do {
+                                let data = try JSONSerialization.data(withJSONObject: userQueueResponseJSON)
+                                let userQueueResponse = try JSONDecoder().decode([UserQueueResponse].self, from: data)
+                                completionHandler(.success(userQueueResponse))
+                            } catch {
+                                completionHandler(.failure(error))
+                            }
+                        }
                     case .failure(let error):
                         completionHandler(.failure(error))
                     }
-            }
+                }
         } catch {
             completionHandler(.failure(error))
         }
