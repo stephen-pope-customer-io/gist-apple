@@ -29,16 +29,17 @@ class MessageManager: BourbonEngineDelegate {
         if messageLoaded {
             guard let engineViewController = engine.viewController else { return }
             modalViewManager = ModalViewManager(viewController: engineViewController)
-            modalViewManager?.showModalView {
+            modalViewManager?.showModalView { [weak self] in
+                guard let self = self else { return }
                 self.delegate?.messageShown(messageId: self.messageId)
             }
         }
     }
 
-    func dismissMessage(completionHandler: @escaping () -> Void) {
+    func dismissMessage() {
         if let modalViewManager = modalViewManager {
-            modalViewManager.dismissModelView {
-                completionHandler()
+            modalViewManager.dismissModelView { [weak self] in
+                guard let self = self else { return }
                 self.delegate?.messageDismissed(messageId: self.messageId)
             }
         }
@@ -51,9 +52,8 @@ class MessageManager: BourbonEngineDelegate {
     func tap(action: String) {
         Logger.instance.debug(message: "Action triggered: \(action)")
         if action == "gist://close" {
-            dismissMessage {
-                Logger.instance.debug(message: "Dismissing from action: \(action)")
-            }
+            Logger.instance.debug(message: "Dismissing from action: \(action)")
+            dismissMessage()
         }
         delegate?.action(action: action)
     }

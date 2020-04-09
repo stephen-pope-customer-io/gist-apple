@@ -17,9 +17,9 @@ public class Gist: GistDelegate {
 
     public func setup() {
         let bootstrap = Bootstrap(organizationId: organizationId)
-        bootstrap.setup { response in
+        bootstrap.setup { [weak self] response in
             if case let Result.success(configuration) = response {
-                self.configuration = configuration
+                self?.configuration = configuration
             }
         }
     }
@@ -34,9 +34,9 @@ public class Gist: GistDelegate {
                 Logger.instance.info(message:
                     "Message with id \(messageId) cannot be displayed, \(messageManager.messageId) is being displayed.")
             } else {
-                messageManager = MessageManager(configuration: configuration, messageId: messageId)
-                self.delegate = messageManager?.delegate
-                messageManager?.showMessage()
+                self.messageManager = MessageManager(configuration: configuration, messageId: messageId)
+                self.messageManager?.delegate = self
+                self.messageManager?.showMessage()
             }
         } else {
             Logger.instance.error(message:
@@ -49,14 +49,11 @@ public class Gist: GistDelegate {
     }
 
     public func dismissMessage() {
-        self.messageManager?.dismissMessage {
-            self.messageManager = nil
-        }
+        self.messageManager?.dismissMessage()
     }
 
     public func messageShown(messageId: String) {
         Logger.instance.debug(message: "Message with id: \(messageId) shown")
-        delegate?.messageShown(messageId: messageId)
         let userToken = UserManager().getUserToken()
         LogManager(organizationId: organizationId)
             .logView(messageId: messageId, userToken: userToken) { response in
@@ -70,25 +67,27 @@ public class Gist: GistDelegate {
                 "Calling message shown event for message id: \(messageId) on gist extension: \(gistExtention.name)")
             gistExtention.messageShown(messageId: messageId, userToken: userToken)
         }
+        delegate?.messageShown(messageId: messageId)
     }
 
     public func messageDismissed(messageId: String) {
         Logger.instance.debug(message: "Message with id: \(messageId) dismissed")
-        delegate?.messageDismissed(messageId: messageId)
         let userToken = UserManager().getUserToken()
         for gistExtention in extensions {
             Logger.instance.debug(message:
                 "Calling message dismissed event for message id: \(messageId) on gist extension: \(gistExtention.name)")
             gistExtention.messageShown(messageId: messageId, userToken: userToken)
         }
+        self.messageManager = nil
+        delegate?.messageDismissed(messageId: messageId)
     }
 
     public func action(action: String) {
-        delegate?.action(action: action)
         for gistExtention in extensions {
             Logger.instance.debug(message:
                 "Calling action \"\(action)\" performed event on gist extension: \(gistExtention.name)")
             gistExtention.actionPerformed(action: action)
         }
+        delegate?.action(action: action)
     }
 }

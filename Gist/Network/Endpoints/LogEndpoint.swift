@@ -21,7 +21,7 @@ enum LogEndpoint: GistNetworkRequest {
     var path: String {
         switch self {
         case .logView:
-            return "/api/v1/queue/user"
+            return "/api/v1/log"
         }
     }
 }

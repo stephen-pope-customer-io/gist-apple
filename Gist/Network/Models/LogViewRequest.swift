@@ -1,6 +1,6 @@
 import Foundation
 
-struct LogViewRequest: Codable {
+struct LogViewRequest: Encodable {
     let messageId: String
     let userToken: String?
 

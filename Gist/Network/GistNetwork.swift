@@ -20,7 +20,7 @@ class GistNetwork {
 
         switch request.parameters {
         case .body(let body):
-            urlRequest.httpBody = try JSONSerialization.data(withJSONObject: body, options: [])
+            urlRequest.httpBody = try JSONSerialization.data(withJSONObject: body.asDictionary(), options: [])
         case .id(let id):
             let components = URLComponents(string: baseURL
                 .appendingPathComponent(request.path)
