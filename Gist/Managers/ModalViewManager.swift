@@ -18,7 +18,6 @@ class ModalViewManager {
 
         UIView.animate(withDuration: 0.3, delay: 0, options: [.curveEaseIn], animations: {
             self.viewController.view.center.y -= self.viewController.view.bounds.height
-            self.viewController.view.layoutIfNeeded()
         }, completion: { _ in
             UIView.animate(withDuration: 0.1, delay: 0, options: [.curveEaseIn], animations: {
                 self.viewController.view.backgroundColor = UIColor.black.withAlphaComponent(0.2)
@@ -30,13 +29,15 @@ class ModalViewManager {
     }
 
     func dismissModelView(completionHandler: @escaping () -> Void) {
-        self.window = getUIWindow()
-        UIView.animate(withDuration: 0.3, delay: 0, options: [.curveEaseIn], animations: {
-            self.viewController.view.center.y -= self.viewController.view.bounds.height
-            self.viewController.view.layoutIfNeeded()
+        UIView.animate(withDuration: 0.1, delay: 0, options: [.curveEaseIn], animations: {
+            self.viewController.view.backgroundColor = UIColor.black.withAlphaComponent(0)
         }, completion: { _ in
-            self.window.isHidden = false
-            completionHandler()
+            UIView.animate(withDuration: 0.1, delay: 0, options: [.curveEaseIn], animations: {
+                self.viewController.view.center.y += self.viewController.view.bounds.height
+            }, completion: { _ in
+                self.window.isHidden = false
+                completionHandler()
+            })
         })
     }
 

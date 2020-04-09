@@ -1,8 +1,8 @@
 import UIKit
 
 class ViewController: UIViewController {
-    let appDelegate = UIApplication.shared.delegate as? AppDelegate
-    
+    weak var appDelegate = UIApplication.shared.delegate as? AppDelegate
+
     override func viewDidLoad() {
         super.viewDidLoad()
         appDelegate?.gist.setUserToken(userToken: "ABC123")

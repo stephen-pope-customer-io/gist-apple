@@ -15,9 +15,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uDL-HK-Ohc">
-                                <rect key="frame" x="182" y="433" width="51" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uDL-HK-Ohc">
+                                <rect key="frame" x="181.5" y="438" width="51" height="30"/>
                                 <state key="normal" title="Launch"/>
                                 <connections>
                                     <action selector="showMessage:" destination="BYZ-38-t0r" eventType="touchUpInside" id="859-rc-rHr"/>
@@ -25,6 +24,10 @@
                             </button>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="uDL-HK-Ohc" firstAttribute="centerY" secondItem="6Tk-OE-BBY" secondAttribute="centerY" id="fRL-IP-Gl3"/>
+                            <constraint firstItem="uDL-HK-Ohc" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="opm-kB-8YZ"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                 </viewController>

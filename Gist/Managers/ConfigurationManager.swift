@@ -22,7 +22,8 @@ class ConfigurationManager {
                         } else {
                             do {
                                 let data = try JSONSerialization.data(withJSONObject: configurationResponseJSON)
-                                let configurationResponse = try JSONDecoder().decode(ConfigurationResponse.self, from: data)
+                                let configurationResponse =
+                                    try JSONDecoder().decode(ConfigurationResponse.self, from: data)
                                 completionHandler(.success(configurationResponse))
                             } catch {
                                 completionHandler(.failure(error))
