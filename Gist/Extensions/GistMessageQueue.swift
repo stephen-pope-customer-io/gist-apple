@@ -38,7 +38,16 @@ class GistMessageQueue: GistExtendable {
         }
     }
 
-    func messageShown(messageId: String, userToken: String?) {}
+    func messageShown(messageId: String, userToken: String?) {
+        LogManager(organizationId: gist.organizationId)
+            .logView(messageId: messageId, userToken: userToken) { response in
+                if case let .failure(error) = response {
+                    Logger.instance.error(message:
+                        "Failed to log view for message id: \(messageId) with error: \(error)")
+                }
+        }
+    }
+    
     func messageDismissed(messageId: String, userToken: String?) {}
     func actionPerformed(action: String) {}
 }

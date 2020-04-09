@@ -55,13 +55,6 @@ public class Gist: GistDelegate {
     public func messageShown(messageId: String) {
         Logger.instance.debug(message: "Message with id: \(messageId) shown")
         let userToken = UserManager().getUserToken()
-        LogManager(organizationId: organizationId)
-            .logView(messageId: messageId, userToken: userToken) { response in
-                if case let .failure(error) = response {
-                    Logger.instance.error(message:
-                        "Failed to log view for message id: \(messageId) with error: \(error)")
-                }
-        }
         for gistExtention in extensions {
             Logger.instance.debug(message:
                 "Calling message shown event for message id: \(messageId) on gist extension: \(gistExtention.name)")
@@ -76,7 +69,7 @@ public class Gist: GistDelegate {
         for gistExtention in extensions {
             Logger.instance.debug(message:
                 "Calling message dismissed event for message id: \(messageId) on gist extension: \(gistExtention.name)")
-            gistExtention.messageShown(messageId: messageId, userToken: userToken)
+            gistExtention.messageDismissed(messageId: messageId, userToken: userToken)
         }
         self.messageManager = nil
         delegate?.messageDismissed(messageId: messageId)
