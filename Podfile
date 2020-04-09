@@ -5,5 +5,4 @@ target 'Gist' do
   use_frameworks!
   pod 'Alamofire', '~> 5.1'
   pod 'BourbonEngine', '~> 0.0.9'
-  #pod 'BourbonEngine', :path => '../../Bourbon/engine-apple/BourbonEngine.podspec'
 end

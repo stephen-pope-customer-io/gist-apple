@@ -2,7 +2,7 @@ Pod::Spec.new do |s|
   s.name = 'Gist'
   s.version = '0.0.1'
   s.summary = 'Gist'
-  s.description = 'Gist gives you access to a library of ready built micro-experiences that can be easily dropped into your existing application without writing a line of code.'
+  s.description = 'In-app messaging that converts'
   s.homepage = 'https://gist.build'
   s.license = { :type => 'Bourbon Platform License', :file => 'LICENSE' }
   s.author = 'Bourbon Ltd'
