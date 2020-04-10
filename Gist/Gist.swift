@@ -28,7 +28,7 @@ public class Gist: GistDelegate {
         UserManager().setUserToken(userToken: userToken)
     }
 
-    public func showMessage(messageId: String) {
+    public func showMessage(messageId: String) -> Bool {
         if let configuration = self.configuration {
             if let messageManager = self.messageManager {
                 Logger.instance.info(message:
@@ -37,6 +37,7 @@ public class Gist: GistDelegate {
                 self.messageManager = MessageManager(configuration: configuration, messageId: messageId)
                 self.messageManager?.delegate = self
                 self.messageManager?.showMessage()
+                return true
             }
         } else {
             Logger.instance.error(message:
@@ -46,6 +47,7 @@ public class Gist: GistDelegate {
                 """
             )
         }
+        return false
     }
 
     public func dismissMessage() {
