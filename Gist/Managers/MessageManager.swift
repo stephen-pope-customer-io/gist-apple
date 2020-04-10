@@ -38,7 +38,7 @@ class MessageManager: BourbonEngineDelegate {
 
     func dismissMessage() {
         if let modalViewManager = modalViewManager {
-            modalViewManager.dismissModelView { [weak self] in
+            modalViewManager.dismissModalView { [weak self] in
                 guard let self = self else { return }
                 self.delegate?.messageDismissed(messageId: self.messageId)
             }

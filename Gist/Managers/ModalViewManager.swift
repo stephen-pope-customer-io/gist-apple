@@ -2,13 +2,14 @@ import UIKit
 
 class ModalViewManager {
     var window: UIWindow!
-    let viewController: UIViewController
+    weak var viewController: UIViewController?
 
     init(viewController: UIViewController) {
         self.viewController = viewController
     }
 
     func showModalView(completionHandler: @escaping () -> Void) {
+        guard let viewController = self.viewController else { return }
         viewController.view.isHidden = true
         self.window = getUIWindow()
         self.window.rootViewController = viewController
@@ -17,10 +18,10 @@ class ModalViewManager {
         viewController.view.center.y += viewController.view.bounds.height
 
         UIView.animate(withDuration: 0.3, delay: 0, options: [.curveEaseIn], animations: {
-            self.viewController.view.center.y -= self.viewController.view.bounds.height
+            viewController.view.center.y -= viewController.view.bounds.height
         }, completion: { _ in
             UIView.animate(withDuration: 0.1, delay: 0, options: [.curveEaseIn], animations: {
-                self.viewController.view.backgroundColor = UIColor.black.withAlphaComponent(0.2)
+                viewController.view.backgroundColor = UIColor.black.withAlphaComponent(0.2)
             }, completion: nil)
             completionHandler()
         })
@@ -28,14 +29,17 @@ class ModalViewManager {
         viewController.view.isHidden = false
     }
 
-    func dismissModelView(completionHandler: @escaping () -> Void) {
+    func dismissModalView(completionHandler: @escaping () -> Void) {
+        guard let viewController = self.viewController else { return }
         UIView.animate(withDuration: 0.1, delay: 0, options: [.curveEaseIn], animations: {
-            self.viewController.view.backgroundColor = UIColor.black.withAlphaComponent(0)
+            viewController.view.backgroundColor = UIColor.black.withAlphaComponent(0)
         }, completion: { _ in
             UIView.animate(withDuration: 0.1, delay: 0, options: [.curveEaseIn], animations: {
-                self.viewController.view.center.y += self.viewController.view.bounds.height
+                viewController.view.center.y += viewController.view.bounds.height
             }, completion: { _ in
                 self.window.isHidden = false
+                viewController.removeFromParent()
+                self.window = nil
                 completionHandler()
             })
         })

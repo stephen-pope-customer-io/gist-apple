@@ -20,7 +20,7 @@ class Bootstrap {
                                                   engineEndpoint: configurationResponse.engineEndpoint,
                                                   identityEndpoint: configurationResponse.identityEndpoint,
                                                   projectId: configurationResponse.projectId)
-                // Initialize Gist extentions
+                // Initialize Gist extensions
                 for gistExtension in self.extensions {
                     gistExtension.setup()
                     Logger.instance.info(message: "Extension \(gistExtension.name) setup")

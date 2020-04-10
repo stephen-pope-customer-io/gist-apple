@@ -59,10 +59,10 @@ public class Gist: GistDelegate {
     public func messageShown(messageId: String) {
         Logger.instance.debug(message: "Message with id: \(messageId) shown")
         let userToken = UserManager().getUserToken()
-        for gistExtention in extensions {
+        for gistExtension in extensions {
             Logger.instance.debug(message:
-                "Calling message shown event for message id: \(messageId) on gist extension: \(gistExtention.name)")
-            gistExtention.messageShown(messageId: messageId, userToken: userToken)
+                "Calling message shown event for message id: \(messageId) on gist extension: \(gistExtension.name)")
+            gistExtension.messageShown(messageId: messageId, userToken: userToken)
         }
         delegate?.messageShown(messageId: messageId)
     }
@@ -70,20 +70,20 @@ public class Gist: GistDelegate {
     public func messageDismissed(messageId: String) {
         Logger.instance.debug(message: "Message with id: \(messageId) dismissed")
         let userToken = UserManager().getUserToken()
-        for gistExtention in extensions {
+        for gistExtension in extensions {
             Logger.instance.debug(message:
-                "Calling message dismissed event for message id: \(messageId) on gist extension: \(gistExtention.name)")
-            gistExtention.messageDismissed(messageId: messageId, userToken: userToken)
+                "Calling message dismissed event for message id: \(messageId) on gist extension: \(gistExtension.name)")
+            gistExtension.messageDismissed(messageId: messageId, userToken: userToken)
         }
         self.messageManager = nil
         delegate?.messageDismissed(messageId: messageId)
     }
 
     public func action(action: String) {
-        for gistExtention in extensions {
+        for gistExtension in extensions {
             Logger.instance.debug(message:
-                "Calling action \"\(action)\" performed event on gist extension: \(gistExtention.name)")
-            gistExtention.actionPerformed(action: action)
+                "Calling action \"\(action)\" performed event on gist extension: \(gistExtension.name)")
+            gistExtension.actionPerformed(action: action)
         }
         delegate?.action(action: action)
     }
