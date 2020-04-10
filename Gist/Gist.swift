@@ -3,15 +3,17 @@ import Foundation
 public class Gist: GistDelegate {
     private var configuration: Configuration?
     private var messageManager: MessageManager?
-    private var extensions: [GistExtendable]
+    private var extensions: [GistExtendable] = []
 
     public let organizationId: String
     weak public var delegate: GistDelegate?
 
-    public init(organizationId: String, extensions: [GistExtendable] = [], logging: Bool = false) {
+    public init(organizationId: String, extensions: [GistExtendable.Type] = [], logging: Bool = false) {
         self.organizationId = organizationId
-        self.extensions = extensions
         self.extensions.append(GistMessageQueue(gist: self))
+        for gistExtension in extensions {
+            self.extensions.append(gistExtension.init(gist: self))
+        }
         Logger.instance.enabled = logging
     }
 
