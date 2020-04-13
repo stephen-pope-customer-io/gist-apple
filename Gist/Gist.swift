@@ -78,6 +78,11 @@ public class Gist: GistDelegate {
         self.messageManager = nil
         delegate?.messageDismissed(messageId: messageId)
     }
+    
+    public func messageError(messageId: String) {
+        self.messageManager = nil
+        delegate?.messageError(messageId: messageId)
+    }
 
     public func action(action: String) {
         for gistExtension in extensions {
