@@ -67,6 +67,11 @@ class MessageManager: BourbonEngineDelegate {
         delegate?.messageError(messageId: route)
     }
 
+    func error() {
+        Logger.instance.error(message: "Error loading message with id: \(messageId)")
+        delegate?.messageError(messageId: messageId)
+    }
+
     func routeLoaded(route: String) {
         Logger.instance.debug(message: "Message loaded with id: \(route)")
         if route == messageId {

@@ -1,10 +1,10 @@
 PODS:
   - Alamofire (5.1.0)
-  - BourbonEngine (0.0.11)
+  - BourbonEngine (0.0.12)
 
 DEPENDENCIES:
   - Alamofire (~> 5.1)
-  - BourbonEngine (~> 0.0.11)
+  - BourbonEngine (~> 0.0.12)
 
 SPEC REPOS:
   trunk:
@@ -13,8 +13,8 @@ SPEC REPOS:
 
 SPEC CHECKSUMS:
   Alamofire: 9d5c5f602928e512395b30950c5984eca840093c
-  BourbonEngine: ba3b1384cef9a01d87d404b8945f861062b52a97
+  BourbonEngine: 7cb1b60e58de5461b5890fff2552f8baf0bb8f1a
 
-PODFILE CHECKSUM: 68a767387547ea4122eca82975cd5418f52e3f5f
+PODFILE CHECKSUM: bdae815a1f1cdbc72bfab2f81ac0e185436f7898
 
 COCOAPODS: 1.9.1

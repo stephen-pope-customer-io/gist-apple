@@ -11,7 +11,7 @@ class ViewController: UIViewController {
     @IBAction func showMessage(_ sender: Any) {
         if let appDelegate = appDelegate {
             let willShowMessage = appDelegate.gist.showMessage(messageId: "expired")
-            debugPrint("Message \(willShowMessage ? "will shown" : "will not show")")
+            debugPrint("Message \(willShowMessage ? "will be shown" : "will not show")")
         }
     }
 }
