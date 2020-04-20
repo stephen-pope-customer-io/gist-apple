@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name = 'Gist'
-  s.version = '0.1.0'
+  s.version = '0.2.1'
   s.summary = 'Gist'
   s.description = 'In-app messaging that converts'
   s.homepage = 'https://gist.build'
