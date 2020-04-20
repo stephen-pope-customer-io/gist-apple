@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name = 'Gist'
-  s.version = '0.0.5'
+  s.version = '0.1.0'
   s.summary = 'Gist'
   s.description = 'In-app messaging that converts'
   s.homepage = 'https://gist.build'
@@ -13,7 +13,7 @@ Pod::Spec.new do |s|
   s.source = { :git => 'https://gitlab.com/bourbonltd/gist-apple', :tag => s.version }
 
   s.source_files  = 'Gist/*.{swift,h,m}', 'Gist/**/*.{swift,h,m}'
-  s.dependency 'BourbonEngine', '~> 0.0.12'
+  s.dependency 'BourbonEngine', '~> 0.1.0'
   s.dependency 'Alamofire', '~> 5.1'
   s.pod_target_xcconfig = { 'VALID_ARCHS' => 'armv7 arm64 x86_64' }
 end
