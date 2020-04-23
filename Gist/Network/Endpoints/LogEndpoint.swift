@@ -2,7 +2,7 @@ import Foundation
 import Alamofire
 
 enum LogEndpoint: GistNetworkRequest {
-    case logView(messageId: String, userToken: String?)
+    case logView(route: String, userToken: String?)
 
     var method: HTTPMethod {
         switch self {
@@ -13,8 +13,8 @@ enum LogEndpoint: GistNetworkRequest {
 
      var parameters: RequestParameters? {
         switch self {
-        case .logView(let messageId, let userToken):
-            return.body(LogViewRequest(messageId: messageId, userToken: userToken))
+        case .logView(let route, let userToken):
+            return.body(LogViewRequest(route: route, userToken: userToken))
         }
     }
 

@@ -9,10 +9,10 @@ class LogManager {
         self.organizationId = organizationId
     }
 
-    func logView(messageId: String, userToken: String?, completionHandler: @escaping (Result<Void, Error>) -> Void) {
+    func logView(route: String, userToken: String?, completionHandler: @escaping (Result<Void, Error>) -> Void) {
         do {
             try GistNetwork(organizationId: organizationId)
-                .request(LogEndpoint.logView(messageId: messageId, userToken: userToken))
+                .request(LogEndpoint.logView(route: route, userToken: userToken))
                 .validate(statusCode: [200])
                 .response { response in
                     switch response.result {
