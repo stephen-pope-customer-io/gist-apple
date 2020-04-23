@@ -1,9 +1,9 @@
 import Foundation
 
 struct UserQueueResponse: Codable {
-    let messageId: String
+    let route: String
 
-    init(messageId: String) {
-        self.messageId = messageId
+    init(route: String) {
+        self.route = route
     }
 }

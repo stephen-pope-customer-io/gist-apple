@@ -30,13 +30,13 @@ public class Gist: GistDelegate {
         UserManager().setUserToken(userToken: userToken)
     }
 
-    public func showMessage(messageId: String) -> Bool {
+    public func showMessage(messageRoute: String) -> Bool {
         if let configuration = self.configuration {
             if let messageManager = self.messageManager {
                 Logger.instance.info(message:
-                    "Message with id \(messageId) cannot be displayed, \(messageManager.messageId) is being displayed.")
+                    "Message \(messageRoute) cannot be displayed, \(messageManager.currentMessage) is being displayed.")
             } else {
-                self.messageManager = MessageManager(configuration: configuration, messageId: messageId)
+                self.messageManager = MessageManager(configuration: configuration, messageRoute: messageRoute)
                 self.messageManager?.delegate = self
                 self.messageManager?.showMessage()
                 return true
@@ -56,38 +56,38 @@ public class Gist: GistDelegate {
         self.messageManager?.dismissMessage()
     }
 
-    public func messageShown(messageId: String) {
-        Logger.instance.debug(message: "Message with id: \(messageId) shown")
+    public func messageShown(messageRoute: String) {
+        Logger.instance.debug(message: "Message with route: \(messageRoute) shown")
         let userToken = UserManager().getUserToken()
         for gistExtension in extensions {
             Logger.instance.debug(message:
-                "Calling message shown event for message id: \(messageId) on gist extension: \(gistExtension.name)")
-            gistExtension.messageShown(messageId: messageId, userToken: userToken)
+                "Calling message shown for message: \(messageRoute) on \(gistExtension.name) extension")
+            gistExtension.messageShown(messageRoute: messageRoute, userToken: userToken)
         }
-        delegate?.messageShown(messageId: messageId)
+        delegate?.messageShown(messageRoute: messageRoute)
     }
 
-    public func messageDismissed(messageId: String) {
-        Logger.instance.debug(message: "Message with id: \(messageId) dismissed")
+    public func messageDismissed(messageRoute: String) {
+        Logger.instance.debug(message: "Message with id: \(messageRoute) dismissed")
         let userToken = UserManager().getUserToken()
         for gistExtension in extensions {
             Logger.instance.debug(message:
-                "Calling message dismissed event for message id: \(messageId) on gist extension: \(gistExtension.name)")
-            gistExtension.messageDismissed(messageId: messageId, userToken: userToken)
+                "Calling message dismissed on message: \(messageRoute) on \(gistExtension.name) extension")
+            gistExtension.messageDismissed(messageRoute: messageRoute, userToken: userToken)
         }
         self.messageManager = nil
-        delegate?.messageDismissed(messageId: messageId)
+        delegate?.messageDismissed(messageRoute: messageRoute)
     }
 
-    public func messageError(messageId: String) {
+    public func messageError(messageRoute: String) {
         self.messageManager = nil
-        delegate?.messageError(messageId: messageId)
+        delegate?.messageError(messageRoute: messageRoute)
     }
 
     public func action(action: String) {
         for gistExtension in extensions {
             Logger.instance.debug(message:
-                "Calling action \"\(action)\" performed event on gist extension: \(gistExtension.name)")
+                "Calling action \"\(action)\" performed event on \(gistExtension.name) extension")
             gistExtension.actionPerformed(action: action)
         }
         delegate?.action(action: action)

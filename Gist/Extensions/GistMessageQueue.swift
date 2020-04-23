@@ -27,7 +27,7 @@ class GistMessageQueue: GistExtendable {
                 case .success(let responses):
                     Logger.instance.debug(message: "Service \(self.name) found \(responses.count) new messages")
                     guard let firstMessage = responses.first else { return }
-                    _ = self.gist.showMessage(messageId: firstMessage.messageId)
+                    _ = self.gist.showMessage(messageRoute: firstMessage.route)
                 case .failure(let error):
                     Logger.instance.error(message:
                         "Error fetching messages from service \(self.name). \(error.localizedDescription)")
@@ -38,16 +38,16 @@ class GistMessageQueue: GistExtendable {
         }
     }
 
-    func messageShown(messageId: String, userToken: String?) {
+    func messageShown(messageRoute: String, userToken: String?) {
         LogManager(organizationId: gist.organizationId)
-            .logView(messageId: messageId, userToken: userToken) { response in
+            .logView(route: messageRoute, userToken: userToken) { response in
                 if case let .failure(error) = response {
                     Logger.instance.error(message:
-                        "Failed to log view for message id: \(messageId) with error: \(error)")
+                        "Failed to log view for message: \(messageRoute) with error: \(error)")
                 }
         }
     }
 
-    func messageDismissed(messageId: String, userToken: String?) {}
+    func messageDismissed(messageRoute: String, userToken: String?) {}
     func actionPerformed(action: String) {}
 }

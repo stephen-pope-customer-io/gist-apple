@@ -1,11 +1,11 @@
 import Foundation
 
 struct LogViewRequest: Encodable {
-    let messageId: String
+    let route: String
     let userToken: String?
 
-    init(messageId: String, userToken: String?) {
-        self.messageId = messageId
+    init(route: String, userToken: String?) {
+        self.route = route
         self.userToken = userToken
     }
 }

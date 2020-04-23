@@ -1,6 +1,6 @@
 public protocol GistDelegate: AnyObject {
-    func messageShown(messageId: String)
-    func messageDismissed(messageId: String)
-    func messageError(messageId: String)
+    func messageShown(messageRoute: String)
+    func messageDismissed(messageRoute: String)
+    func messageError(messageRoute: String)
     func action(action: String)
 }

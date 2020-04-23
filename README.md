@@ -35,7 +35,7 @@ Gist gives you the option to programmatically trigger in-app messaging flows wit
 
 ### Show Message
 ```swift
-gist.showMessage(messageId: "message-id")
+gist.showMessage(messageRoute: "message-id")
 ```
 
 ### Dismiss Message
@@ -50,9 +50,9 @@ The framework exposes a delegate which you can hook into, this gives you the opt
 
 ```swift
 public protocol GistDelegate: AnyObject {
-    func messageShown(messageId: String)
-    func messageDismissed(messageId: String)
-    func messageError(messageId: String)
+    func messageShown(messageRoute: String)
+    func messageDismissed(messageRoute: String)
+    func messageError(messageRoute: String)
     func action(action: String)
 }
 ```
@@ -65,8 +65,8 @@ public protocol GistExtendable {
     var name: String {get set}
     init(gist: Gist)
     func setup()
-    func messageShown(messageId: String, userToken: String?)
-    func messageDismissed(messageId: String, userToken: String?)
+    func messageShown(messageRoute: String, userToken: String?)
+    func messageDismissed(messageRoute: String, userToken: String?)
     func actionPerformed(action: String)
 }
 ```
