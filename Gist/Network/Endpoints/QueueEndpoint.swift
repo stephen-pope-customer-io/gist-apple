@@ -1,5 +1,4 @@
 import Foundation
-import Alamofire
 
 enum QueueEndpoint: GistNetworkRequest {
     case getUserQueue(userToken: String)

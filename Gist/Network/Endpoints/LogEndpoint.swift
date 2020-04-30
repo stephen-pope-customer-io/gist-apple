@@ -1,5 +1,4 @@
 import Foundation
-import Alamofire
 
 enum LogEndpoint: GistNetworkRequest {
     case logView(route: String, userToken: String?)

@@ -14,6 +14,5 @@ Pod::Spec.new do |s|
 
   s.source_files  = 'Gist/*.{swift,h,m}', 'Gist/**/*.{swift,h,m}'
   s.dependency 'BourbonEngine', '~> 0.2.0'
-  s.dependency 'Alamofire', '~> 5.1'
   s.pod_target_xcconfig = { 'VALID_ARCHS' => 'armv7 arm64 x86_64' }
 end
