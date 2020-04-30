@@ -1,5 +1,4 @@
 import Foundation
-import Alamofire
 
 class Bootstrap {
     let organizationId: String

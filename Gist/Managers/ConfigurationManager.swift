@@ -1,5 +1,4 @@
 import Foundation
-import Alamofire
 
 class ConfigurationManager {
 
@@ -12,27 +11,25 @@ class ConfigurationManager {
     func fetchConfiguration(completionHandler: @escaping (Result<ConfigurationResponse, Error>) -> Void) {
         do {
             try GistNetwork(organizationId: organizationId)
-                .request(ConfigurationEndpoint.getConfiguration)
-                .validate(statusCode: 200..<205)
-                .responseJSON { (response: DataResponse<Any, AFError>) in
-                    switch response.result {
-                    case .success(let configurationResponseJSON):
-                        if let statusCode = response.response?.statusCode, statusCode == 204 {
+                .request(ConfigurationEndpoint.getConfiguration, completionHandler: { response in
+                    switch response {
+                    case .success(let (data, response)):
+                        if response.statusCode == 204 {
                             completionHandler(.failure(ConfigurationManagerError.accountNotSetup))
                         } else {
                             do {
-                                let data = try JSONSerialization.data(withJSONObject: configurationResponseJSON)
-                                let configurationResponse =
-                                    try JSONDecoder().decode(ConfigurationResponse.self, from: data)
-                                completionHandler(.success(configurationResponse))
+                                let configurationResponse = try JSONDecoder().decode(ConfigurationResponse.self,
+                                                                                     from: data)
+                                DispatchQueue.main.async {
+                                    completionHandler(.success(configurationResponse))
+                                }
                             } catch {
                                 completionHandler(.failure(error))
                             }
                         }
                     case .failure(let error):
                         completionHandler(.failure(error))
-                    }
-                }
+                    }})
         } catch {
             completionHandler(.failure(error))
         }
