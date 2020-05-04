@@ -1,5 +1,4 @@
 import Foundation
-import Alamofire
 
 class LogManager {
 
@@ -12,16 +11,17 @@ class LogManager {
     func logView(route: String, userToken: String?, completionHandler: @escaping (Result<Void, Error>) -> Void) {
         do {
             try GistNetwork(organizationId: organizationId)
-                .request(LogEndpoint.logView(route: route, userToken: userToken))
-                .validate(statusCode: [200])
-                .response { response in
-                    switch response.result {
-                    case .success:
+                .request(LogEndpoint.logView(route: route, userToken: userToken), completionHandler: { response in
+                switch response {
+                case .success(let (_, response)):
+                    if response.statusCode == 200 {
                         completionHandler(.success(()))
-                    case .failure(let error):
-                        completionHandler(.failure(error))
+                    } else {
+                        completionHandler(.failure(GistNetworkError.requestFailed))
                     }
-            }
+                case .failure(let error):
+                    completionHandler(.failure(error))
+                }})
         } catch {
             completionHandler(.failure(error))
         }

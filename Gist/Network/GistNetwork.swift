@@ -1,5 +1,4 @@
 import Foundation
-import Alamofire
 
 class GistNetwork {
     let organizationId: String
@@ -8,7 +7,10 @@ class GistNetwork {
         self.organizationId = organizationId
     }
 
-    func request(_ request: GistNetworkRequest) throws -> DataRequest {
+    typealias GistNetworkResponse = (Data, HTTPURLResponse)
+
+    func request(_ request: GistNetworkRequest,
+                 completionHandler: @escaping (Result<GistNetworkResponse, Error>) -> Void) throws {
         guard let baseURL = URL(string: Settings.Production.baseURL) else {
             throw GistNetworkRequestError.invalidBaseURL
         }
@@ -31,6 +33,19 @@ class GistNetwork {
             break
         }
 
-        return AF.request(urlRequest)
+        URLSession.shared.dataTask(with: urlRequest, completionHandler: { (data, response, error) in
+            if let error = error { completionHandler(.failure(error)) }
+            guard let data = data, let response = response as? HTTPURLResponse,
+                (200...299).contains(response.statusCode) else {
+                completionHandler(.failure(GistNetworkError.serverError))
+                return
+            }
+            completionHandler(.success(GistNetworkResponse(data, response)))
+        }).resume()
     }
+}
+
+enum GistNetworkError: Error {
+    case serverError
+    case requestFailed
 }

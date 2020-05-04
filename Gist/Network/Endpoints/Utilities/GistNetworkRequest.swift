@@ -1,5 +1,3 @@
-import Alamofire
-
 protocol GistNetworkRequest {
     var method: HTTPMethod { get }
     var path: String { get }

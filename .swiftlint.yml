@@ -3,6 +3,6 @@ excluded:
   - Demo/Pods
 identifier_name:
   min_length:
-    error: 4
+    error: 2
   excluded:
     - id

@@ -22,6 +22,7 @@
 		A144657F243DF97600F69093 /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = A144657E243DF97600F69093 /* Configuration.swift */; };
 		A1446581243E188B00F69093 /* ModalViewManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1446580243E188B00F69093 /* ModalViewManager.swift */; };
 		A1446589243F1C8E00F69093 /* Encodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1446588243F1C8E00F69093 /* Encodable.swift */; };
+		A1478077245981920065898C /* HTTPMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1478076245981920065898C /* HTTPMethod.swift */; };
 		A164A44A243C74BE007A4DED /* Gist.h in Headers */ = {isa = PBXBuildFile; fileRef = A164A448243C74BE007A4DED /* Gist.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A164A48E243C8267007A4DED /* Gist.swift in Sources */ = {isa = PBXBuildFile; fileRef = A164A48D243C8267007A4DED /* Gist.swift */; };
 		A164A491243C82C9007A4DED /* ConfigurationResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = A164A490243C82C9007A4DED /* ConfigurationResponse.swift */; };
@@ -54,6 +55,7 @@
 		A144657E243DF97600F69093 /* Configuration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Configuration.swift; sourceTree = "<group>"; };
 		A1446580243E188B00F69093 /* ModalViewManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModalViewManager.swift; sourceTree = "<group>"; };
 		A1446588243F1C8E00F69093 /* Encodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Encodable.swift; sourceTree = "<group>"; };
+		A1478076245981920065898C /* HTTPMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPMethod.swift; sourceTree = "<group>"; };
 		A164A445243C74BE007A4DED /* Gist.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Gist.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A164A448243C74BE007A4DED /* Gist.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Gist.h; sourceTree = "<group>"; };
 		A164A449243C74BE007A4DED /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -122,6 +124,14 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
+		A14780752459817E0065898C /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				A1478076245981920065898C /* HTTPMethod.swift */,
+			);
+			path = Utilities;
+			sourceTree = "<group>";
+		};
 		A164A43B243C74BE007A4DED = {
 			isa = PBXGroup;
 			children = (
@@ -159,6 +169,7 @@
 		A164A48C243C8250007A4DED /* Network */ = {
 			isa = PBXGroup;
 			children = (
+				A14780752459817E0065898C /* Utilities */,
 				A164A4A3243C9E13007A4DED /* Endpoints */,
 				A164A48F243C8293007A4DED /* Models */,
 				A164A496243C85B3007A4DED /* GistNetwork.swift */,
@@ -350,6 +361,7 @@
 				A1446560243CB9F200F69093 /* GistNetworkRequestError.swift in Sources */,
 				A144656C243DC77500F69093 /* ConfigurationManager.swift in Sources */,
 				A1446589243F1C8E00F69093 /* Encodable.swift in Sources */,
+				A1478077245981920065898C /* HTTPMethod.swift in Sources */,
 				A164A491243C82C9007A4DED /* ConfigurationResponse.swift in Sources */,
 				A1446570243DD72300F69093 /* LogManager.swift in Sources */,
 				A1446581243E188B00F69093 /* ModalViewManager.swift in Sources */,

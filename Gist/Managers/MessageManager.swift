@@ -49,9 +49,9 @@ class MessageManager: BourbonEngineDelegate {
         Logger.instance.debug(message: "Bourbon Engine bootstrapped")
     }
 
-    func tap(action: String) {
+    func tap(action: String, system: Bool) {
         Logger.instance.debug(message: "Action triggered: \(action)")
-        if action == "gist://close" {
+        if action == "gist://close" || system {
             Logger.instance.debug(message: "Dismissing from action: \(action)")
             dismissMessage()
         }
