@@ -35,6 +35,7 @@
 		A164A4A2243C9C18007A4DED /* LogEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = A164A4A1243C9C18007A4DED /* LogEndpoint.swift */; };
 		A164A4A6243C9E96007A4DED /* GistNetworkRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = A164A4A5243C9E96007A4DED /* GistNetworkRequest.swift */; };
 		A164A4A8243C9EAD007A4DED /* Headers.swift in Sources */ = {isa = PBXBuildFile; fileRef = A164A4A7243C9EAD007A4DED /* Headers.swift */; };
+		A168E90824697AD700F6AF88 /* GistViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A168E90724697AD400F6AF88 /* GistViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -70,6 +71,7 @@
 		A164A4A1243C9C18007A4DED /* LogEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogEndpoint.swift; sourceTree = "<group>"; };
 		A164A4A5243C9E96007A4DED /* GistNetworkRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GistNetworkRequest.swift; sourceTree = "<group>"; };
 		A164A4A7243C9EAD007A4DED /* Headers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Headers.swift; sourceTree = "<group>"; };
+		A168E90724697AD400F6AF88 /* GistViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GistViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,6 +103,7 @@
 		A1446571243DDB0700F69093 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				A168E90724697AD400F6AF88 /* GistViewController.swift */,
 				A1446572243DDB1300F69093 /* Logger.swift */,
 				A1446588243F1C8E00F69093 /* Encodable.swift */,
 			);
@@ -370,6 +373,7 @@
 				A1446578243DEC4600F69093 /* GistMessageQueue.swift in Sources */,
 				A164A497243C85B3007A4DED /* GistNetwork.swift in Sources */,
 				A144657C243DF5ED00F69093 /* GistDelegate.swift in Sources */,
+				A168E90824697AD700F6AF88 /* GistViewController.swift in Sources */,
 				A144656E243DD35100F69093 /* QueueManager.swift in Sources */,
 				A1446573243DDB1300F69093 /* Logger.swift in Sources */,
 				A164A4A2243C9C18007A4DED /* LogEndpoint.swift in Sources */,

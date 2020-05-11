@@ -2,43 +2,43 @@ import UIKit
 
 class ModalViewManager {
     var window: UIWindow!
-    weak var viewController: UIViewController?
+    var viewController: GistViewController!
 
     init(viewController: UIViewController) {
-        self.viewController = viewController
+        self.viewController = GistViewController()
+        self.viewController.engineViewController = viewController
+        self.viewController.setup()
     }
 
     func showModalView(completionHandler: @escaping () -> Void) {
-        guard let viewController = self.viewController else { return }
-        viewController.view.isHidden = true
+        self.viewController.view.isHidden = true
         self.window = getUIWindow()
-        self.window.rootViewController = viewController
+        self.window.rootViewController = self.viewController
         self.window.isHidden = false
 
-        viewController.view.center.y += viewController.view.bounds.height
+        self.viewController.view.center.y += self.viewController.view.bounds.height
 
         UIView.animate(withDuration: 0.3, delay: 0, options: [.curveEaseIn], animations: {
-            viewController.view.center.y -= viewController.view.bounds.height
+            self.viewController.view.center.y -= self.viewController.view.bounds.height
         }, completion: { _ in
             UIView.animate(withDuration: 0.1, delay: 0, options: [.curveEaseIn], animations: {
-                viewController.view.backgroundColor = UIColor.black.withAlphaComponent(0.2)
+                self.viewController.view.backgroundColor = UIColor.black.withAlphaComponent(0.2)
             }, completion: nil)
             completionHandler()
         })
 
-        viewController.view.isHidden = false
+        self.viewController.view.isHidden = false
     }
 
     func dismissModalView(completionHandler: @escaping () -> Void) {
-        guard let viewController = self.viewController else { return }
         UIView.animate(withDuration: 0.1, delay: 0, options: [.curveEaseIn], animations: {
-            viewController.view.backgroundColor = UIColor.black.withAlphaComponent(0)
+            self.viewController.view.backgroundColor = UIColor.black.withAlphaComponent(0)
         }, completion: { _ in
             UIView.animate(withDuration: 0.1, delay: 0, options: [.curveEaseIn], animations: {
-                viewController.view.center.y += viewController.view.bounds.height
+                self.viewController.view.center.y += self.viewController.view.bounds.height
             }, completion: { _ in
                 self.window.isHidden = false
-                viewController.removeFromParent()
+                self.viewController.removeFromParent()
                 self.window = nil
                 completionHandler()
             })
