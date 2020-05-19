@@ -3,7 +3,7 @@ Gist gives you access to a library of ready built micro-experiences that can be 
 
 ## Installation
 ```ruby
-pod 'Gist', '~> 0.7.0'
+pod 'Gist', '~> 0.8.0'
 ```
 
 ## Setup
@@ -28,6 +28,11 @@ If your app is relying on Gist’s web hook service to trigger in-app messages, 
 
 ```swift
 gist.setUserToken(userToken: "Unique-User-Token")
+```
+
+To clear the user token:
+```swift
+gist.clearUserToken()
 ```
 
 ## Manually Triggering In-App Messages

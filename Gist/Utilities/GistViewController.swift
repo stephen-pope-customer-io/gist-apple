@@ -18,7 +18,7 @@ class GistViewController: UIViewController {
         super.updateViewConstraints()
         setConstraints()
     }
-    
+
     func setConstraints() {
         guard let engineViewController = engineViewController else { return }
         let horizontalConstraint = engineViewController.view.centerXAnchor.constraint(equalTo: self.view.centerXAnchor)
@@ -29,9 +29,13 @@ class GistViewController: UIViewController {
 
         widthConstraint.priority = UILayoutPriority.defaultHigh
         maxWidthConstraint.priority = UILayoutPriority.required
-        NSLayoutConstraint.activate([horizontalConstraint, verticalConstraint, maxWidthConstraint, widthConstraint, heightConstraint])
+        NSLayoutConstraint.activate([horizontalConstraint,
+                                     verticalConstraint,
+                                     maxWidthConstraint,
+                                     widthConstraint,
+                                     heightConstraint])
     }
-    
+
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         self.updateViewConstraints()
     }

@@ -30,6 +30,10 @@ public class Gist: GistDelegate {
         UserManager().setUserToken(userToken: userToken)
     }
 
+    public func clearUserToken() {
+        UserManager().clearUserToken()
+    }
+
     public func showMessage(messageRoute: String) -> Bool {
         if let configuration = self.configuration {
             if let messageManager = self.messageManager {
