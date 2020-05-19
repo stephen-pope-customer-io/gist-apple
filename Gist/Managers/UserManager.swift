@@ -11,4 +11,8 @@ class UserManager {
     func setUserToken(userToken: String) {
         defaults.set(userToken, forKey: userTokenKey)
     }
+
+    func clearUserToken() {
+        defaults.removeObject(forKey: userTokenKey)
+    }
 }
