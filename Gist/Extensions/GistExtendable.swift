@@ -6,5 +6,5 @@ public protocol GistExtendable {
     func setup()
     func messageShown(messageRoute: String, userToken: String?)
     func messageDismissed(messageRoute: String, userToken: String?)
-    func actionPerformed(action: String)
+    func actionPerformed(currentRoute: String, action: String)
 }
