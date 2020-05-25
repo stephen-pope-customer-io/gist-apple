@@ -3,7 +3,7 @@ Gist gives you access to a library of ready built micro-experiences that can be 
 
 ## Installation
 ```ruby
-pod 'Gist', '~> 0.8.0'
+pod 'Gist', '~> 0.9.0'
 ```
 
 ## Setup
@@ -58,7 +58,7 @@ public protocol GistDelegate: AnyObject {
     func messageShown(messageRoute: String)
     func messageDismissed(messageRoute: String)
     func messageError(messageRoute: String)
-    func action(action: String)
+    func action(currentRoute: String, action: String)
 }
 ```
 
@@ -72,7 +72,7 @@ public protocol GistExtendable {
     func setup()
     func messageShown(messageRoute: String, userToken: String?)
     func messageDismissed(messageRoute: String, userToken: String?)
-    func actionPerformed(action: String)
+    func actionPerformed(currentRoute: String, action: String)
 }
 ```
 

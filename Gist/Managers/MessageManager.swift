@@ -8,11 +8,13 @@ class MessageManager: BourbonEngineDelegate {
     private var messageLoaded = false
     private var modalViewManager: ModalViewManager?
     let currentMessage: String
+    private var currentRoute: String
     weak var delegate: GistDelegate?
 
     init(configuration: Configuration, messageRoute: String) {
         self.organizationId = configuration.organizationId
         self.currentMessage = messageRoute
+        self.currentRoute = messageRoute
         let engineConfiguration = EngineConfiguration(organizationId: configuration.organizationId,
                                                       projectId: configuration.projectId,
                                                       engineEndpoint: configuration.engineEndpoint,
@@ -55,7 +57,7 @@ class MessageManager: BourbonEngineDelegate {
             Logger.instance.debug(message: "Dismissing from action: \(action)")
             dismissMessage()
         }
-        delegate?.action(action: action)
+        delegate?.action(currentRoute: self.currentRoute, action: action)
     }
 
     func routeChanged(newRoute: String) {
@@ -74,6 +76,7 @@ class MessageManager: BourbonEngineDelegate {
 
     func routeLoaded(route: String) {
         Logger.instance.debug(message: "Message loaded with route: \(route)")
+        self.currentRoute = route
         if route == currentMessage {
             messageLoaded = true
             showMessage()

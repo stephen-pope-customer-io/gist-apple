@@ -1,16 +1,16 @@
 PODS:
-  - BourbonEngine (0.5.0)
+  - BourbonEngine (0.6.0)
 
 DEPENDENCIES:
-  - BourbonEngine (~> 0.5.0)
+  - BourbonEngine (~> 0.6.0)
 
 SPEC REPOS:
   trunk:
     - BourbonEngine
 
 SPEC CHECKSUMS:
-  BourbonEngine: 89785a9d58884b80df7f8af5c9d4f1bc90b90b5b
+  BourbonEngine: da9517d6adf41612590c0b04c9020c7d7561241e
 
-PODFILE CHECKSUM: 08d349ec7b764422e0d5fa0f0c2b73d25ae4b1b4
+PODFILE CHECKSUM: 5884b2d28635c4906d6a3e830add88ddd46067ec
 
 COCOAPODS: 1.9.1
