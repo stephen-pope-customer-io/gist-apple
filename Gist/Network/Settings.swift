@@ -1,5 +1,5 @@
 struct Settings {
     struct Production {
-        static let baseURL = "https://gist-api.dev.bourbon.sh"
+        static let baseURL = "https://api.gist.build"
     }
 }
