@@ -10,7 +10,7 @@ class ViewController: UIViewController {
 
     @IBAction func showMessage(_ sender: Any) {
         if let appDelegate = appDelegate {
-            let willShowMessage = appDelegate.gist.showMessage(messageRoute: "demo")
+            let willShowMessage = appDelegate.gist.showMessage(messageRoute: "welcome")
             debugPrint("Message \(willShowMessage ? "will be shown" : "will not show")")
         }
     }
