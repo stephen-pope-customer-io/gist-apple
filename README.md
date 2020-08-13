@@ -3,8 +3,9 @@ Gist gives you access to a library of ready built micro-experiences that can be 
 
 ## Installation
 ```ruby
-pod 'Gist', '~> 1.0.0'
+pod 'Gist', '~> 1.2.0'
 ```
+Note: The latest version requires at least Cocoapods 1.10.0.beta.2, you can install it via `gem install cocoapods --pre`
 
 ## Setup
 In your `AppDelegate` add Gist as a stored property and initialize it inside the application’s `didFinishLaunchingWithOptions` method.
