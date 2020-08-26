@@ -1,8 +1,8 @@
 import Foundation
 
-struct Configuration {
-    let organizationId: String
-    let engineEndpoint: String
-    let identityEndpoint: String
-    let projectId: String
+public struct Configuration {
+    public let organizationId: String
+    public let engineEndpoint: String
+    public let identityEndpoint: String
+    public let projectId: String
 }
