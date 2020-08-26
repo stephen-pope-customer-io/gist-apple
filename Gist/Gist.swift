@@ -1,7 +1,7 @@
 import Foundation
 
 public class Gist: GistDelegate {
-    private var configuration: Configuration?
+    public var configuration: Configuration?
     private var messageManager: MessageManager?
     private var extensions: [GistExtendable] = []
 
