@@ -3,5 +3,5 @@ platform :ios, '10.0'
 
 target 'Gist' do
   use_frameworks!
-  pod 'BourbonEngine', '~> 0.9.0'
+  pod 'BourbonEngine', '~> 0.10.0'
 end
