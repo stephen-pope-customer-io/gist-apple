@@ -38,11 +38,12 @@ class MessageManager: BourbonEngineDelegate {
         }
     }
 
-    func dismissMessage() {
+    func dismissMessage(completionHandler: (() -> Void)? = nil) {
         if let modalViewManager = modalViewManager {
             modalViewManager.dismissModalView { [weak self] in
                 guard let self = self else { return }
                 self.delegate?.messageDismissed(messageRoute: self.currentMessage)
+                completionHandler?()
             }
         }
     }
