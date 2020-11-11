@@ -56,8 +56,8 @@ public class Gist: GistDelegate {
         return false
     }
 
-    public func dismissMessage() {
-        self.messageManager?.dismissMessage()
+    public func dismissMessage(completionHandler: (() -> Void)? = nil) {
+        self.messageManager?.dismissMessage(completionHandler: completionHandler)
     }
 
     public func messageShown(messageRoute: String) {
