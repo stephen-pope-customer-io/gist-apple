@@ -26,7 +26,9 @@ public class Gist: GistDelegate {
         }
     }
 
-    public func setUserToken(userToken: String) {
+    // MARK: User
+
+    public func setUserToken(_ userToken: String) {
         UserManager().setUserToken(userToken: userToken)
     }
 
@@ -34,13 +36,15 @@ public class Gist: GistDelegate {
         UserManager().clearUserToken()
     }
 
-    public func showMessage(messageRoute: String) -> Bool {
+    // MARK: Message Actions
+
+    public func showMessage(_ message: Message) -> Bool {
         if let configuration = self.configuration {
             if let messageManager = self.messageManager {
                 Logger.instance.info(message:
-                    "Message \(messageRoute) cannot be displayed, \(messageManager.currentMessage) is being displayed.")
+                    "Message \(message.messageId) cannot be displayed, \(messageManager.currentMessage) is being displayed.")
             } else {
-                self.messageManager = MessageManager(configuration: configuration, messageRoute: messageRoute)
+                self.messageManager = MessageManager(configuration: configuration, message: message)
                 self.messageManager?.delegate = self
                 self.messageManager?.showMessage()
                 return true
@@ -59,33 +63,42 @@ public class Gist: GistDelegate {
     public func dismissMessage(completionHandler: (() -> Void)? = nil) {
         self.messageManager?.dismissMessage(completionHandler: completionHandler)
     }
+    
+    // MARK: Events
 
-    public func messageShown(messageRoute: String) {
-        Logger.instance.debug(message: "Message with route: \(messageRoute) shown")
+    public func messageShown(message: Message) {
+        Logger.instance.debug(message: "Message with route: \(message.messageId) shown")
+        let userToken = UserManager().getUserToken()
+        LogManager(organizationId: organizationId)
+            .logView(message: message, userToken: userToken) { response in
+                if case let .failure(error) = response {
+                    Logger.instance.error(message:
+                        "Failed to log view for message: \(message.messageId) with error: \(error)")
+                }
+        }
+        for gistExtension in extensions {
+            Logger.instance.debug(message:
+                    "Calling message shown for message: \(message.messageId) to \(gistExtension.name) extension")
+            gistExtension.messageShown(message: message, userToken: userToken)
+        }
+        delegate?.messageShown(message: message)
+    }
+
+    public func messageDismissed(message: Message) {
+        Logger.instance.debug(message: "Message with id: \(message.messageId) dismissed")
         let userToken = UserManager().getUserToken()
         for gistExtension in extensions {
             Logger.instance.debug(message:
-                "Calling message shown for message: \(messageRoute) to \(gistExtension.name) extension")
-            gistExtension.messageShown(messageRoute: messageRoute, userToken: userToken)
-        }
-        delegate?.messageShown(messageRoute: messageRoute)
-    }
-
-    public func messageDismissed(messageRoute: String) {
-        Logger.instance.debug(message: "Message with id: \(messageRoute) dismissed")
-        let userToken = UserManager().getUserToken()
-        for gistExtension in extensions {
-            Logger.instance.debug(message:
-                "Calling message dismissed on message: \(messageRoute) to \(gistExtension.name) extension")
-            gistExtension.messageDismissed(messageRoute: messageRoute, userToken: userToken)
+                    "Calling message dismissed on message: \(message.messageId) to \(gistExtension.name) extension")
+            gistExtension.messageDismissed(message: message, userToken: userToken)
         }
         self.messageManager = nil
-        delegate?.messageDismissed(messageRoute: messageRoute)
+        delegate?.messageDismissed(message: message)
     }
 
-    public func messageError(messageRoute: String) {
+    public func messageError(message: Message) {
         self.messageManager = nil
-        delegate?.messageError(messageRoute: messageRoute)
+        delegate?.messageError(message: message)
     }
 
     public func action(currentRoute: String, action: String) {
@@ -95,5 +108,23 @@ public class Gist: GistDelegate {
             gistExtension.actionPerformed(currentRoute: currentRoute, action: action)
         }
         delegate?.action(currentRoute: currentRoute, action: action)
+    }
+
+    // MARK: Broadcast
+
+    public func getTopics() -> [String] {
+        return TopicsManager.getTopics()
+    }
+
+    public func subscribeToTopic(_ topic: String) {
+        TopicsManager.subscribeToTopic(topic)
+    }
+
+    public func unsubscribeFromTopic(_ topic: String) {
+        TopicsManager.unsubscribeFromTopic(topic)
+    }
+
+    public func clearTopics() {
+        TopicsManager.clearTopics()
     }
 }

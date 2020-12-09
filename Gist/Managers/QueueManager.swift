@@ -8,19 +8,30 @@ class QueueManager {
         self.organizationId = organizationId
     }
 
-    func fetchUserQueue(userToken: String, completionHandler: @escaping (Result<[UserQueueResponse], Error>) -> Void) {
+    func fetchUserQueue(userToken: String,
+                        topics: [String],
+                        completionHandler: @escaping (Result<[UserQueueResponse], Error>) -> Void) {
         do {
-            try GistNetwork(organizationId: organizationId)
-                .request(QueueEndpoint.getUserQueue(userToken: userToken), completionHandler: { response in
+            try GistQueueNetwork(organizationId: organizationId, userToken: userToken)
+                .request(QueueEndpoint.getUserQueue(topics: topics), completionHandler: { response in
                 switch response {
                 case .success(let (data, response)):
                     if response.statusCode == 204 {
                         completionHandler(.success([]))
                     } else {
                         do {
-                            let userQueueResponse = try JSONDecoder().decode([UserQueueResponse].self, from: data)
+                            var userQueue = [UserQueueResponse]()
+                            if let userQueueResponse =
+                                try JSONSerialization.jsonObject(with: data,
+                                                                 options: .allowFragments) as? [[String: Any?]] {
+                                userQueueResponse.forEach { (item) in
+                                    if let userQueueItem = UserQueueResponse(dictionary: item) {
+                                        userQueue.append(userQueueItem)
+                                    }
+                                }
+                            }
                             DispatchQueue.main.async {
-                                completionHandler(.success(userQueueResponse))
+                                completionHandler(.success(userQueue))
                             }
                         } catch {
                             completionHandler(.failure(error))
