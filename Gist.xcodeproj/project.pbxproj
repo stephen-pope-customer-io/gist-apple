@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		77448096063977B65417BCA0 /* Pods_Gist.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 10C1E97E8D391296567854DD /* Pods_Gist.framework */; };
+		A1123E4F257E740B003FBD13 /* TopicsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1123E4E257E740B003FBD13 /* TopicsManager.swift */; };
+		A1123E58257E828A003FBD13 /* MessagesRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1123E57257E828A003FBD13 /* MessagesRequest.swift */; };
 		A1446560243CB9F200F69093 /* GistNetworkRequestError.swift in Sources */ = {isa = PBXBuildFile; fileRef = A144655F243CB9F200F69093 /* GistNetworkRequestError.swift */; };
 		A1446562243CC15A00F69093 /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1446561243CC15A00F69093 /* UserManager.swift */; };
 		A144656A243DC75800F69093 /* Bootstrap.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1446569243DC75800F69093 /* Bootstrap.swift */; };
@@ -27,7 +29,6 @@
 		A164A48E243C8267007A4DED /* Gist.swift in Sources */ = {isa = PBXBuildFile; fileRef = A164A48D243C8267007A4DED /* Gist.swift */; };
 		A164A491243C82C9007A4DED /* ConfigurationResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = A164A490243C82C9007A4DED /* ConfigurationResponse.swift */; };
 		A164A493243C82D3007A4DED /* UserQueueResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = A164A492243C82D3007A4DED /* UserQueueResponse.swift */; };
-		A164A495243C8327007A4DED /* LogViewRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = A164A494243C8327007A4DED /* LogViewRequest.swift */; };
 		A164A497243C85B3007A4DED /* GistNetwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = A164A496243C85B3007A4DED /* GistNetwork.swift */; };
 		A164A49A243C9A78007A4DED /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = A164A499243C9A78007A4DED /* Settings.swift */; };
 		A164A49E243C9BC9007A4DED /* ConfigurationEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = A164A49D243C9BC9007A4DED /* ConfigurationEndpoint.swift */; };
@@ -36,12 +37,17 @@
 		A164A4A6243C9E96007A4DED /* GistNetworkRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = A164A4A5243C9E96007A4DED /* GistNetworkRequest.swift */; };
 		A164A4A8243C9EAD007A4DED /* Headers.swift in Sources */ = {isa = PBXBuildFile; fileRef = A164A4A7243C9EAD007A4DED /* Headers.swift */; };
 		A168E90824697AD700F6AF88 /* GistViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A168E90724697AD400F6AF88 /* GistViewController.swift */; };
+		A1C9792425793C02002CE8A5 /* GistQueueNetwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1C9792325793C02002CE8A5 /* GistQueueNetwork.swift */; };
+		A1C9792825793C9D002CE8A5 /* BaseNetwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1C9792725793C9D002CE8A5 /* BaseNetwork.swift */; };
+		A1FF6D9C2578FA4700E18E16 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1FF6D9B2578FA4700E18E16 /* Message.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		10C1E97E8D391296567854DD /* Pods_Gist.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Gist.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2F3171E40D989DD54AA76B66 /* Pods-Gist.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Gist.release.xcconfig"; path = "Target Support Files/Pods-Gist/Pods-Gist.release.xcconfig"; sourceTree = "<group>"; };
 		6E084BDBA7876DE42CA69C31 /* Pods-Gist.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Gist.debug.xcconfig"; path = "Target Support Files/Pods-Gist/Pods-Gist.debug.xcconfig"; sourceTree = "<group>"; };
+		A1123E4E257E740B003FBD13 /* TopicsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicsManager.swift; sourceTree = "<group>"; };
+		A1123E57257E828A003FBD13 /* MessagesRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesRequest.swift; sourceTree = "<group>"; };
 		A144655F243CB9F200F69093 /* GistNetworkRequestError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GistNetworkRequestError.swift; sourceTree = "<group>"; };
 		A1446561243CC15A00F69093 /* UserManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
 		A1446569243DC75800F69093 /* Bootstrap.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Bootstrap.swift; sourceTree = "<group>"; };
@@ -63,7 +69,6 @@
 		A164A48D243C8267007A4DED /* Gist.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gist.swift; sourceTree = "<group>"; };
 		A164A490243C82C9007A4DED /* ConfigurationResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigurationResponse.swift; sourceTree = "<group>"; };
 		A164A492243C82D3007A4DED /* UserQueueResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserQueueResponse.swift; sourceTree = "<group>"; };
-		A164A494243C8327007A4DED /* LogViewRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogViewRequest.swift; sourceTree = "<group>"; };
 		A164A496243C85B3007A4DED /* GistNetwork.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GistNetwork.swift; sourceTree = "<group>"; };
 		A164A499243C9A78007A4DED /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		A164A49D243C9BC9007A4DED /* ConfigurationEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigurationEndpoint.swift; sourceTree = "<group>"; };
@@ -72,6 +77,9 @@
 		A164A4A5243C9E96007A4DED /* GistNetworkRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GistNetworkRequest.swift; sourceTree = "<group>"; };
 		A164A4A7243C9EAD007A4DED /* Headers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Headers.swift; sourceTree = "<group>"; };
 		A168E90724697AD400F6AF88 /* GistViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GistViewController.swift; sourceTree = "<group>"; };
+		A1C9792325793C02002CE8A5 /* GistQueueNetwork.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GistQueueNetwork.swift; sourceTree = "<group>"; };
+		A1C9792725793C9D002CE8A5 /* BaseNetwork.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseNetwork.swift; sourceTree = "<group>"; };
+		A1FF6D9B2578FA4700E18E16 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -96,6 +104,7 @@
 				A144656F243DD72300F69093 /* LogManager.swift */,
 				A1446579243DEEF000F69093 /* MessageManager.swift */,
 				A1446580243E188B00F69093 /* ModalViewManager.swift */,
+				A1123E4E257E740B003FBD13 /* TopicsManager.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -123,6 +132,7 @@
 			isa = PBXGroup;
 			children = (
 				A144657E243DF97600F69093 /* Configuration.swift */,
+				A1FF6D9B2578FA4700E18E16 /* Message.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -175,7 +185,9 @@
 				A14780752459817E0065898C /* Utilities */,
 				A164A4A3243C9E13007A4DED /* Endpoints */,
 				A164A48F243C8293007A4DED /* Models */,
+				A1C9792725793C9D002CE8A5 /* BaseNetwork.swift */,
 				A164A496243C85B3007A4DED /* GistNetwork.swift */,
+				A1C9792325793C02002CE8A5 /* GistQueueNetwork.swift */,
 				A164A499243C9A78007A4DED /* Settings.swift */,
 			);
 			path = Network;
@@ -186,7 +198,7 @@
 			children = (
 				A164A490243C82C9007A4DED /* ConfigurationResponse.swift */,
 				A164A492243C82D3007A4DED /* UserQueueResponse.swift */,
-				A164A494243C8327007A4DED /* LogViewRequest.swift */,
+				A1123E57257E828A003FBD13 /* MessagesRequest.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -354,19 +366,23 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A1C9792425793C02002CE8A5 /* GistQueueNetwork.swift in Sources */,
 				A1446575243DEAAC00F69093 /* GistExtendable.swift in Sources */,
 				A144656A243DC75800F69093 /* Bootstrap.swift in Sources */,
 				A164A49A243C9A78007A4DED /* Settings.swift in Sources */,
 				A164A49E243C9BC9007A4DED /* ConfigurationEndpoint.swift in Sources */,
 				A164A493243C82D3007A4DED /* UserQueueResponse.swift in Sources */,
-				A164A495243C8327007A4DED /* LogViewRequest.swift in Sources */,
+				A1123E58257E828A003FBD13 /* MessagesRequest.swift in Sources */,
 				A144657A243DEEF000F69093 /* MessageManager.swift in Sources */,
 				A1446560243CB9F200F69093 /* GistNetworkRequestError.swift in Sources */,
+				A1C9792825793C9D002CE8A5 /* BaseNetwork.swift in Sources */,
 				A144656C243DC77500F69093 /* ConfigurationManager.swift in Sources */,
 				A1446589243F1C8E00F69093 /* Encodable.swift in Sources */,
 				A1478077245981920065898C /* HTTPMethod.swift in Sources */,
 				A164A491243C82C9007A4DED /* ConfigurationResponse.swift in Sources */,
+				A1123E4F257E740B003FBD13 /* TopicsManager.swift in Sources */,
 				A1446570243DD72300F69093 /* LogManager.swift in Sources */,
+				A1FF6D9C2578FA4700E18E16 /* Message.swift in Sources */,
 				A1446581243E188B00F69093 /* ModalViewManager.swift in Sources */,
 				A164A48E243C8267007A4DED /* Gist.swift in Sources */,
 				A1446562243CC15A00F69093 /* UserManager.swift in Sources */,

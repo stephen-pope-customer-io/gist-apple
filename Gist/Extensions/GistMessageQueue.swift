@@ -1,4 +1,5 @@
 import Foundation
+import BourbonEngine
 
 class GistMessageQueue: GistExtendable {
     var name = "Gist Message Queue"
@@ -22,12 +23,12 @@ class GistMessageQueue: GistExtendable {
         Logger.instance.debug(message: "Checking for new messages with service: \(name)")
         if let userToken = UserManager().getUserToken() {
             QueueManager(organizationId: gist.organizationId)
-                .fetchUserQueue(userToken: userToken, completionHandler: { response in
+                .fetchUserQueue(userToken: userToken, topics: TopicsManager.getTopics(), completionHandler: { response in
                 switch response {
                 case .success(let responses):
                     Logger.instance.debug(message: "Service \(self.name) found \(responses.count) new messages")
                     guard let firstMessage = responses.first else { return }
-                    _ = self.gist.showMessage(messageRoute: firstMessage.route)
+                    _ = self.gist.showMessage(firstMessage.toMessage())
                 case .failure(let error):
                     Logger.instance.error(message:
                         "Error fetching messages from service \(self.name). \(error.localizedDescription)")
@@ -38,16 +39,7 @@ class GistMessageQueue: GistExtendable {
         }
     }
 
-    func messageShown(messageRoute: String, userToken: String?) {
-        LogManager(organizationId: gist.organizationId)
-            .logView(route: messageRoute, userToken: userToken) { response in
-                if case let .failure(error) = response {
-                    Logger.instance.error(message:
-                        "Failed to log view for message: \(messageRoute) with error: \(error)")
-                }
-        }
-    }
-
-    func messageDismissed(messageRoute: String, userToken: String?) {}
+    func messageShown(message: Message, userToken: String?) {}
+    func messageDismissed(message: Message, userToken: String?) {}
     func actionPerformed(currentRoute: String, action: String) {}
 }
