@@ -7,7 +7,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var gist: Gist!
     func application(_ application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        gist = Gist(organizationId: "5a6f01a7-6847-4554-8e71-3610a27ed201", logging: true)
+        gist = Gist(organizationId: "c6ff92b9-5607-4655-9265-f2588f7e3b58", logging: true)
         gist.setup()
 
         return true

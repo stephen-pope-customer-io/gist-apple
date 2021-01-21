@@ -7,13 +7,14 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         appDelegate?.gist.setUserToken("ABC123")
-        appDelegate?.gist.subscribeToTopic("testing")
+        appDelegate?.gist.subscribeToTopic("announcements")
     }
 
     @IBAction func showMessage(_ sender: Any) {
         if let appDelegate = appDelegate {
-            let message = Message(messageId: "welcome")
-            message.addProperty(key: "name", value: "Paul")
+            let message = Message(messageId: "artists")
+            message.addProperty(key: "title", value: "Top Artists")
+            message.addProperty(key: "list", value: ArtistsMock.data)
             let willShowMessage = appDelegate.gist.showMessage(message)
             debugPrint("Message \(willShowMessage ? "will be shown" : "will not show")")
         }
