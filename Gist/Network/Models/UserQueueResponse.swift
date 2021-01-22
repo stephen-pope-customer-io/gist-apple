@@ -1,9 +1,29 @@
 import Foundation
 
-struct UserQueueResponse: Codable {
-    let route: String
+struct UserQueueResponse {
+    let queueId: String
+    let messageId: String
+    let properties: [String: Any]?
 
-    init(route: String) {
-        self.route = route
+    init(queueId: String, messageId: String, properties: [String: Any]?) {
+        self.queueId = queueId
+        self.messageId = messageId
+        self.properties = properties
+    }
+
+    init?(dictionary: [String: Any?]) {
+        guard let queueId = dictionary["queueId"] as? String,
+              let messageId = dictionary["messageId"] as? String else {
+            return nil
+        }
+        self.init(queueId: queueId,
+                  messageId: messageId,
+                  properties: dictionary["properties"] as? [String: Any])
+    }
+
+    func toMessage() -> Message {
+        return Message(queueId: self.queueId,
+                       messageId: self.messageId,
+                       properties: self.properties)
     }
 }

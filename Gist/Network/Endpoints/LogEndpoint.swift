@@ -1,26 +1,33 @@
 import Foundation
 
 enum LogEndpoint: GistNetworkRequest {
-    case logView(route: String, userToken: String?)
+    case logUserMessageView(queueId: String)
+    case logMessageView(messageId: String)
 
     var method: HTTPMethod {
         switch self {
-        case .logView:
+        case .logUserMessageView:
+            return .post
+        case .logMessageView:
             return .post
         }
     }
 
-     var parameters: RequestParameters? {
+    var parameters: RequestParameters? {
         switch self {
-        case .logView(let route, let userToken):
-            return.body(LogViewRequest(route: route, userToken: userToken))
+        case .logUserMessageView(let queueId):
+            return.id(queueId)
+        case .logMessageView(let messageId):
+            return.id(messageId)
         }
     }
 
     var path: String {
         switch self {
-        case .logView:
-            return "/api/v1/log"
+        case .logUserMessageView:
+            return "/api/v1/logs/queue"
+        case .logMessageView:
+            return "/api/v1/logs/message"
         }
     }
 }

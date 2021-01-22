@@ -1,26 +1,26 @@
 import Foundation
 
 enum QueueEndpoint: GistNetworkRequest {
-    case getUserQueue(userToken: String)
+    case getUserQueue(topics: [String])
 
     var method: HTTPMethod {
         switch self {
         case .getUserQueue:
-            return .get
+            return .post
         }
     }
 
      var parameters: RequestParameters? {
         switch self {
-        case .getUserQueue(let userToken):
-            return.id(userToken)
+        case .getUserQueue(let topics):
+            return .body(MessagesRequest(topics: topics))
         }
     }
 
     var path: String {
         switch self {
         case .getUserQueue:
-            return "/api/v1/queue/user"
+            return "/api/v1/users"
         }
     }
 }

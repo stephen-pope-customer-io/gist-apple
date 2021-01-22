@@ -7,19 +7,20 @@ class MessageManager: BourbonEngineDelegate {
     private var shouldShowMessage = false
     private var messageLoaded = false
     private var modalViewManager: ModalViewManager?
-    let currentMessage: String
+    let currentMessage: Message
     private var currentRoute: String
     weak var delegate: GistDelegate?
 
-    init(configuration: Configuration, messageRoute: String) {
+    init(configuration: Configuration, message: Message) {
         self.organizationId = configuration.organizationId
-        self.currentMessage = messageRoute
-        self.currentRoute = messageRoute
+        self.currentMessage = message
+        self.currentRoute = message.messageId
+
         let engineConfiguration = EngineConfiguration(organizationId: configuration.organizationId,
                                                       projectId: configuration.projectId,
                                                       engineEndpoint: configuration.engineEndpoint,
                                                       authenticationEndpoint: configuration.identityEndpoint,
-                                                      mainRoute: messageRoute,
+                                                      mainRoute: message.toEngineRoute(),
                                                       engineVersion: 1,
                                                       configurationVersion: 1)
         engine = BourbonEngine(configuration: engineConfiguration)
@@ -33,7 +34,7 @@ class MessageManager: BourbonEngineDelegate {
             modalViewManager = ModalViewManager(viewController: engineViewController)
             modalViewManager?.showModalView { [weak self] in
                 guard let self = self else { return }
-                self.delegate?.messageShown(messageRoute: self.currentMessage)
+                self.delegate?.messageShown(message: self.currentMessage)
             }
         }
     }
@@ -42,7 +43,7 @@ class MessageManager: BourbonEngineDelegate {
         if let modalViewManager = modalViewManager {
             modalViewManager.dismissModalView { [weak self] in
                 guard let self = self else { return }
-                self.delegate?.messageDismissed(messageRoute: self.currentMessage)
+                self.delegate?.messageDismissed(message: self.currentMessage)
                 completionHandler?()
             }
         }
@@ -67,18 +68,18 @@ class MessageManager: BourbonEngineDelegate {
 
     func routeError(route: String) {
         Logger.instance.error(message: "Error loading message with route: \(route)")
-        delegate?.messageError(messageRoute: route)
+        delegate?.messageError(message: self.currentMessage)
     }
 
     func error() {
         Logger.instance.error(message: "Error loading message with route: \(currentMessage)")
-        delegate?.messageError(messageRoute: currentMessage)
+        delegate?.messageError(message: self.currentMessage)
     }
 
     func routeLoaded(route: String) {
         Logger.instance.debug(message: "Message loaded with route: \(route)")
         self.currentRoute = route
-        if route == currentMessage {
+        if route == currentMessage.messageId && !messageLoaded {
             messageLoaded = true
             showMessage()
         }
