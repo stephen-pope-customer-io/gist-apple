@@ -17,7 +17,7 @@ In your `AppDelegate` add Gist as a stored property and initialize it inside the
 var gist: Gist!
 func application(_ application: UIApplication, 
                   didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        gist = Gist(organizationId: "Your-Key", logging: true)
+        gist = Gist(organizationId: "your-organization-id", logging: true)
         gist.setup()
 
         return true
