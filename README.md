@@ -36,6 +36,24 @@ To clear the user token:
 gist.clearUserToken()
 ```
 
+## Broadcasts
+Broadcasts enable you to receive messages based on topics the client is subscribed to.
+
+### Subscribing
+```swift
+gist.subscribeToTopic("announcements")
+```
+
+### Unsubscribing
+```swift
+gist.unsubscribeFromTopic("announcements")
+```
+
+### Clear All Topics
+```swift
+gist.clearTopics()
+```
+
 ## Manually Triggering In-App Messages
 Gist gives you the option to programmatically trigger in-app messaging flows within your app.
 
@@ -58,24 +76,6 @@ gist.dismissMessage()
 With optional completion handler.
 
 These methods should only be used to trigger flows programmatically, if you wish to create an integration with a custom CRM, see Integrations section below.
-
-## Broadcasts
-Broadcasts enable you to receive messages based on topics the client is subscribed to.
-
-### Subscribing
-```swift
-gist.subscribeToTopic("announcements")
-```
-
-### Unsubscribing
-```swift
-gist.unsubscribeFromTopic("announcements")
-```
-
-### Clear All Topics
-```swift
-gist.clearTopics()
-```
 
 ## Event Handling
 The framework exposes a delegate which you can hook into, this gives you the option to know when a message is shown, dismissed or when an action occurs within the message.
