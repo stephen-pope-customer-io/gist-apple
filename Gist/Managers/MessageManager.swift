@@ -7,6 +7,8 @@ class MessageManager: BourbonEngineDelegate {
     private var shouldShowMessage = false
     private var messageLoaded = false
     private var modalViewManager: ModalViewManager?
+    private let analyticsManager: AnalyticsManager?
+    let instanceId: String
     let currentMessage: Message
     private var currentRoute: String
     weak var delegate: GistDelegate?
@@ -15,6 +17,9 @@ class MessageManager: BourbonEngineDelegate {
         self.organizationId = configuration.organizationId
         self.currentMessage = message
         self.currentRoute = message.messageId
+        self.instanceId = UUID().uuidString.lowercased()
+
+        self.analyticsManager = AnalyticsManager(organizationId: configuration.organizationId)
 
         let engineConfiguration = EngineConfiguration(organizationId: configuration.organizationId,
                                                       projectId: configuration.projectId,
@@ -55,9 +60,26 @@ class MessageManager: BourbonEngineDelegate {
 
     func tap(action: String, system: Bool) {
         Logger.instance.debug(message: "Action triggered: \(action)")
-        if action == "gist://close" || system {
+        if action == "gist://close" {
             Logger.instance.debug(message: "Dismissing from action: \(action)")
             dismissMessage()
+            analyticsManager?.logEvent(name: .dismissed,
+                                       route: currentRoute,
+                                       instanceId: instanceId,
+                                       queueId: currentMessage.queueId)
+        } else if system {
+            Logger.instance.debug(message: "Dismissing from system action: \(action)")
+            dismissMessage()
+            analyticsManager?.logEvent(name: .systemAction,
+                                       route: currentRoute,
+                                       instanceId: instanceId,
+                                       queueId: currentMessage.queueId)
+        } else {
+            Logger.instance.debug(message: "Action selected: \(action)")
+            analyticsManager?.logEvent(name: .action,
+                                       route: currentRoute,
+                                       instanceId: instanceId,
+                                       queueId: currentMessage.queueId)
         }
         delegate?.action(currentRoute: self.currentRoute, action: action)
     }
@@ -78,10 +100,15 @@ class MessageManager: BourbonEngineDelegate {
 
     func routeLoaded(route: String) {
         Logger.instance.debug(message: "Message loaded with route: \(route)")
+
         self.currentRoute = route
         if route == currentMessage.messageId && !messageLoaded {
             messageLoaded = true
             showMessage()
         }
+        analyticsManager?.logEvent(name: .loaded,
+                                   route: currentRoute,
+                                   instanceId: instanceId,
+                                   queueId: currentMessage.queueId)
     }
 }

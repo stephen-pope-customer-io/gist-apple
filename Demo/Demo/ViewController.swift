@@ -8,6 +8,7 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         appDelegate?.gist.setUserToken("ABC123")
         appDelegate?.gist.subscribeToTopic("announcements")
+        appDelegate?.gist.subscribeToTopic("ios")
     }
 
     @IBAction func showMessage(_ sender: Any) {

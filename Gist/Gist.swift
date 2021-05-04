@@ -63,7 +63,7 @@ public class Gist: GistDelegate {
     public func dismissMessage(completionHandler: (() -> Void)? = nil) {
         self.messageManager?.dismissMessage(completionHandler: completionHandler)
     }
-    
+
     // MARK: Events
 
     public func messageShown(message: Message) {
