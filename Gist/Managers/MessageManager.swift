@@ -46,6 +46,10 @@ class MessageManager: BourbonEngineDelegate {
 
     func dismissMessage(completionHandler: (() -> Void)? = nil) {
         if let modalViewManager = modalViewManager {
+            analyticsManager?.logEvent(name: .dismissed,
+                                       route: currentRoute,
+                                       instanceId: instanceId,
+                                       queueId: currentMessage.queueId)
             modalViewManager.dismissModalView { [weak self] in
                 guard let self = self else { return }
                 self.delegate?.messageDismissed(message: self.currentMessage)
@@ -63,17 +67,13 @@ class MessageManager: BourbonEngineDelegate {
         if action == "gist://close" {
             Logger.instance.debug(message: "Dismissing from action: \(action)")
             dismissMessage()
-            analyticsManager?.logEvent(name: .dismissed,
-                                       route: currentRoute,
-                                       instanceId: instanceId,
-                                       queueId: currentMessage.queueId)
         } else if system {
-            Logger.instance.debug(message: "Dismissing from system action: \(action)")
-            dismissMessage()
             analyticsManager?.logEvent(name: .systemAction,
                                        route: currentRoute,
                                        instanceId: instanceId,
                                        queueId: currentMessage.queueId)
+            Logger.instance.debug(message: "Dismissing from system action: \(action)")
+            dismissMessage()
         } else {
             Logger.instance.debug(message: "Action selected: \(action)")
             analyticsManager?.logEvent(name: .action,
