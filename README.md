@@ -3,7 +3,7 @@ Gist gives you access to a library of ready built micro-experiences that can be 
 
 ## Installation
 ```ruby
-pod 'Gist', '~> 1.6.0'
+pod 'Gist', '~> 1.7.0'
 ```
 Note: Cocoapods 1.10.0 or higher is required.
 
