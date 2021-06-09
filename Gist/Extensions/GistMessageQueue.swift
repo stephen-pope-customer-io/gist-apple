@@ -1,5 +1,4 @@
 import Foundation
-import BourbonEngine
 
 class GistMessageQueue: GistExtendable {
     var name = "Gist Message Queue"

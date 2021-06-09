@@ -1,5 +1,4 @@
 import Foundation
-import BourbonEngine
 
 public class Message {
     public let queueId: String?

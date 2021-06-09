@@ -9,7 +9,7 @@ class GistAnalyticsNetwork {
 
     func request(_ request: GistNetworkRequest,
                  completionHandler: @escaping (Result<GistNetworkResponse, Error>) -> Void) throws {
-        guard let baseURL = URL(string: Settings.Production.analyticsAPI) else {
+        guard let baseURL = URL(string: Settings.Network.analyticsAPI) else {
             throw GistNetworkRequestError.invalidBaseURL
         }
 

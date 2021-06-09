@@ -6,7 +6,7 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        appDelegate?.gist.setUserToken("ABC123")
+        appDelegate?.gist.setUserToken("BCD123")
         appDelegate?.gist.subscribeToTopic("announcements")
         appDelegate?.gist.subscribeToTopic("ios")
     }

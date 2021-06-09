@@ -1,8 +1,7 @@
 import Foundation
-import BourbonEngine
 
-class MessageManager: BourbonEngineDelegate {
-    private let engine: BourbonEngine
+class MessageManager: EngineWebDelegate {
+    private let engine: EngineWeb
     private let organizationId: String
     private var shouldShowMessage = false
     private var messageLoaded = false
@@ -21,14 +20,14 @@ class MessageManager: BourbonEngineDelegate {
 
         self.analyticsManager = AnalyticsManager(organizationId: configuration.organizationId)
 
-        let engineConfiguration = EngineConfiguration(organizationId: configuration.organizationId,
-                                                      projectId: configuration.projectId,
-                                                      engineEndpoint: configuration.engineEndpoint,
-                                                      authenticationEndpoint: configuration.identityEndpoint,
-                                                      mainRoute: message.toEngineRoute(),
-                                                      engineVersion: 1,
-                                                      configurationVersion: 1)
-        engine = BourbonEngine(configuration: engineConfiguration)
+        let engineWebConfiguration = EngineWebConfiguration(
+            organizationId: configuration.organizationId,
+            messageId: message.messageId,
+            instanceId: self.instanceId,
+            endpoint: Settings.Network.gistAPI,
+            properties: message.toEngineRoute().properties)
+
+        engine = EngineWeb(configuration: engineWebConfiguration)
         engine.delegate = self
     }
 

@@ -8,7 +8,11 @@ public class Gist: GistDelegate {
     public let organizationId: String
     weak public var delegate: GistDelegate?
 
-    public init(organizationId: String, extensions: [GistExtendable.Type] = [], logging: Bool = false) {
+    public init(organizationId: String,
+                extensions: [GistExtendable.Type] = [],
+                logging: Bool = false,
+                env: GistEnvironment = .production) {
+        Settings.Environment = env
         self.organizationId = organizationId
         self.extensions.append(GistMessageQueue(gist: self))
         for gistExtension in extensions {
