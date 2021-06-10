@@ -72,6 +72,7 @@ public class EngineWeb: NSObject {
     }
 }
 
+//swiftlint:disable cyclomatic_complexity
 extension EngineWeb: WKScriptMessageHandler {
     public func userContentController(_ userContentController: WKUserContentController,
                                       didReceive message: WKScriptMessage) {
@@ -113,6 +114,6 @@ extension EngineWeb: WKScriptMessageHandler {
 extension EngineWeb: WKNavigationDelegate {
     public func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         webView.evaluateJavaScript(
-            "window.parent.postMessage = function(message) { webkit.messageHandlers.gist.postMessage(message)}")
+            "window.parent.postMessage = function(message) {webkit.messageHandlers.gist.postMessage(message)}")
     }
 }
