@@ -8,6 +8,7 @@ public protocol EngineWebDelegate: AnyObject {
     func routeChanged(newRoute: String)
     func routeError(route: String)
     func routeLoaded(route: String)
+    func sizeChanged(width: CGFloat, height: CGFloat)
     func error()
 }
 
@@ -17,9 +18,9 @@ public class EngineWeb: NSObject {
     weak public var delegate: EngineWebDelegate?
     var containerViewController: UIViewController?
     var webView = WKWebView()
-
-    public var viewController: UIViewController? {
-        return containerViewController
+    
+    public var view: UIView {
+        return webView
     }
 
     public private(set) var currentRoute: String {
@@ -61,7 +62,7 @@ public class EngineWeb: NSObject {
             if let jsonData = try? JSONEncoder().encode(configuration),
                let jsonString = String(data: jsonData, encoding: .utf8),
                let options = jsonString.data(using: .utf8)?.base64EncodedString() {
-                let url = "\(Settings.Network.gist)/live-preview/?options=\(options)"
+                let url = "\(Settings.Network.renderer)/index.html?options=\(options)"
                 Logger.instance.info(message: "Loading URL: \(url)")
                 if let link = URL(string: url) {
                     let request = URLRequest(url: link)
@@ -100,6 +101,11 @@ extension EngineWeb: WKScriptMessageHandler {
                 delegate?.routeError(route: route)
             }
         case .sizeChanged:
+            if let size = EngineEventHandler.getSizeProperties(properties: eventProperties) {
+                webView.frame.size = CGSize(width: size.width, height: size.height)
+                webView.layoutIfNeeded()
+                delegate?.sizeChanged(width: size.width, height: size.height)
+            }
             break
         case .tap:
             if let tapProperties = EngineEventHandler.getTapProperties(properties: eventProperties) {

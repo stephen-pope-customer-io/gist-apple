@@ -1,13 +1,25 @@
 import UIKit
 
+public enum MessagePosition {
+    case top
+    case center
+    case bottom
+}
+
 class ModalViewManager {
     var window: UIWindow!
-    var viewController: GistViewController!
+    var viewController: GistModalViewController!
+    var position: MessagePosition
 
-    init(viewController: UIViewController) {
-        self.viewController = GistViewController()
-        self.viewController.engineViewController = viewController
-        self.viewController.setup()
+    init(view: UIView, position: MessagePosition) {
+        self.viewController = GistModalViewController()
+        self.viewController.engineView = view
+        self.viewController.setup(position: position)
+        self.position = position
+    }
+    
+    func sizeChange() {
+        self.viewController.updateViewConstraints()
     }
 
     func showModalView(completionHandler: @escaping () -> Void) {
@@ -15,11 +27,22 @@ class ModalViewManager {
         self.window = getUIWindow()
         self.window.rootViewController = self.viewController
         self.window.isHidden = false
-
-        self.viewController.view.center.y += self.viewController.view.bounds.height
+        var finalPosition: CGFloat = 0
+        
+        switch position {
+        case .top:
+            self.viewController.view.center.y -= self.viewController.view.bounds.height
+            finalPosition = self.viewController.view.center.y + self.viewController.view.bounds.height
+        case .center:
+            self.viewController.view.center.y += self.viewController.view.bounds.height
+            finalPosition = self.viewController.view.center.y - self.viewController.view.bounds.height
+        case .bottom:
+            self.viewController.view.center.y += self.viewController.view.bounds.height
+            finalPosition = self.viewController.view.center.y - self.viewController.view.bounds.height
+        }
 
         UIView.animate(withDuration: 0.3, delay: 0, options: [.curveEaseIn], animations: {
-            self.viewController.view.center.y -= self.viewController.view.bounds.height
+            self.viewController.view.center.y = finalPosition
         }, completion: { _ in
             UIView.animate(withDuration: 0.1, delay: 0, options: [.curveEaseIn], animations: {
                 self.viewController.view.backgroundColor = UIColor.black.withAlphaComponent(0.2)
@@ -31,11 +54,21 @@ class ModalViewManager {
     }
 
     func dismissModalView(completionHandler: @escaping () -> Void) {
+        var finalPosition: CGFloat = 0
+        switch position {
+        case .top:
+            finalPosition = self.viewController.view.center.y - self.viewController.view.bounds.height
+        case .center:
+            finalPosition = self.viewController.view.center.y + self.viewController.view.bounds.height
+        case .bottom:
+            finalPosition = self.viewController.view.center.y + self.viewController.view.bounds.height
+        }
+        
         UIView.animate(withDuration: 0.1, delay: 0, options: [.curveEaseIn], animations: {
             self.viewController.view.backgroundColor = UIColor.black.withAlphaComponent(0)
         }, completion: { _ in
             UIView.animate(withDuration: 0.1, delay: 0, options: [.curveEaseIn], animations: {
-                self.viewController.view.center.y += self.viewController.view.bounds.height
+                self.viewController.view.center.y = finalPosition
             }, completion: { _ in
                 self.window.isHidden = false
                 self.viewController.removeFromParent()

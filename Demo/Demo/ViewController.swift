@@ -16,7 +16,7 @@ class ViewController: UIViewController {
             let message = Message(messageId: "artists")
             message.addProperty(key: "title", value: "Top Artists")
             message.addProperty(key: "list", value: ArtistsMock.data)
-            let willShowMessage = appDelegate.gist.showMessage(message)
+            let willShowMessage = appDelegate.gist.showMessage(message, position: .center)
             debugPrint("Message \(willShowMessage ? "will be shown" : "will not show")")
         }
     }

@@ -30,8 +30,8 @@ class EngineEventHandler {
 
     static func getSizeProperties(properties: EngineEventProperties) -> CGSize? {
         guard let parameters = properties["parameters"],
-              let width = parameters["width"] as? Int,
-              let height = parameters["height"] as? Int else {
+              let width = parameters["width"] as? CGFloat,
+              let height = parameters["height"] as? CGFloat else {
             return nil
         }
         return CGSize(width: width, height: height)

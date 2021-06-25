@@ -42,7 +42,7 @@ public class Gist: GistDelegate {
 
     // MARK: Message Actions
 
-    public func showMessage(_ message: Message) -> Bool {
+    public func showMessage(_ message: Message, position: MessagePosition = .center) -> Bool {
         if let configuration = self.configuration {
             if let messageManager = self.messageManager {
                 Logger.instance.info(message:
@@ -50,7 +50,7 @@ public class Gist: GistDelegate {
             } else {
                 self.messageManager = MessageManager(configuration: configuration, message: message)
                 self.messageManager?.delegate = self
-                self.messageManager?.showMessage()
+                self.messageManager?.showMessage(position: position)
                 return true
             }
         } else {

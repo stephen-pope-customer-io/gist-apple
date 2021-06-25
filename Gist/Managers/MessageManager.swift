@@ -4,6 +4,7 @@ class MessageManager: EngineWebDelegate {
     private let engine: EngineWeb
     private let organizationId: String
     private var shouldShowMessage = false
+    private var messagePosition: MessagePosition = .top
     private var messageLoaded = false
     private var modalViewManager: ModalViewManager?
     private let analyticsManager: AnalyticsManager?
@@ -31,11 +32,14 @@ class MessageManager: EngineWebDelegate {
         engine.delegate = self
     }
 
-    func showMessage() {
+    func showMessage(position: MessagePosition) {
+        messagePosition = position
         shouldShowMessage = true
+    }
+    
+    private func loadModalMessage() {
         if messageLoaded {
-            guard let engineViewController = engine.viewController else { return }
-            modalViewManager = ModalViewManager(viewController: engineViewController)
+            modalViewManager = ModalViewManager(view: engine.view, position: messagePosition)
             modalViewManager?.showModalView { [weak self] in
                 guard let self = self else { return }
                 self.delegate?.messageShown(message: self.currentMessage)
@@ -86,6 +90,11 @@ class MessageManager: EngineWebDelegate {
     func routeChanged(newRoute: String) {
         Logger.instance.debug(message: "Message route changed to: \(newRoute)")
     }
+    
+    func sizeChanged(width: CGFloat, height: CGFloat) {
+        modalViewManager?.sizeChange()
+        Logger.instance.debug(message: "Message size changed Width: \(width) - Height: \(height)")
+    }
 
     func routeError(route: String) {
         Logger.instance.error(message: "Error loading message with route: \(route)")
@@ -103,7 +112,7 @@ class MessageManager: EngineWebDelegate {
         self.currentRoute = route
         if route == currentMessage.messageId && !messageLoaded {
             messageLoaded = true
-            showMessage()
+            loadModalMessage()
         }
         analyticsManager?.logEvent(name: .loaded,
                                    route: currentRoute,
