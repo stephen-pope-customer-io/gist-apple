@@ -9,7 +9,7 @@ class MessageManager: EngineWebDelegate {
     private var messageLoaded = false
     private var modalViewManager: ModalViewManager?
     private let analyticsManager: AnalyticsManager?
-    let instanceId: String
+    var isMessageEmbed = false
     let currentMessage: Message
     private var currentRoute: String
     weak var delegate: GistDelegate?
@@ -18,14 +18,13 @@ class MessageManager: EngineWebDelegate {
         self.organizationId = configuration.organizationId
         self.currentMessage = message
         self.currentRoute = message.messageId
-        self.instanceId = UUID().uuidString.lowercased()
 
         self.analyticsManager = AnalyticsManager(organizationId: configuration.organizationId)
 
         let engineWebConfiguration = EngineWebConfiguration(
             organizationId: configuration.organizationId,
             messageId: message.messageId,
-            instanceId: self.instanceId,
+            instanceId: message.instanceId,
             endpoint: Settings.Network.gistAPI,
             properties: message.toEngineRoute().properties)
 
@@ -39,6 +38,7 @@ class MessageManager: EngineWebDelegate {
     }
 
     func getMessageView() -> UIView {
+        isMessageEmbed = true
         self.delegate?.messageShown(message: self.currentMessage)
         return engine.view
     }
@@ -57,7 +57,7 @@ class MessageManager: EngineWebDelegate {
         if let modalViewManager = modalViewManager {
             analyticsManager?.logEvent(name: .dismissed,
                                        route: currentRoute,
-                                       instanceId: instanceId,
+                                       instanceId: currentMessage.instanceId,
                                        queueId: currentMessage.queueId)
             modalViewManager.dismissModalView { [weak self] in
                 guard let self = self else { return }
@@ -79,7 +79,7 @@ class MessageManager: EngineWebDelegate {
         } else if system {
             analyticsManager?.logEvent(name: .systemAction,
                                        route: currentRoute,
-                                       instanceId: instanceId,
+                                       instanceId: currentMessage.instanceId,
                                        queueId: currentMessage.queueId)
 
             if let url = URL(string: action), UIApplication.shared.canOpenURL(url) {
@@ -96,7 +96,7 @@ class MessageManager: EngineWebDelegate {
             Logger.instance.debug(message: "Action selected: \(action)")
             analyticsManager?.logEvent(name: .action,
                                        route: currentRoute,
-                                       instanceId: instanceId,
+                                       instanceId: currentMessage.instanceId,
                                        queueId: currentMessage.queueId)
         }
         delegate?.action(currentRoute: self.currentRoute, action: action)
@@ -127,11 +127,13 @@ class MessageManager: EngineWebDelegate {
         self.currentRoute = route
         if route == currentMessage.messageId && !messageLoaded {
             messageLoaded = true
-            //loadModalMessage()
+            if !isMessageEmbed {
+                loadModalMessage()
+            }
         }
         analyticsManager?.logEvent(name: .loaded,
                                    route: currentRoute,
-                                   instanceId: instanceId,
+                                   instanceId: currentMessage.instanceId,
                                    queueId: currentMessage.queueId)
     }
 }

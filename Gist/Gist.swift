@@ -3,7 +3,7 @@ import UIKit
 
 public class Gist: GistDelegate {
     public var configuration: Configuration?
-    private var messageManager: MessageManager?
+    private var messageManagers: [MessageManager] = []
     private var extensions: [GistExtendable] = []
 
     public let organizationId: String
@@ -57,16 +57,15 @@ public class Gist: GistDelegate {
 
     // MARK: Message Actions
 
-    public func showMessage(_ message: Message, position: MessagePosition = .center) -> String? {
+    public func showMessage(_ message: Message, position: MessagePosition = .center) -> Bool {
         if let configuration = self.configuration {
-            if let messageManager = self.messageManager {
+            if let messageManager = getModalMessageManager() {
                 Logger.instance.info(message:
                     "Message \(message.messageId) cannot be displayed, \(messageManager.currentMessage) is being displayed.")
             } else {
-                self.messageManager = MessageManager(configuration: configuration, message: message)
-                self.messageManager?.delegate = self
-                self.messageManager?.showMessage(position: position)
-                return self.messageManager?.instanceId
+                let messageManager = createMessageManager(configuration: configuration, message: message)
+                messageManager.showMessage(position: position)
+                return true
             }
         } else {
             Logger.instance.error(message:
@@ -76,20 +75,19 @@ public class Gist: GistDelegate {
                 """
             )
         }
-        return nil
+        return false
     }
 
     public func getMessageView(_ message: Message) -> UIView? {
         if let configuration = self.configuration {
-            self.messageManager = MessageManager(configuration: configuration, message: message)
-            self.messageManager?.delegate = self
-            return self.messageManager?.getMessageView()
+            let messageManager = createMessageManager(configuration: configuration, message: message)
+            return messageManager.getMessageView()
         }
         return nil
     }
 
-    public func dismissMessage(completionHandler: (() -> Void)? = nil) {
-        self.messageManager?.dismissMessage(completionHandler: completionHandler)
+    public func dismissMessage(instanceId: String, completionHandler: (() -> Void)? = nil) {
+        messageManager(instanceId: instanceId)?.dismissMessage(completionHandler: completionHandler)
     }
 
     // MARK: Events
@@ -120,12 +118,12 @@ public class Gist: GistDelegate {
                     "Calling message dismissed on message: \(message.messageId) to \(gistExtension.name) extension")
             gistExtension.messageDismissed(message: message, userToken: userToken)
         }
-        self.messageManager = nil
+        removeMessageManager(instanceId: message.instanceId)
         delegate?.messageDismissed(message: message)
     }
 
     public func messageError(message: Message) {
-        self.messageManager = nil
+        removeMessageManager(instanceId: message.instanceId)
         delegate?.messageError(message: message)
     }
 
@@ -158,5 +156,26 @@ public class Gist: GistDelegate {
 
     public func clearTopics() {
         TopicsManager.clearTopics()
+    }
+    
+    // Message Manager
+    
+    private func createMessageManager(configuration: Configuration, message: Message) -> MessageManager {
+        let messageManager = MessageManager(configuration: configuration, message: message)
+        messageManager.delegate = self
+        messageManagers.append(messageManager)
+        return messageManager
+    }
+
+    private func getModalMessageManager() -> MessageManager? {
+        return messageManagers.first(where: { !$0.isMessageEmbed })
+    }
+    
+    private func messageManager(instanceId: String) -> MessageManager? {
+        return messageManagers.first(where: { $0.currentMessage.instanceId == instanceId })
+    }
+    
+    private func removeMessageManager(instanceId: String) {
+        return messageManagers.removeAll(where: { $0.currentMessage.instanceId == instanceId })
     }
 }

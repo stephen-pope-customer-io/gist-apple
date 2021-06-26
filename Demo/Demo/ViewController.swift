@@ -18,8 +18,8 @@ class ViewController: UIViewController, GistDelegate {
             let message = Message(messageId: "welcome")
             message.addProperty(key: "title", value: "Top Artists")
             message.addProperty(key: "list", value: ArtistsMock.data)
-            let instanceId = appDelegate.gist.showMessage(message, position: .center)
-            debugPrint("Message \(instanceId != nil ? "will be shown" : "will not show")")
+            let willShow = appDelegate.gist.showMessage(message, position: .center)
+            debugPrint("Message \(willShow ? "will be shown" : "will not show")")
         }
     }
 

@@ -13,6 +13,7 @@ public class GistProperties {
 }
 
 public class Message {
+    public private(set) var instanceId = UUID().uuidString.lowercased()
     public let queueId: String?
     public let messageId: String
     public private(set) var gistProperties: GistProperties
