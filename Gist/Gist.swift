@@ -157,9 +157,9 @@ public class Gist: GistDelegate {
     public func clearTopics() {
         TopicsManager.clearTopics()
     }
-    
+
     // Message Manager
-    
+
     private func createMessageManager(configuration: Configuration, message: Message) -> MessageManager {
         let messageManager = MessageManager(configuration: configuration, message: message)
         messageManager.delegate = self
@@ -170,11 +170,11 @@ public class Gist: GistDelegate {
     private func getModalMessageManager() -> MessageManager? {
         return messageManagers.first(where: { !$0.isMessageEmbed })
     }
-    
+
     private func messageManager(instanceId: String) -> MessageManager? {
         return messageManagers.first(where: { $0.currentMessage.instanceId == instanceId })
     }
-    
+
     private func removeMessageManager(instanceId: String) {
         return messageManagers.removeAll(where: { $0.currentMessage.instanceId == instanceId })
     }
