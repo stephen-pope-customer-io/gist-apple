@@ -13,7 +13,7 @@ class GistModalViewController: UIViewController {
     }
 
     override func updateViewConstraints() {
-        if (engineView.frame.height > self.view.frame.height) {
+        if engineView.frame.height > self.view.frame.height {
             heightConstraint.constant = self.view.frame.height
         } else {
             heightConstraint.constant = engineView.frame.height
@@ -27,7 +27,7 @@ class GistModalViewController: UIViewController {
         widthConstraint = engineView.widthAnchor.constraint(equalToConstant: self.view.frame.width)
         heightConstraint = engineView.heightAnchor.constraint(equalToConstant: engineView.frame.height)
         horizontalConstraint = engineView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor)
-        
+
         switch position {
         case .top:
             verticalConstraint = engineView.topAnchor.constraint(equalTo: self.view.topAnchor)

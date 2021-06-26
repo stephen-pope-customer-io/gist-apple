@@ -1,6 +1,6 @@
 import UIKit
 
-public enum MessagePosition {
+public enum MessagePosition: String {
     case top
     case center
     case bottom
@@ -17,7 +17,7 @@ class ModalViewManager {
         self.viewController.setup(position: position)
         self.position = position
     }
-    
+
     func sizeChange() {
         self.viewController.updateViewConstraints()
     }
@@ -28,7 +28,7 @@ class ModalViewManager {
         self.window.rootViewController = self.viewController
         self.window.isHidden = false
         var finalPosition: CGFloat = 0
-        
+
         switch position {
         case .top:
             self.viewController.view.center.y -= self.viewController.view.bounds.height
@@ -63,7 +63,7 @@ class ModalViewManager {
         case .bottom:
             finalPosition = self.viewController.view.center.y + self.viewController.view.bounds.height
         }
-        
+
         UIView.animate(withDuration: 0.1, delay: 0, options: [.curveEaseIn], animations: {
             self.viewController.view.backgroundColor = UIColor.black.withAlphaComponent(0)
         }, completion: { _ in

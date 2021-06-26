@@ -1,4 +1,5 @@
 import Foundation
+import UIKit
 
 class MessageManager: EngineWebDelegate {
     private let engine: EngineWeb
@@ -37,6 +38,11 @@ class MessageManager: EngineWebDelegate {
         shouldShowMessage = true
     }
     
+    func getMessageView() -> UIView {
+        self.delegate?.messageShown(message: self.currentMessage)
+        return engine.view
+    }
+
     private func loadModalMessage() {
         if messageLoaded {
             modalViewManager = ModalViewManager(view: engine.view, position: messagePosition)
@@ -75,8 +81,17 @@ class MessageManager: EngineWebDelegate {
                                        route: currentRoute,
                                        instanceId: instanceId,
                                        queueId: currentMessage.queueId)
-            Logger.instance.debug(message: "Dismissing from system action: \(action)")
-            dismissMessage()
+
+            if let url = URL(string: action), UIApplication.shared.canOpenURL(url) {
+                UIApplication.shared.open(url) { handled in
+                    if handled {
+                        Logger.instance.debug(message: "Dismissing from system action: \(action)")
+                        self.dismissMessage()
+                    } else {
+                        Logger.instance.info(message: "System action not handled")
+                    }
+                }
+            }
         } else {
             Logger.instance.debug(message: "Action selected: \(action)")
             analyticsManager?.logEvent(name: .action,
@@ -90,7 +105,7 @@ class MessageManager: EngineWebDelegate {
     func routeChanged(newRoute: String) {
         Logger.instance.debug(message: "Message route changed to: \(newRoute)")
     }
-    
+
     func sizeChanged(width: CGFloat, height: CGFloat) {
         modalViewManager?.sizeChange()
         Logger.instance.debug(message: "Message size changed Width: \(width) - Height: \(height)")
@@ -112,7 +127,7 @@ class MessageManager: EngineWebDelegate {
         self.currentRoute = route
         if route == currentMessage.messageId && !messageLoaded {
             messageLoaded = true
-            loadModalMessage()
+            //loadModalMessage()
         }
         analyticsManager?.logEvent(name: .loaded,
                                    route: currentRoute,

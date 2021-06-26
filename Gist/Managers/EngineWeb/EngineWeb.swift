@@ -18,7 +18,7 @@ public class EngineWeb: NSObject {
     weak public var delegate: EngineWebDelegate?
     var containerViewController: UIViewController?
     var webView = WKWebView()
-    
+
     public var view: UIView {
         return webView
     }
@@ -106,7 +106,6 @@ extension EngineWeb: WKScriptMessageHandler {
                 webView.layoutIfNeeded()
                 delegate?.sizeChanged(width: size.width, height: size.height)
             }
-            break
         case .tap:
             if let tapProperties = EngineEventHandler.getTapProperties(properties: eventProperties) {
                 delegate?.tap(action: tapProperties.action, system: tapProperties.system)

@@ -40,9 +40,23 @@ public class Gist: GistDelegate {
         UserManager().clearUserToken()
     }
 
+    // MARK: Route
+
+    public func getCurrentRoute() -> String {
+        return RouteManager.getCurrentRoute()
+    }
+
+    public func setCurrentRoute(_ currentRoute: String) {
+        RouteManager.setCurrentRoute(currentRoute)
+    }
+
+    public func clearCurrentRoute() {
+        RouteManager.clearCurrentRoute()
+    }
+
     // MARK: Message Actions
 
-    public func showMessage(_ message: Message, position: MessagePosition = .center) -> Bool {
+    public func showMessage(_ message: Message, position: MessagePosition = .center) -> String? {
         if let configuration = self.configuration {
             if let messageManager = self.messageManager {
                 Logger.instance.info(message:
@@ -51,7 +65,7 @@ public class Gist: GistDelegate {
                 self.messageManager = MessageManager(configuration: configuration, message: message)
                 self.messageManager?.delegate = self
                 self.messageManager?.showMessage(position: position)
-                return true
+                return self.messageManager?.instanceId
             }
         } else {
             Logger.instance.error(message:
@@ -61,7 +75,16 @@ public class Gist: GistDelegate {
                 """
             )
         }
-        return false
+        return nil
+    }
+    
+    public func getMessageView(_ message: Message) -> UIView? {
+        if let configuration = self.configuration {
+            self.messageManager = MessageManager(configuration: configuration, message: message)
+            self.messageManager?.delegate = self
+            return self.messageManager?.getMessageView()
+        }
+        return nil
     }
 
     public func dismissMessage(completionHandler: (() -> Void)? = nil) {
@@ -112,6 +135,10 @@ public class Gist: GistDelegate {
             gistExtension.actionPerformed(currentRoute: currentRoute, action: action)
         }
         delegate?.action(currentRoute: currentRoute, action: action)
+    }
+
+    public func embedMessage(message: Message, elementId: String) {
+        delegate?.embedMessage(message: message, elementId: elementId)
     }
 
     // MARK: Broadcast

@@ -2,7 +2,7 @@ import Foundation
 import os.log
 
 extension OSLog {
-    static let gist = OSLog(subsystem: "sh.bourbon.gist", category: "messaging")
+    static let gist = OSLog(subsystem: "build.gist", category: "messaging")
 }
 
 class Logger {
