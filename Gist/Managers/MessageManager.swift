@@ -37,7 +37,7 @@ class MessageManager: EngineWebDelegate {
         messagePosition = position
         shouldShowMessage = true
     }
-    
+
     func getMessageView() -> UIView {
         self.delegate?.messageShown(message: self.currentMessage)
         return engine.view

@@ -1,4 +1,5 @@
 import Foundation
+import UIKit
 
 public class Gist: GistDelegate {
     public var configuration: Configuration?
@@ -77,7 +78,7 @@ public class Gist: GistDelegate {
         }
         return nil
     }
-    
+
     public func getMessageView(_ message: Message) -> UIView? {
         if let configuration = self.configuration {
             self.messageManager = MessageManager(configuration: configuration, message: message)
