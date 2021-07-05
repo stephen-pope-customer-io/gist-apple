@@ -99,7 +99,7 @@ class MessageManager: EngineWebDelegate {
                                        instanceId: currentMessage.instanceId,
                                        queueId: currentMessage.queueId)
         }
-        delegate?.action(currentRoute: self.currentRoute, action: action)
+        delegate?.action(message: currentMessage, currentRoute: self.currentRoute, action: action)
     }
 
     func routeChanged(newRoute: String) {

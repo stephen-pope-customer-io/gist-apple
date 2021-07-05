@@ -72,5 +72,5 @@ class ViewController: UIViewController, GistDelegate {
 
     func messageError(message: Message) {}
 
-    func action(currentRoute: String, action: String) {}
+    func action(message: Message, currentRoute: String, action: String) {}
 }

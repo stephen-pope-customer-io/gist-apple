@@ -127,13 +127,13 @@ public class Gist: GistDelegate {
         delegate?.messageError(message: message)
     }
 
-    public func action(currentRoute: String, action: String) {
+    public func action(message: Message, currentRoute: String, action: String) {
         for gistExtension in extensions {
             Logger.instance.debug(message:
                 "Calling action \"\(action)\" performed event on route \(currentRoute) to \(gistExtension.name) extension")
             gistExtension.actionPerformed(currentRoute: currentRoute, action: action)
         }
-        delegate?.action(currentRoute: currentRoute, action: action)
+        delegate?.action(message: message, currentRoute: currentRoute, action: action)
     }
 
     public func embedMessage(message: Message, elementId: String) {
