@@ -121,4 +121,20 @@ extension EngineWeb: WKNavigationDelegate {
         webView.evaluateJavaScript(
             "window.parent.postMessage = function(message) {webkit.messageHandlers.gist.postMessage(message)}")
     }
+    
+    public func webViewWebContentProcessDidTerminate(_ webView: WKWebView) {
+        delegate?.error()
+    }
+    
+    public func webView(_ webView: WKWebView,
+                        didFail navigation: WKNavigation!,
+                        withError error: Error) {
+        delegate?.error()
+    }
+    
+    public func webView(_ webView: WKWebView,
+                        didFailProvisionalNavigation navigation: WKNavigation!,
+                        withError error: Error) {
+        delegate?.error()
+    }
 }

@@ -117,7 +117,7 @@ class MessageManager: EngineWebDelegate {
     }
 
     func error() {
-        Logger.instance.error(message: "Error loading message with route: \(currentMessage)")
+        Logger.instance.error(message: "Error loading message with id: \(currentMessage.messageId)")
         delegate?.messageError(message: self.currentMessage)
     }
 
