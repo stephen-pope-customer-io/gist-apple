@@ -73,6 +73,7 @@ class MessageManager: EngineWebDelegate {
 
     func tap(action: String, system: Bool) {
         Logger.instance.debug(message: "Action triggered: \(action)")
+        delegate?.action(message: currentMessage, currentRoute: self.currentRoute, action: action)
         if action == "gist://close" {
             Logger.instance.debug(message: "Dismissing from action: \(action)")
             dismissMessage()
@@ -99,7 +100,6 @@ class MessageManager: EngineWebDelegate {
                                        instanceId: currentMessage.instanceId,
                                        queueId: currentMessage.queueId)
         }
-        delegate?.action(message: currentMessage, currentRoute: self.currentRoute, action: action)
     }
 
     func routeChanged(newRoute: String) {
