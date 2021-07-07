@@ -2,7 +2,6 @@ import Foundation
 import UIKit
 
 public class Gist: GistDelegate {
-    public var configuration: Configuration?
     private var messageManagers: [MessageManager] = []
     private var extensions: [GistExtendable] = []
 
@@ -20,15 +19,7 @@ public class Gist: GistDelegate {
             self.extensions.append(gistExtension.init(gist: self))
         }
         Logger.instance.enabled = logging
-    }
-
-    public func setup() {
-        let bootstrap = Bootstrap(organizationId: organizationId, extensions: extensions)
-        bootstrap.setup { [weak self] response in
-            if case let Result.success(configuration) = response {
-                self?.configuration = configuration
-            }
-        }
+        Bootstrap(extensions: self.extensions).setup()
     }
 
     // MARK: User
@@ -58,32 +49,20 @@ public class Gist: GistDelegate {
     // MARK: Message Actions
 
     public func showMessage(_ message: Message, position: MessagePosition = .center) -> Bool {
-        if let configuration = self.configuration {
-            if let messageManager = getModalMessageManager() {
-                Logger.instance.info(message:
-                    "Message \(message.messageId) cannot be displayed, \(messageManager.currentMessage) is being displayed.")
-            } else {
-                let messageManager = createMessageManager(configuration: configuration, message: message)
-                messageManager.showMessage(position: position)
-                return true
-            }
+        if let messageManager = getModalMessageManager() {
+            Logger.instance.info(message:
+                "Message \(message.messageId) cannot be displayed, \(messageManager.currentMessage) is being displayed.")
         } else {
-            Logger.instance.error(message:
-                """
-                Message not shown because configuration was not set, \
-                make sure Gist.setup() is called before showing a message.
-                """
-            )
+            let messageManager = createMessageManager(organizationId: self.organizationId, message: message)
+            messageManager.showMessage(position: position)
+            return true
         }
         return false
     }
 
-    public func getMessageView(_ message: Message) -> UIView? {
-        if let configuration = self.configuration {
-            let messageManager = createMessageManager(configuration: configuration, message: message)
-            return messageManager.getMessageView()
-        }
-        return nil
+    public func getMessageView(_ message: Message) -> UIView {
+        let messageManager = createMessageManager(organizationId: self.organizationId, message: message)
+        return messageManager.getMessageView()
     }
 
     public func dismissMessage(instanceId: String, completionHandler: (() -> Void)? = nil) {
@@ -160,8 +139,8 @@ public class Gist: GistDelegate {
 
     // Message Manager
 
-    private func createMessageManager(configuration: Configuration, message: Message) -> MessageManager {
-        let messageManager = MessageManager(configuration: configuration, message: message)
+    private func createMessageManager(organizationId: String, message: Message) -> MessageManager {
+        let messageManager = MessageManager(organizationId: organizationId, message: message)
         messageManager.delegate = self
         messageManagers.append(messageManager)
         return messageManager

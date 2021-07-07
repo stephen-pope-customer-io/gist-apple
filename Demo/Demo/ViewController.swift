@@ -25,44 +25,43 @@ class ViewController: UIViewController, GistDelegate {
 
     func embedMessage(message: Message, elementId: String) {
         if let appDelegate = appDelegate {
-            if let messageView = appDelegate.gist.getMessageView(message) {
-                self.view.addSubview(messageView)
+            let messageView = appDelegate.gist.getMessageView(message)
+            self.view.addSubview(messageView)
 
-                messageView.translatesAutoresizingMaskIntoConstraints = false
-                let horizontalConstraint = NSLayoutConstraint(item: messageView,
-                                                              attribute: NSLayoutConstraint.Attribute.centerX,
-                                                              relatedBy: NSLayoutConstraint.Relation.equal,
-                                                              toItem: view,
-                                                              attribute: NSLayoutConstraint.Attribute.centerX,
-                                                              multiplier: 1,
-                                                              constant: 0)
-
-                let verticalConstraint = NSLayoutConstraint(item: messageView,
-                                                            attribute: NSLayoutConstraint.Attribute.centerY,
-                                                            relatedBy: NSLayoutConstraint.Relation.equal,
-                                                            toItem: view,
-                                                            attribute: NSLayoutConstraint.Attribute.centerY,
-                                                            multiplier: 1,
-                                                            constant: 200)
-
-                let widthConstraint = NSLayoutConstraint(item: messageView,
-                                                         attribute: NSLayoutConstraint.Attribute.width,
-                                                         relatedBy: NSLayoutConstraint.Relation.equal,
-                                                         toItem: nil,
-                                                         attribute: NSLayoutConstraint.Attribute.notAnAttribute,
-                                                         multiplier: 1,
-                                                         constant: 350)
-
-                let heightConstraint = NSLayoutConstraint(item: messageView,
-                                                          attribute: NSLayoutConstraint.Attribute.height,
+            messageView.translatesAutoresizingMaskIntoConstraints = false
+            let horizontalConstraint = NSLayoutConstraint(item: messageView,
+                                                          attribute: NSLayoutConstraint.Attribute.centerX,
                                                           relatedBy: NSLayoutConstraint.Relation.equal,
-                                                          toItem: nil,
-                                                          attribute: NSLayoutConstraint.Attribute.notAnAttribute,
+                                                          toItem: view,
+                                                          attribute: NSLayoutConstraint.Attribute.centerX,
                                                           multiplier: 1,
-                                                          constant: 350)
+                                                          constant: 0)
 
-                view.addConstraints([horizontalConstraint, verticalConstraint, widthConstraint, heightConstraint])
-            }
+            let verticalConstraint = NSLayoutConstraint(item: messageView,
+                                                        attribute: NSLayoutConstraint.Attribute.centerY,
+                                                        relatedBy: NSLayoutConstraint.Relation.equal,
+                                                        toItem: view,
+                                                        attribute: NSLayoutConstraint.Attribute.centerY,
+                                                        multiplier: 1,
+                                                        constant: 200)
+
+            let widthConstraint = NSLayoutConstraint(item: messageView,
+                                                     attribute: NSLayoutConstraint.Attribute.width,
+                                                     relatedBy: NSLayoutConstraint.Relation.equal,
+                                                     toItem: nil,
+                                                     attribute: NSLayoutConstraint.Attribute.notAnAttribute,
+                                                     multiplier: 1,
+                                                     constant: 350)
+
+            let heightConstraint = NSLayoutConstraint(item: messageView,
+                                                      attribute: NSLayoutConstraint.Attribute.height,
+                                                      relatedBy: NSLayoutConstraint.Relation.equal,
+                                                      toItem: nil,
+                                                      attribute: NSLayoutConstraint.Attribute.notAnAttribute,
+                                                      multiplier: 1,
+                                                      constant: 350)
+
+            view.addConstraints([horizontalConstraint, verticalConstraint, widthConstraint, heightConstraint])
         }
     }
 

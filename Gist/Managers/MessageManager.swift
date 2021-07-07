@@ -14,15 +14,15 @@ class MessageManager: EngineWebDelegate {
     private var currentRoute: String
     weak var delegate: GistDelegate?
 
-    init(configuration: Configuration, message: Message) {
-        self.organizationId = configuration.organizationId
+    init(organizationId: String, message: Message) {
+        self.organizationId = organizationId
         self.currentMessage = message
         self.currentRoute = message.messageId
 
-        self.analyticsManager = AnalyticsManager(organizationId: configuration.organizationId)
+        self.analyticsManager = AnalyticsManager(organizationId: self.organizationId)
 
         let engineWebConfiguration = EngineWebConfiguration(
-            organizationId: configuration.organizationId,
+            organizationId: self.organizationId,
             messageId: message.messageId,
             instanceId: message.instanceId,
             endpoint: Settings.Network.gistAPI,
