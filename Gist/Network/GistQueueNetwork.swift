@@ -13,7 +13,7 @@ class GistQueueNetwork {
 
     func request(_ request: GistNetworkRequest,
                  completionHandler: @escaping (Result<GistNetworkResponse, Error>) -> Void) throws {
-        guard let baseURL = URL(string: Settings.Production.queueAPI) else {
+        guard let baseURL = URL(string: Settings.Network.queueAPI) else {
             throw GistNetworkRequestError.invalidBaseURL
         }
 

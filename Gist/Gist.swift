@@ -1,29 +1,25 @@
 import Foundation
+import UIKit
 
 public class Gist: GistDelegate {
-    public var configuration: Configuration?
-    private var messageManager: MessageManager?
+    private var messageManagers: [MessageManager] = []
     private var extensions: [GistExtendable] = []
 
     public let organizationId: String
     weak public var delegate: GistDelegate?
 
-    public init(organizationId: String, extensions: [GistExtendable.Type] = [], logging: Bool = false) {
+    public init(organizationId: String,
+                extensions: [GistExtendable.Type] = [],
+                logging: Bool = false,
+                env: GistEnvironment = .production) {
+        Settings.Environment = env
         self.organizationId = organizationId
         self.extensions.append(GistMessageQueue(gist: self))
         for gistExtension in extensions {
             self.extensions.append(gistExtension.init(gist: self))
         }
         Logger.instance.enabled = logging
-    }
-
-    public func setup() {
-        let bootstrap = Bootstrap(organizationId: organizationId, extensions: extensions)
-        bootstrap.setup { [weak self] response in
-            if case let Result.success(configuration) = response {
-                self?.configuration = configuration
-            }
-        }
+        Bootstrap(extensions: self.extensions).setup()
     }
 
     // MARK: User
@@ -36,32 +32,41 @@ public class Gist: GistDelegate {
         UserManager().clearUserToken()
     }
 
+    // MARK: Route
+
+    public func getCurrentRoute() -> String {
+        return RouteManager.getCurrentRoute()
+    }
+
+    public func setCurrentRoute(_ currentRoute: String) {
+        RouteManager.setCurrentRoute(currentRoute)
+    }
+
+    public func clearCurrentRoute() {
+        RouteManager.clearCurrentRoute()
+    }
+
     // MARK: Message Actions
 
-    public func showMessage(_ message: Message) -> Bool {
-        if let configuration = self.configuration {
-            if let messageManager = self.messageManager {
-                Logger.instance.info(message:
-                    "Message \(message.messageId) cannot be displayed, \(messageManager.currentMessage) is being displayed.")
-            } else {
-                self.messageManager = MessageManager(configuration: configuration, message: message)
-                self.messageManager?.delegate = self
-                self.messageManager?.showMessage()
-                return true
-            }
+    public func showMessage(_ message: Message, position: MessagePosition = .center) -> Bool {
+        if let messageManager = getModalMessageManager() {
+            Logger.instance.info(message:
+                "Message \(message.messageId) cannot be displayed, \(messageManager.currentMessage) is being displayed.")
         } else {
-            Logger.instance.error(message:
-                """
-                Message not shown because configuration was not set, \
-                make sure Gist.setup() is called before showing a message.
-                """
-            )
+            let messageManager = createMessageManager(organizationId: self.organizationId, message: message)
+            messageManager.showMessage(position: position)
+            return true
         }
         return false
     }
 
-    public func dismissMessage(completionHandler: (() -> Void)? = nil) {
-        self.messageManager?.dismissMessage(completionHandler: completionHandler)
+    public func getMessageView(_ message: Message) -> UIView {
+        let messageManager = createMessageManager(organizationId: self.organizationId, message: message)
+        return messageManager.getMessageView()
+    }
+
+    public func dismissMessage(instanceId: String, completionHandler: (() -> Void)? = nil) {
+        messageManager(instanceId: instanceId)?.dismissMessage(completionHandler: completionHandler)
     }
 
     // MARK: Events
@@ -92,22 +97,26 @@ public class Gist: GistDelegate {
                     "Calling message dismissed on message: \(message.messageId) to \(gistExtension.name) extension")
             gistExtension.messageDismissed(message: message, userToken: userToken)
         }
-        self.messageManager = nil
+        removeMessageManager(instanceId: message.instanceId)
         delegate?.messageDismissed(message: message)
     }
 
     public func messageError(message: Message) {
-        self.messageManager = nil
+        removeMessageManager(instanceId: message.instanceId)
         delegate?.messageError(message: message)
     }
 
-    public func action(currentRoute: String, action: String) {
+    public func action(message: Message, currentRoute: String, action: String) {
         for gistExtension in extensions {
             Logger.instance.debug(message:
                 "Calling action \"\(action)\" performed event on route \(currentRoute) to \(gistExtension.name) extension")
             gistExtension.actionPerformed(currentRoute: currentRoute, action: action)
         }
-        delegate?.action(currentRoute: currentRoute, action: action)
+        delegate?.action(message: message, currentRoute: currentRoute, action: action)
+    }
+
+    public func embedMessage(message: Message, elementId: String) {
+        delegate?.embedMessage(message: message, elementId: elementId)
     }
 
     // MARK: Broadcast
@@ -126,5 +135,26 @@ public class Gist: GistDelegate {
 
     public func clearTopics() {
         TopicsManager.clearTopics()
+    }
+
+    // Message Manager
+
+    private func createMessageManager(organizationId: String, message: Message) -> MessageManager {
+        let messageManager = MessageManager(organizationId: organizationId, message: message)
+        messageManager.delegate = self
+        messageManagers.append(messageManager)
+        return messageManager
+    }
+
+    private func getModalMessageManager() -> MessageManager? {
+        return messageManagers.first(where: { !$0.isMessageEmbed })
+    }
+
+    private func messageManager(instanceId: String) -> MessageManager? {
+        return messageManagers.first(where: { $0.currentMessage.instanceId == instanceId })
+    }
+
+    private func removeMessageManager(instanceId: String) {
+        return messageManagers.removeAll(where: { $0.currentMessage.instanceId == instanceId })
     }
 }
