@@ -39,7 +39,7 @@ public class Message {
                     messagePosition = positionValue
                 }
                 self.gistProperties = GistProperties(
-                    routeRule: gist["routeRule"],
+                    routeRule: gist["routeRuleApple"],
                     elementId: gist["elementId"],
                     position: messagePosition)
             }
