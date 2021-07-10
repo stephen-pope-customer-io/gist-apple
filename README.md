@@ -85,6 +85,14 @@ With optional completion handler.
 
 These methods should only be used to trigger flows programmatically, if you wish to create an integration with a custom CRM, see Integrations section below.
 
+## Embedding
+Gist gives you the option to embed a message within your native product. Calling `getMessageView` will return a `UIView`. Actions performed within the view are reported back to the `GistDelegate` delegate and `GistExtenable` extensions.
+
+```swift
+let message = Message(messageId: "message-id")
+let view = gist.getMessageView(message)
+```
+
 ## Event Handling
 The framework exposes a delegate which you can hook into, this gives you the option to know when a message is shown, dismissed or when an action occurs within the message.
 
@@ -98,13 +106,7 @@ public protocol GistDelegate: AnyObject {
 }
 ```
 
-## Embedding
-Gist gives you the option to embed a message within your native product. Calling `getMessageView` will return a `UIView`. Actions performed within the view are reported back to the `GistDelegate` delegate and `GistExtenable` extensions.
-
-```swift
-let message = Message(messageId: "message-id")
-let view = gist.getMessageView(message)
-```
+Whenever a message is queued for embedding, the event `embedMessage` is triggered. This leaves it up to the developer to decide where to place the view.
 
 ## Integrations
 The `GistExtendable` protocol enables you to plug in external integrations that trigger in-app messages from external sources.
