@@ -7,6 +7,7 @@ class ViewController: UIViewController, GistDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        appDelegate?.gist.setCurrentRoute("home")
         appDelegate?.gist.setUserToken("BCD123")
         appDelegate?.gist.subscribeToTopic("announcements")
         appDelegate?.gist.subscribeToTopic("ios")

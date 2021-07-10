@@ -14,6 +14,7 @@
 		A164A466243C7719007A4DED /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A164A465243C7719007A4DED /* Assets.xcassets */; };
 		A164A469243C7719007A4DED /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A164A467243C7719007A4DED /* LaunchScreen.storyboard */; };
 		A166517325B99DF400E764D4 /* Artists.swift in Sources */ = {isa = PBXBuildFile; fileRef = A166517225B99DF400E764D4 /* Artists.swift */; };
+		A1CD27D32699D8F300E495BC /* GistDemoExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1CD27D22699D8F300E495BC /* GistDemoExtension.swift */; };
 		CCC7E377E9053AE11A21A947 /* Pods_Demo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 650551337E34C942C4C802F9 /* Pods_Demo.framework */; };
 /* End PBXBuildFile section */
 
@@ -35,6 +36,7 @@
 		A164A480243C7B86007A4DED /* Alamofire.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Alamofire.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A164A481243C7B86007A4DED /* BourbonEngine.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = BourbonEngine.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A166517225B99DF400E764D4 /* Artists.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Artists.swift; sourceTree = "<group>"; };
+		A1CD27D22699D8F300E495BC /* GistDemoExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GistDemoExtension.swift; sourceTree = "<group>"; };
 		F355E49235AA929B3090D7C7 /* Pods-Demo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Demo.release.xcconfig"; path = "Target Support Files/Pods-Demo/Pods-Demo.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -82,6 +84,7 @@
 			children = (
 				A166517125B99DE500E764D4 /* Models */,
 				A164A45C243C7717007A4DED /* AppDelegate.swift */,
+				A1CD27D22699D8F300E495BC /* GistDemoExtension.swift */,
 				A164A45E243C7717007A4DED /* SceneDelegate.swift */,
 				A164A460243C7717007A4DED /* ViewController.swift */,
 				A164A462243C7717007A4DED /* Main.storyboard */,
@@ -229,6 +232,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A1CD27D32699D8F300E495BC /* GistDemoExtension.swift in Sources */,
 				A164A461243C7717007A4DED /* ViewController.swift in Sources */,
 				A164A45D243C7717007A4DED /* AppDelegate.swift in Sources */,
 				A166517325B99DF400E764D4 /* Artists.swift in Sources */,

@@ -51,7 +51,7 @@ public class Gist: GistDelegate {
     public func showMessage(_ message: Message, position: MessagePosition = .center) -> Bool {
         if let messageManager = getModalMessageManager() {
             Logger.instance.info(message:
-                "Message \(message.messageId) cannot be displayed, \(messageManager.currentMessage) is being displayed.")
+                                    "Message cannot be displayed, \(messageManager.currentMessage.messageId) is being displayed.")
         } else {
             let messageManager = createMessageManager(organizationId: self.organizationId, message: message)
             messageManager.showMessage(position: position)
@@ -107,15 +107,25 @@ public class Gist: GistDelegate {
     }
 
     public func action(message: Message, currentRoute: String, action: String) {
+        let userToken = UserManager().getUserToken()
         for gistExtension in extensions {
             Logger.instance.debug(message:
                 "Calling action \"\(action)\" performed event on route \(currentRoute) to \(gistExtension.name) extension")
-            gistExtension.actionPerformed(currentRoute: currentRoute, action: action)
+            gistExtension.actionPerformed(message: message,
+                                          userToken: userToken,
+                                          currentRoute: currentRoute,
+                                          action: action)
         }
         delegate?.action(message: message, currentRoute: currentRoute, action: action)
     }
 
     public func embedMessage(message: Message, elementId: String) {
+        let userToken = UserManager().getUserToken()
+        for gistExtension in extensions {
+            Logger.instance.debug(message:
+                    "Calling embed message for message: \(message.messageId) to \(gistExtension.name) extension")
+            gistExtension.embedMessage(message: message, userToken: userToken, elementId: elementId)
+        }
         delegate?.embedMessage(message: message, elementId: elementId)
     }
 

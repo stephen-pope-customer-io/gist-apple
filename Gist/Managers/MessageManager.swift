@@ -72,10 +72,10 @@ class MessageManager: EngineWebDelegate {
     }
 
     func tap(action: String, system: Bool) {
-        Logger.instance.debug(message: "Action triggered: \(action)")
+        Logger.instance.info(message: "Action triggered: \(action)")
         delegate?.action(message: currentMessage, currentRoute: self.currentRoute, action: action)
         if action == "gist://close" {
-            Logger.instance.debug(message: "Dismissing from action: \(action)")
+            Logger.instance.info(message: "Dismissing from action: \(action)")
             dismissMessage()
         } else if system {
             analyticsManager?.logEvent(name: .systemAction,
@@ -86,7 +86,7 @@ class MessageManager: EngineWebDelegate {
             if let url = URL(string: action), UIApplication.shared.canOpenURL(url) {
                 UIApplication.shared.open(url) { handled in
                     if handled {
-                        Logger.instance.debug(message: "Dismissing from system action: \(action)")
+                        Logger.instance.info(message: "Dismissing from system action: \(action)")
                         self.dismissMessage()
                     } else {
                         Logger.instance.info(message: "System action not handled")
@@ -94,7 +94,6 @@ class MessageManager: EngineWebDelegate {
                 }
             }
         } else {
-            Logger.instance.debug(message: "Action selected: \(action)")
             analyticsManager?.logEvent(name: .action,
                                        route: currentRoute,
                                        instanceId: currentMessage.instanceId,
@@ -103,7 +102,7 @@ class MessageManager: EngineWebDelegate {
     }
 
     func routeChanged(newRoute: String) {
-        Logger.instance.debug(message: "Message route changed to: \(newRoute)")
+        Logger.instance.info(message: "Message route changed to: \(newRoute)")
     }
 
     func sizeChanged(width: CGFloat, height: CGFloat) {
@@ -122,7 +121,7 @@ class MessageManager: EngineWebDelegate {
     }
 
     func routeLoaded(route: String) {
-        Logger.instance.debug(message: "Message loaded with route: \(route)")
+        Logger.instance.info(message: "Message loaded with route: \(route)")
 
         self.currentRoute = route
         if route == currentMessage.messageId && !messageLoaded {
