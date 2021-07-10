@@ -3,9 +3,8 @@ Gist gives you access to a library of ready built micro-experiences that can be 
 
 ## Installation
 ```ruby
-pod 'Gist', '~> 1.7.0'
+pod 'Gist', '~> 2.0.0'
 ```
-Note: Cocoapods 1.10.0 or higher is required.
 
 ## Setup
 In your `AppDelegate` add Gist as a stored property and initialize it inside the application’s `didFinishLaunchingWithOptions` method.
@@ -18,7 +17,6 @@ var gist: Gist!
 func application(_ application: UIApplication, 
                   didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         gist = Gist(organizationId: "your-organization-id", logging: true)
-        gist.setup()
 
         return true
 }
@@ -34,6 +32,14 @@ gist.setUserToken("unique-user-token")
 To clear the user token:
 ```swift
 gist.clearUserToken()
+```
+
+### Setting Your Current Route
+Gist is able to show messages when a user reaches a particular route within your product. This is completely optional but messages containing route rules will not be displayed.
+
+In your route handler add:
+```swift
+gist.setCurrentRoute("user/profile")
 ```
 
 ## Broadcasts
@@ -60,8 +66,10 @@ Gist gives you the option to programmatically trigger in-app messaging flows wit
 ### Show Message
 ```swift
 let message = Message(messageId: "message-id")
-gist.showMessage(message)
+gist.showMessage(message, position: .center)
 ```
+
+Note that every message object creates a unique `instanceId` which can be used as a reference when an action occurs.
 
 ### Adding Message Properties
 ```swift
@@ -71,11 +79,19 @@ Note: Properties also support `Encodable` objects
 
 ### Dismiss Message
 ```swift
-gist.dismissMessage()
+gist.dismissMessage(message.instanceId)
 ```
 With optional completion handler.
 
 These methods should only be used to trigger flows programmatically, if you wish to create an integration with a custom CRM, see Integrations section below.
+
+## Embedding
+Gist gives you the option to embed a message within your native product. Calling `getMessageView` will return a `UIView`. Actions performed within the view are reported back to the `GistDelegate` delegate and `GistExtenable` extensions.
+
+```swift
+let message = Message(messageId: "message-id")
+let view = gist.getMessageView(message)
+```
 
 ## Event Handling
 The framework exposes a delegate which you can hook into, this gives you the option to know when a message is shown, dismissed or when an action occurs within the message.
@@ -85,9 +101,12 @@ public protocol GistDelegate: AnyObject {
     func messageShown(message: Message)
     func messageDismissed(message: Message)
     func messageError(message: Message)
-    func action(currentRoute: String, action: String)
+    func action(message: Message, currentRoute: String, action: String)
+    func embedMessage(message: Message, elementId: String)
 }
 ```
+
+Whenever a message is queued for embedding, the event `embedMessage` is triggered. This leaves it up to the developer to decide where to place the view.
 
 ## Integrations
 The `GistExtendable` protocol enables you to plug in external integrations that trigger in-app messages from external sources.
@@ -99,7 +118,8 @@ public protocol GistExtendable {
     func setup()
     func messageShown(message: Message, userToken: String?)
     func messageDismissed(message: Message, userToken: String?)
-    func actionPerformed(currentRoute: String, action: String)
+    func actionPerformed(message: Message, userToken: String?, currentRoute: String, action: String)
+    func embedMessage(message: Message, userToken: String?, elementId: String)
 }
 ```
 
@@ -112,6 +132,3 @@ gist = Gist(organizationId: "Your-Key",
 ```
 
 On framework bootstrap the `setup` function is triggered, this can be used to start listeners.
-
-### A list of available integrations can be found below:
-- [Gist Firebase](https://gitlab.com/bourbonltd/gist-firebase-apple)

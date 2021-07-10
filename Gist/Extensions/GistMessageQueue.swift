@@ -1,7 +1,7 @@
 import Foundation
-import BourbonEngine
 
 class GistMessageQueue: GistExtendable {
+
     var name = "Gist Message Queue"
     private var gist: Gist
     private var queueTimer: Timer!
@@ -20,15 +20,42 @@ class GistMessageQueue: GistExtendable {
 
     @objc
     func checkForMessages() {
-        Logger.instance.debug(message: "Checking for new messages with service: \(name)")
+        Logger.instance.info(message: "Checking for new messages with service: \(name)")
         if let userToken = UserManager().getUserToken() {
             QueueManager(organizationId: gist.organizationId)
                 .fetchUserQueue(userToken: userToken, topics: TopicsManager.getTopics(), completionHandler: { response in
                 switch response {
                 case .success(let responses):
-                    Logger.instance.debug(message: "Service \(self.name) found \(responses.count) new messages")
-                    guard let firstMessage = responses.first else { return }
-                    _ = self.gist.showMessage(firstMessage.toMessage())
+                    Logger.instance.info(message: "Service \(self.name) found \(responses.count) new messages")
+                    for queueMessage in responses {
+                        let message = queueMessage.toMessage()
+                        let position = message.gistProperties.position
+
+                        if let routeRule = message.gistProperties.routeRule {
+                            let cleanRouteRule = routeRule.replacingOccurrences(of: "\\", with: "/")
+                            if let regex = try? NSRegularExpression(pattern: cleanRouteRule) {
+                                let range = NSRange(location: 0, length: self.gist.getCurrentRoute().utf16.count)
+                                if regex.firstMatch(in: self.gist.getCurrentRoute(), options: [], range: range) == nil {
+                                    Logger.instance.debug(message:
+                                        "Current route is \(self.gist.getCurrentRoute()), needed \(cleanRouteRule)")
+                                    continue
+                                }
+                            } else {
+                                Logger.instance.info(message:
+                                    "Problem processing route rule message regex: \(cleanRouteRule)")
+                                continue
+                            }
+                        }
+
+                        if let elementId = message.gistProperties.elementId {
+                            Logger.instance.info(message: "Embedding message with Element Id \(elementId)")
+                            self.gist.embedMessage(message: message, elementId: elementId)
+                            continue
+                        } else {
+                            _ = self.gist.showMessage(message, position: position)
+                        }
+                        break
+                    }
                 case .failure(let error):
                     Logger.instance.error(message:
                         "Error fetching messages from service \(self.name). \(error.localizedDescription)")
@@ -41,5 +68,6 @@ class GistMessageQueue: GistExtendable {
 
     func messageShown(message: Message, userToken: String?) {}
     func messageDismissed(message: Message, userToken: String?) {}
-    func actionPerformed(currentRoute: String, action: String) {}
+    func actionPerformed(message: Message, userToken: String?, currentRoute: String, action: String) {}
+    func embedMessage(message: Message, userToken: String?, elementId: String) {}
 }
