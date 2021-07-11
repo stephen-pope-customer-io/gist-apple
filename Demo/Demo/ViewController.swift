@@ -16,7 +16,7 @@ class ViewController: UIViewController, GistDelegate {
 
     @IBAction func showMessage(_ sender: Any) {
         if let appDelegate = appDelegate {
-            let message = Message(messageId: "welcome")
+            let message = Message(messageId: "artists")
             message.addProperty(key: "title", value: "Top Artists")
             message.addProperty(key: "list", value: ArtistsMock.data)
             let willShow = appDelegate.gist.showMessage(message, position: .center)
@@ -56,11 +56,11 @@ class ViewController: UIViewController, GistDelegate {
 
             let heightConstraint = NSLayoutConstraint(item: messageView,
                                                       attribute: NSLayoutConstraint.Attribute.height,
-                                                      relatedBy: NSLayoutConstraint.Relation.equal,
+                                                      relatedBy: NSLayoutConstraint.Relation.greaterThanOrEqual,
                                                       toItem: nil,
                                                       attribute: NSLayoutConstraint.Attribute.notAnAttribute,
                                                       multiplier: 1,
-                                                      constant: 350)
+                                                      constant: 100)
 
             view.addConstraints([horizontalConstraint, verticalConstraint, widthConstraint, heightConstraint])
         }

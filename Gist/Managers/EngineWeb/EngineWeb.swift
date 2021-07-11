@@ -16,7 +16,6 @@ public class EngineWeb: NSObject {
     private var _currentRoute = ""
 
     weak public var delegate: EngineWebDelegate?
-    var containerViewController: UIViewController?
     var webView = WKWebView()
 
     public var view: UIView {
@@ -35,39 +34,27 @@ public class EngineWeb: NSObject {
     init(configuration: EngineWebConfiguration) {
         super.init()
 
-        containerViewController = UIViewController()
-        if let containerViewController = containerViewController {
-            containerViewController.view.addSubview(webView)
+        webView.translatesAutoresizingMaskIntoConstraints = false
+        webView.navigationDelegate = self
+        webView.isOpaque = false
+        webView.backgroundColor = UIColor.clear
+        webView.scrollView.backgroundColor = UIColor.clear
 
-            webView.translatesAutoresizingMaskIntoConstraints = false
-            webView.navigationDelegate = self
-            webView.isOpaque = false
-            webView.backgroundColor = UIColor.clear
-            webView.scrollView.backgroundColor = UIColor.clear
+        let contentController = self.webView.configuration.userContentController
+        contentController.add(self, name: "gist")
 
-            let contentController = self.webView.configuration.userContentController
-            contentController.add(self, name: "gist")
+        if #available(iOS 11.0, *) {
+            webView.scrollView.contentInsetAdjustmentBehavior = .never
+        }
 
-            [webView.topAnchor.constraint(equalTo: containerViewController.view.topAnchor),
-             webView.bottomAnchor.constraint(equalTo: containerViewController.view.bottomAnchor),
-             webView.leftAnchor.constraint(equalTo: containerViewController.view.leftAnchor),
-             webView.rightAnchor.constraint(equalTo: containerViewController.view.rightAnchor)].forEach { anchor in
-                anchor.isActive = true
-            }
-
-            if #available(iOS 11.0, *) {
-                webView.scrollView.contentInsetAdjustmentBehavior = .never
-            }
-
-            if let jsonData = try? JSONEncoder().encode(configuration),
-               let jsonString = String(data: jsonData, encoding: .utf8),
-               let options = jsonString.data(using: .utf8)?.base64EncodedString() {
-                let url = "\(Settings.Network.renderer)/index.html?options=\(options)"
-                Logger.instance.info(message: "Loading URL: \(url)")
-                if let link = URL(string: url) {
-                    let request = URLRequest(url: link)
-                    webView.load(request)
-                }
+        if let jsonData = try? JSONEncoder().encode(configuration),
+           let jsonString = String(data: jsonData, encoding: .utf8),
+           let options = jsonString.data(using: .utf8)?.base64EncodedString() {
+            let url = "\(Settings.Network.renderer)/index.html?options=\(options)"
+            Logger.instance.info(message: "Loading URL: \(url)")
+            if let link = URL(string: url) {
+                let request = URLRequest(url: link)
+                webView.load(request)
             }
         }
     }
@@ -102,7 +89,8 @@ extension EngineWeb: WKScriptMessageHandler {
             }
         case .sizeChanged:
             if let size = EngineEventHandler.getSizeProperties(properties: eventProperties) {
-                webView.frame.size = CGSize(width: size.width, height: size.height)
+                let viewSize = CGSize(width: size.width, height: size.height)
+                webView.frame.size = viewSize
                 webView.layoutIfNeeded()
                 delegate?.sizeChanged(width: size.width, height: size.height)
             }
