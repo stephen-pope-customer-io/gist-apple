@@ -60,7 +60,7 @@ class ViewController: UIViewController, GistDelegate {
                                                       toItem: nil,
                                                       attribute: NSLayoutConstraint.Attribute.notAnAttribute,
                                                       multiplier: 1,
-                                                      constant: 100)
+                                                      constant: 350)
 
             view.addConstraints([horizontalConstraint, verticalConstraint, widthConstraint, heightConstraint])
         }
