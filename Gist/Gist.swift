@@ -129,6 +129,10 @@ public class Gist: GistDelegate {
         delegate?.embedMessage(message: message, elementId: elementId)
     }
 
+    public func sizeChanged(message: Message, width: CGFloat, height: CGFloat) {
+        delegate?.sizeChanged(message: message, width: width, height: height)
+    }
+
     // MARK: Broadcast
 
     public func getTopics() -> [String] {

@@ -18,8 +18,8 @@ class ModalViewManager {
         self.position = position
     }
 
-    func sizeChange() {
-        self.viewController.updateViewConstraints()
+    func sizeChanged(width: CGFloat, height: CGFloat) {
+        self.viewController.updateGistViewConstraints(width: width, height: height)
     }
 
     func showModalView(completionHandler: @escaping () -> Void) {

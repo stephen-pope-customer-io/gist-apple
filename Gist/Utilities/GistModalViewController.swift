@@ -4,7 +4,11 @@ import UIKit
 class GistModalViewController: UIViewController {
     weak var engineView: UIView!
     var position: MessagePosition!
-    var verticalConstraint, horizontalConstraint, widthConstraint, heightConstraint: NSLayoutConstraint!
+    var verticalConstraint,
+        horizontalConstraint,
+        widthConstraint,
+        heightConstraint,
+        bottomConstraint: NSLayoutConstraint!
 
     func setup(position: MessagePosition) {
         self.position = position
@@ -12,20 +16,21 @@ class GistModalViewController: UIViewController {
         setConstraints()
     }
 
-    override func updateViewConstraints() {
-        if engineView.frame.height > self.view.frame.height {
-            heightConstraint.constant = self.view.frame.height
-        } else {
-            heightConstraint.constant = engineView.frame.height
-        }
+    func updateGistViewConstraints(width: CGFloat, height: CGFloat) {
+        heightConstraint.constant = height
         widthConstraint.constant = self.view.frame.width
-        super.updateViewConstraints()
+        updateViewConstraints()
     }
 
     func setConstraints() {
         let maxWidthConstraint = engineView.widthAnchor.constraint(lessThanOrEqualToConstant: 414)
+
         widthConstraint = engineView.widthAnchor.constraint(equalToConstant: self.view.frame.width)
         heightConstraint = engineView.heightAnchor.constraint(equalToConstant: engineView.frame.height)
+
+        bottomConstraint = engineView.bottomAnchor.constraint(lessThanOrEqualTo: self.view.bottomAnchor)
+        bottomConstraint.priority = .required
+
         horizontalConstraint = engineView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor)
 
         switch position {
@@ -45,7 +50,8 @@ class GistModalViewController: UIViewController {
                                      verticalConstraint,
                                      maxWidthConstraint,
                                      widthConstraint,
-                                     heightConstraint])
+                                     heightConstraint,
+                                     bottomConstraint])
     }
 
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {

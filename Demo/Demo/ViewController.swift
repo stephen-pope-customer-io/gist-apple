@@ -2,7 +2,6 @@ import UIKit
 import Gist
 
 class ViewController: UIViewController, GistDelegate {
-
     weak var appDelegate = UIApplication.shared.delegate as? AppDelegate
 
     override func viewDidLoad() {
@@ -23,6 +22,8 @@ class ViewController: UIViewController, GistDelegate {
             debugPrint("Message \(willShow ? "will be shown" : "will not show")")
         }
     }
+
+    func sizeChanged(message: Message, width: CGFloat, height: CGFloat) {}
 
     func embedMessage(message: Message, elementId: String) {
         if let appDelegate = appDelegate {

@@ -89,9 +89,6 @@ extension EngineWeb: WKScriptMessageHandler {
             }
         case .sizeChanged:
             if let size = EngineEventHandler.getSizeProperties(properties: eventProperties) {
-                let viewSize = CGSize(width: size.width, height: size.height)
-                webView.frame.size = viewSize
-                webView.layoutIfNeeded()
                 delegate?.sizeChanged(width: size.width, height: size.height)
             }
         case .tap:

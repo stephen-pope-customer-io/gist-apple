@@ -106,7 +106,10 @@ class MessageManager: EngineWebDelegate {
     }
 
     func sizeChanged(width: CGFloat, height: CGFloat) {
-        modalViewManager?.sizeChange()
+        delegate?.sizeChanged(message: currentMessage, width: width, height: height)
+        if !isMessageEmbed {
+            modalViewManager?.sizeChanged(width: width, height: height)
+        }
         Logger.instance.debug(message: "Message size changed Width: \(width) - Height: \(height)")
     }
 
