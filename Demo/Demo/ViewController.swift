@@ -2,15 +2,25 @@ import UIKit
 import Gist
 
 class ViewController: UIViewController, GistDelegate {
+    @IBOutlet weak var embeddedView: UIView!
+    @IBOutlet weak var embeddedViewHeightConstraint: NSLayoutConstraint!
+    
     weak var appDelegate = UIApplication.shared.delegate as? AppDelegate
-
+    var embeddedMessage: Message!
+    var gistView: UIView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        appDelegate?.gist.setCurrentRoute("home")
-        appDelegate?.gist.setUserToken("BCD123")
-        appDelegate?.gist.subscribeToTopic("announcements")
-        appDelegate?.gist.subscribeToTopic("ios")
-        appDelegate?.gist.delegate = self
+        
+        if let appDelegate = appDelegate {
+            appDelegate.gist.setCurrentRoute("home")
+            appDelegate.gist.setUserToken("BCD123")
+            appDelegate.gist.subscribeToTopic("announcements")
+            appDelegate.gist.subscribeToTopic("ios")
+            appDelegate.gist.delegate = self
+            
+            embedMessage(message: Message(messageId: "example-notice"))
+        }
     }
 
     @IBAction func showMessage(_ sender: Any) {
@@ -23,48 +33,30 @@ class ViewController: UIViewController, GistDelegate {
         }
     }
 
-    func sizeChanged(message: Message, width: CGFloat, height: CGFloat) {}
+    func sizeChanged(message: Message, width: CGFloat, height: CGFloat) {
+        if (message.instanceId == embeddedMessage.instanceId) {
+            embeddedViewHeightConstraint.constant = height
+            updateViewConstraints()
+        }
+    }
 
     func embedMessage(message: Message, elementId: String) {
-        if let appDelegate = appDelegate {
-            let messageView = appDelegate.gist.getMessageView(message)
-            self.view.addSubview(messageView)
+        embedMessage(message: message)
+    }
 
-            messageView.translatesAutoresizingMaskIntoConstraints = false
-            let horizontalConstraint = NSLayoutConstraint(item: messageView,
-                                                          attribute: NSLayoutConstraint.Attribute.centerX,
-                                                          relatedBy: NSLayoutConstraint.Relation.equal,
-                                                          toItem: view,
-                                                          attribute: NSLayoutConstraint.Attribute.centerX,
-                                                          multiplier: 1,
-                                                          constant: 0)
-
-            let verticalConstraint = NSLayoutConstraint(item: messageView,
-                                                        attribute: NSLayoutConstraint.Attribute.centerY,
-                                                        relatedBy: NSLayoutConstraint.Relation.equal,
-                                                        toItem: view,
-                                                        attribute: NSLayoutConstraint.Attribute.centerY,
-                                                        multiplier: 1,
-                                                        constant: 200)
-
-            let widthConstraint = NSLayoutConstraint(item: messageView,
-                                                     attribute: NSLayoutConstraint.Attribute.width,
-                                                     relatedBy: NSLayoutConstraint.Relation.equal,
-                                                     toItem: nil,
-                                                     attribute: NSLayoutConstraint.Attribute.notAnAttribute,
-                                                     multiplier: 1,
-                                                     constant: 350)
-
-            let heightConstraint = NSLayoutConstraint(item: messageView,
-                                                      attribute: NSLayoutConstraint.Attribute.height,
-                                                      relatedBy: NSLayoutConstraint.Relation.greaterThanOrEqual,
-                                                      toItem: nil,
-                                                      attribute: NSLayoutConstraint.Attribute.notAnAttribute,
-                                                      multiplier: 1,
-                                                      constant: 350)
-
-            view.addConstraints([horizontalConstraint, verticalConstraint, widthConstraint, heightConstraint])
+    func action(message: Message, currentRoute: String, action: String) {
+        if action == GistMessageActions.close.rawValue, message.instanceId == embeddedMessage.instanceId {
+            gistView.removeFromSuperview()
+            embeddedViewHeightConstraint.constant = 0
         }
+    }
+
+    private func embedMessage(message: Message) {
+        embeddedMessage = message
+        gistView = appDelegate?.gist.getMessageView(message)
+        embeddedView.addSubview(gistView)
+        embeddedView.autoresizesSubviews = true
+        gistView.autoresizingMask = [.flexibleWidth, .flexibleHeight, .flexibleBottomMargin, .flexibleRightMargin]
     }
 
     func messageShown(message: Message) {}
@@ -72,6 +64,4 @@ class ViewController: UIViewController, GistDelegate {
     func messageDismissed(message: Message) {}
 
     func messageError(message: Message) {}
-
-    func action(message: Message, currentRoute: String, action: String) {}
 }
