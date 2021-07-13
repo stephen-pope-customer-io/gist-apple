@@ -1,6 +1,10 @@
 import Foundation
 import UIKit
 
+public enum GistMessageActions: String {
+    case close = "gist://close"
+}
+
 class MessageManager: EngineWebDelegate {
     private let engine: EngineWeb
     private let organizationId: String
@@ -74,7 +78,8 @@ class MessageManager: EngineWebDelegate {
     func tap(action: String, system: Bool) {
         Logger.instance.info(message: "Action triggered: \(action)")
         delegate?.action(message: currentMessage, currentRoute: self.currentRoute, action: action)
-        if action == "gist://close" {
+        
+        if action == GistMessageActions.close.rawValue {
             Logger.instance.info(message: "Dismissing from action: \(action)")
             dismissMessage()
         } else if system {
@@ -106,7 +111,10 @@ class MessageManager: EngineWebDelegate {
     }
 
     func sizeChanged(width: CGFloat, height: CGFloat) {
-        modalViewManager?.sizeChange()
+        delegate?.sizeChanged(message: currentMessage, width: width, height: height)
+        if !isMessageEmbed {
+            modalViewManager?.sizeChanged(width: width, height: height)
+        }
         Logger.instance.debug(message: "Message size changed Width: \(width) - Height: \(height)")
     }
 
