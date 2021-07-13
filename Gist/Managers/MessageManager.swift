@@ -6,7 +6,7 @@ public enum GistMessageActions: String {
 }
 
 class MessageManager: EngineWebDelegate {
-    private let engine: EngineWeb
+    private var engine: EngineWeb?
     private let organizationId: String
     private var shouldShowMessage = false
     private var messagePosition: MessagePosition = .top
@@ -34,8 +34,10 @@ class MessageManager: EngineWebDelegate {
             properties: message.toEngineRoute().properties)
 
         engine = EngineWeb(configuration: engineWebConfiguration)
-        engine.delegate = self
-        gistView = GistView(message: self.currentMessage, engineView: engine.view)
+        if let engine = engine {
+            engine.delegate = self
+            gistView = GistView(message: self.currentMessage, engineView: engine.view)
+        }
     }
 
     func showMessage(position: MessagePosition) {
@@ -143,5 +145,10 @@ class MessageManager: EngineWebDelegate {
                                    route: currentRoute,
                                    instanceId: currentMessage.instanceId,
                                    queueId: currentMessage.queueId)
+    }
+    
+    deinit {
+        engine?.cleanEngineWeb()
+        engine = nil
     }
 }
