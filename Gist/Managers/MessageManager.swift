@@ -15,6 +15,7 @@ class MessageManager: EngineWebDelegate {
     private let analyticsManager: AnalyticsManager?
     var isMessageEmbed = false
     let currentMessage: Message
+    var gistView: GistView!
     private var currentRoute: String
     weak var delegate: GistDelegate?
 
@@ -34,6 +35,7 @@ class MessageManager: EngineWebDelegate {
 
         engine = EngineWeb(configuration: engineWebConfiguration)
         engine.delegate = self
+        gistView = GistView(message: self.currentMessage, engineView: engine.view)
     }
 
     func showMessage(position: MessagePosition) {
@@ -41,15 +43,14 @@ class MessageManager: EngineWebDelegate {
         shouldShowMessage = true
     }
 
-    func getMessageView() -> UIView {
+    func getMessageView() -> GistView {
         isMessageEmbed = true
-        self.delegate?.messageShown(message: self.currentMessage)
-        return engine.view
+        return gistView
     }
 
     private func loadModalMessage() {
         if messageLoaded {
-            modalViewManager = ModalViewManager(view: engine.view, position: messagePosition)
+            modalViewManager = ModalViewManager(gistView: gistView, position: messagePosition)
             modalViewManager?.showModalView { [weak self] in
                 guard let self = self else { return }
                 self.delegate?.messageShown(message: self.currentMessage)
@@ -78,7 +79,8 @@ class MessageManager: EngineWebDelegate {
     func tap(action: String, system: Bool) {
         Logger.instance.info(message: "Action triggered: \(action)")
         delegate?.action(message: currentMessage, currentRoute: self.currentRoute, action: action)
-        
+        gistView.delegate?.action(message: currentMessage, currentRoute: self.currentRoute, action: action)
+
         if action == GistMessageActions.close.rawValue {
             Logger.instance.info(message: "Dismissing from action: \(action)")
             dismissMessage()
@@ -111,10 +113,7 @@ class MessageManager: EngineWebDelegate {
     }
 
     func sizeChanged(width: CGFloat, height: CGFloat) {
-        delegate?.sizeChanged(message: currentMessage, width: width, height: height)
-        if !isMessageEmbed {
-            modalViewManager?.sizeChanged(width: width, height: height)
-        }
+        gistView.delegate?.sizeChanged(message: currentMessage, width: width, height: height)
         Logger.instance.debug(message: "Message size changed Width: \(width) - Height: \(height)")
     }
 
@@ -134,7 +133,9 @@ class MessageManager: EngineWebDelegate {
         self.currentRoute = route
         if route == currentMessage.messageId && !messageLoaded {
             messageLoaded = true
-            if !isMessageEmbed {
+            if isMessageEmbed {
+                self.delegate?.messageShown(message: self.currentMessage)
+            } else {
                 loadModalMessage()
             }
         }

@@ -17,12 +17,10 @@
 		A11465C3264018AB0057694F /* AnalyticsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A11465C2264018AB0057694F /* AnalyticsManager.swift */; };
 		A1446560243CB9F200F69093 /* GistNetworkRequestError.swift in Sources */ = {isa = PBXBuildFile; fileRef = A144655F243CB9F200F69093 /* GistNetworkRequestError.swift */; };
 		A1446562243CC15A00F69093 /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1446561243CC15A00F69093 /* UserManager.swift */; };
-		A144656A243DC75800F69093 /* Bootstrap.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1446569243DC75800F69093 /* Bootstrap.swift */; };
 		A144656E243DD35100F69093 /* QueueManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A144656D243DD35100F69093 /* QueueManager.swift */; };
 		A1446570243DD72300F69093 /* LogManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A144656F243DD72300F69093 /* LogManager.swift */; };
 		A1446573243DDB1300F69093 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1446572243DDB1300F69093 /* Logger.swift */; };
-		A1446575243DEAAC00F69093 /* GistExtendable.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1446574243DEAAC00F69093 /* GistExtendable.swift */; };
-		A1446578243DEC4600F69093 /* GistMessageQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1446577243DEC4600F69093 /* GistMessageQueue.swift */; };
+		A1446578243DEC4600F69093 /* MessageQueueManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1446577243DEC4600F69093 /* MessageQueueManager.swift */; };
 		A144657A243DEEF000F69093 /* MessageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1446579243DEEF000F69093 /* MessageManager.swift */; };
 		A144657C243DF5ED00F69093 /* GistDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A144657B243DF5ED00F69093 /* GistDelegate.swift */; };
 		A144657F243DF97600F69093 /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = A144657E243DF97600F69093 /* Configuration.swift */; };
@@ -45,6 +43,7 @@
 		A1B8972B2670FB1C00109511 /* EngineWebConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B8972A2670FB1C00109511 /* EngineWebConfiguration.swift */; };
 		A1C9792425793C02002CE8A5 /* GistQueueNetwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1C9792325793C02002CE8A5 /* GistQueueNetwork.swift */; };
 		A1C9792825793C9D002CE8A5 /* BaseNetwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1C9792725793C9D002CE8A5 /* BaseNetwork.swift */; };
+		A1D0BA45269D943A00961615 /* GistView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1D0BA44269D943A00961615 /* GistView.swift */; };
 		A1FF6D9C2578FA4700E18E16 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1FF6D9B2578FA4700E18E16 /* Message.swift */; };
 /* End PBXBuildFile section */
 
@@ -59,12 +58,10 @@
 		A11465C2264018AB0057694F /* AnalyticsManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnalyticsManager.swift; sourceTree = "<group>"; };
 		A144655F243CB9F200F69093 /* GistNetworkRequestError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GistNetworkRequestError.swift; sourceTree = "<group>"; };
 		A1446561243CC15A00F69093 /* UserManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
-		A1446569243DC75800F69093 /* Bootstrap.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Bootstrap.swift; sourceTree = "<group>"; };
 		A144656D243DD35100F69093 /* QueueManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueueManager.swift; sourceTree = "<group>"; };
 		A144656F243DD72300F69093 /* LogManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogManager.swift; sourceTree = "<group>"; };
 		A1446572243DDB1300F69093 /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
-		A1446574243DEAAC00F69093 /* GistExtendable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GistExtendable.swift; sourceTree = "<group>"; };
-		A1446577243DEC4600F69093 /* GistMessageQueue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GistMessageQueue.swift; sourceTree = "<group>"; };
+		A1446577243DEC4600F69093 /* MessageQueueManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageQueueManager.swift; sourceTree = "<group>"; };
 		A1446579243DEEF000F69093 /* MessageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageManager.swift; sourceTree = "<group>"; };
 		A144657B243DF5ED00F69093 /* GistDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GistDelegate.swift; sourceTree = "<group>"; };
 		A144657E243DF97600F69093 /* Configuration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Configuration.swift; sourceTree = "<group>"; };
@@ -89,6 +86,7 @@
 		A1B8972A2670FB1C00109511 /* EngineWebConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EngineWebConfiguration.swift; sourceTree = "<group>"; };
 		A1C9792325793C02002CE8A5 /* GistQueueNetwork.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GistQueueNetwork.swift; sourceTree = "<group>"; };
 		A1C9792725793C9D002CE8A5 /* BaseNetwork.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseNetwork.swift; sourceTree = "<group>"; };
+		A1D0BA44269D943A00961615 /* GistView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GistView.swift; sourceTree = "<group>"; };
 		A1FF6D9B2578FA4700E18E16 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -106,7 +104,6 @@
 		A1446566243CC40800F69093 /* Managers */ = {
 			isa = PBXGroup;
 			children = (
-				A15BF620266FA15700C31ADF /* EngineWeb */,
 				A144657D243DF96900F69093 /* Models */,
 				A11465C2264018AB0057694F /* AnalyticsManager.swift */,
 				A1446561243CC15A00F69093 /* UserManager.swift */,
@@ -116,6 +113,7 @@
 				A1446580243E188B00F69093 /* ModalViewManager.swift */,
 				A1123E4E257E740B003FBD13 /* TopicsManager.swift */,
 				A1086C58268719070064DF1E /* RouteManager.swift */,
+				A1446577243DEC4600F69093 /* MessageQueueManager.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -123,21 +121,11 @@
 		A1446571243DDB0700F69093 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
-				A1086C5A268719860064DF1E /* GistModalViewController.swift */,
 				A1446572243DDB1300F69093 /* Logger.swift */,
 				A1446588243F1C8E00F69093 /* Encodable.swift */,
 				A15BF6292670E82900C31ADF /* Environment.swift */,
 			);
 			path = Utilities;
-			sourceTree = "<group>";
-		};
-		A1446576243DEC1E00F69093 /* Extensions */ = {
-			isa = PBXGroup;
-			children = (
-				A1446574243DEAAC00F69093 /* GistExtendable.swift */,
-				A1446577243DEC4600F69093 /* GistMessageQueue.swift */,
-			);
-			path = Extensions;
 			sourceTree = "<group>";
 		};
 		A144657D243DF96900F69093 /* Models */ = {
@@ -188,13 +176,13 @@
 		A164A447243C74BE007A4DED /* Gist */ = {
 			isa = PBXGroup;
 			children = (
-				A1446576243DEC1E00F69093 /* Extensions */,
+				A164A48C243C8250007A4DED /* Network */,
+				A15BF620266FA15700C31ADF /* EngineWeb */,
 				A1446571243DDB0700F69093 /* Utilities */,
 				A1446566243CC40800F69093 /* Managers */,
-				A164A48C243C8250007A4DED /* Network */,
+				A1D0BA43269D93FF00961615 /* Views */,
 				A164A448243C74BE007A4DED /* Gist.h */,
 				A164A449243C74BE007A4DED /* Info.plist */,
-				A1446569243DC75800F69093 /* Bootstrap.swift */,
 				A164A48D243C8267007A4DED /* Gist.swift */,
 				A144657B243DF5ED00F69093 /* GistDelegate.swift */,
 			);
@@ -244,6 +232,15 @@
 				A144655F243CB9F200F69093 /* GistNetworkRequestError.swift */,
 			);
 			path = Utilities;
+			sourceTree = "<group>";
+		};
+		A1D0BA43269D93FF00961615 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				A1086C5A268719860064DF1E /* GistModalViewController.swift */,
+				A1D0BA44269D943A00961615 /* GistView.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -350,9 +347,7 @@
 			files = (
 				A1C9792425793C02002CE8A5 /* GistQueueNetwork.swift in Sources */,
 				A15BF6282670E6A700C31ADF /* EngineEventHandler.swift in Sources */,
-				A1446575243DEAAC00F69093 /* GistExtendable.swift in Sources */,
 				A15BF624266FA1AF00C31ADF /* EngineRoute.swift in Sources */,
-				A144656A243DC75800F69093 /* Bootstrap.swift in Sources */,
 				A164A49A243C9A78007A4DED /* NetworkSettings.swift in Sources */,
 				A164A493243C82D3007A4DED /* UserQueueResponse.swift in Sources */,
 				A1123E58257E828A003FBD13 /* MessagesRequest.swift in Sources */,
@@ -368,7 +363,7 @@
 				A1446581243E188B00F69093 /* ModalViewManager.swift in Sources */,
 				A164A48E243C8267007A4DED /* Gist.swift in Sources */,
 				A1446562243CC15A00F69093 /* UserManager.swift in Sources */,
-				A1446578243DEC4600F69093 /* GistMessageQueue.swift in Sources */,
+				A1446578243DEC4600F69093 /* MessageQueueManager.swift in Sources */,
 				A11465C3264018AB0057694F /* AnalyticsManager.swift in Sources */,
 				A144657C243DF5ED00F69093 /* GistDelegate.swift in Sources */,
 				A144656E243DD35100F69093 /* QueueManager.swift in Sources */,
@@ -379,6 +374,7 @@
 				A1086C59268719070064DF1E /* RouteManager.swift in Sources */,
 				A11465BF264015CC0057694F /* AnalyticsEventLogEndpoint.swift in Sources */,
 				A15BF626266FA1E600C31ADF /* AnyEncodable.swift in Sources */,
+				A1D0BA45269D943A00961615 /* GistView.swift in Sources */,
 				A15BF62A2670E82900C31ADF /* Environment.swift in Sources */,
 				A1B8972B2670FB1C00109511 /* EngineWebConfiguration.swift in Sources */,
 				A1086C5B268719870064DF1E /* GistModalViewController.swift in Sources */,
