@@ -6,6 +6,7 @@ class ViewController: UIViewController, GistDelegate {
     @IBOutlet weak var embeddedViewHeightConstraint: NSLayoutConstraint!
     
     weak var appDelegate = UIApplication.shared.delegate as? AppDelegate
+    var embeddedMessage: Message!
     var gistView: UIView!
     
     override func viewDidLoad() {
@@ -18,14 +19,10 @@ class ViewController: UIViewController, GistDelegate {
             appDelegate.gist.subscribeToTopic("ios")
             appDelegate.gist.delegate = self
             
-            let message = Message(messageId: "version-2-0")
-            gistView = appDelegate.gist.getMessageView(message)
-            embeddedView.addSubview(gistView)
-            embeddedView.autoresizesSubviews = true
-            gistView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+            embedMessage(message: Message(messageId: "example-notice"))
         }
     }
-    
+
     @IBAction func showMessage(_ sender: Any) {
         if let appDelegate = appDelegate {
             let message = Message(messageId: "artists")
@@ -37,14 +34,29 @@ class ViewController: UIViewController, GistDelegate {
     }
 
     func sizeChanged(message: Message, width: CGFloat, height: CGFloat) {
-        embeddedViewHeightConstraint.constant = height
-        updateViewConstraints()
+        if (message.instanceId == embeddedMessage.instanceId) {
+            embeddedViewHeightConstraint.constant = height
+            updateViewConstraints()
+        }
     }
 
     func embedMessage(message: Message, elementId: String) {
-        if let appDelegate = appDelegate {
-            gistView = appDelegate.gist.getMessageView(message)
+        embedMessage(message: message)
+    }
+
+    func action(message: Message, currentRoute: String, action: String) {
+        if action == GistMessageActions.close.rawValue, message.instanceId == embeddedMessage.instanceId {
+            gistView.removeFromSuperview()
+            embeddedViewHeightConstraint.constant = 0
         }
+    }
+
+    private func embedMessage(message: Message) {
+        embeddedMessage = message
+        gistView = appDelegate?.gist.getMessageView(message)
+        embeddedView.addSubview(gistView)
+        embeddedView.autoresizesSubviews = true
+        gistView.autoresizingMask = [.flexibleWidth, .flexibleHeight, .flexibleBottomMargin, .flexibleRightMargin]
     }
 
     func messageShown(message: Message) {}
@@ -52,6 +64,4 @@ class ViewController: UIViewController, GistDelegate {
     func messageDismissed(message: Message) {}
 
     func messageError(message: Message) {}
-
-    func action(message: Message, currentRoute: String, action: String) {}
 }
