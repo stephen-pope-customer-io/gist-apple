@@ -132,19 +132,28 @@ class MessageManager: EngineWebDelegate {
     func routeLoaded(route: String) {
         Logger.instance.info(message: "Message loaded with route: \(route)")
 
+        var shouldLogEvent = true
         self.currentRoute = route
         if route == currentMessage.messageId && !messageLoaded {
             messageLoaded = true
             if isMessageEmbed {
                 self.delegate?.messageShown(message: self.currentMessage)
             } else {
-                loadModalMessage()
+                if UIApplication.shared.applicationState == .active {
+                    loadModalMessage()
+                } else {
+                    shouldLogEvent = false
+                    Gist.shared.removeMessageManager(instanceId: currentMessage.instanceId)
+                }
             }
         }
-        analyticsManager?.logEvent(name: .loaded,
-                                   route: currentRoute,
-                                   instanceId: currentMessage.instanceId,
-                                   queueId: currentMessage.queueId)
+        
+        if shouldLogEvent {
+            analyticsManager?.logEvent(name: .loaded,
+                                       route: currentRoute,
+                                       instanceId: currentMessage.instanceId,
+                                       queueId: currentMessage.queueId)
+        }
     }
     
     deinit {
