@@ -79,6 +79,7 @@ class MessageManager: EngineWebDelegate {
     }
 
     func tap(action: String, system: Bool) {
+        var shouldLogAction = true
         Logger.instance.info(message: "Action triggered: \(action)")
         delegate?.action(message: currentMessage, currentRoute: self.currentRoute, action: action)
         gistView.delegate?.action(message: currentMessage, currentRoute: self.currentRoute, action: action)
@@ -86,6 +87,7 @@ class MessageManager: EngineWebDelegate {
         if let url = URL(string: action), url.scheme == "gist" {
             switch url.host {
             case "close":
+                shouldLogAction = false
                 Logger.instance.info(message: "Dismissing from action: \(action)")
                 dismissMessage()
             case "loadPage":
@@ -123,12 +125,15 @@ class MessageManager: EngineWebDelegate {
                         }
                     }
                 }
-            } else {
-                analyticsManager?.logEvent(name: .action,
-                                           route: currentRoute,
-                                           instanceId: currentMessage.instanceId,
-                                           queueId: currentMessage.queueId)
+                shouldLogAction = false
             }
+        }
+
+        if shouldLogAction {
+            analyticsManager?.logEvent(name: .action,
+                                       route: currentRoute,
+                                       instanceId: currentMessage.instanceId,
+                                       queueId: currentMessage.queueId)
         }
     }
 

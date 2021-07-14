@@ -3,7 +3,7 @@ Gist gives you access to a library of ready built micro-experiences that can be 
 
 ## Installation
 ```ruby
-pod 'Gist', '~> 2.0.4'
+pod 'Gist', '~> 2.0.5'
 ```
 
 ## Setup
