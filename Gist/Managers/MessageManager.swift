@@ -83,30 +83,52 @@ class MessageManager: EngineWebDelegate {
         delegate?.action(message: currentMessage, currentRoute: self.currentRoute, action: action)
         gistView.delegate?.action(message: currentMessage, currentRoute: self.currentRoute, action: action)
 
-        if action == GistMessageActions.close.rawValue {
-            Logger.instance.info(message: "Dismissing from action: \(action)")
-            dismissMessage()
-        } else if system {
-            analyticsManager?.logEvent(name: .systemAction,
-                                       route: currentRoute,
-                                       instanceId: currentMessage.instanceId,
-                                       queueId: currentMessage.queueId)
-
-            if let url = URL(string: action), UIApplication.shared.canOpenURL(url) {
-                UIApplication.shared.open(url) { handled in
-                    if handled {
-                        Logger.instance.info(message: "Dismissing from system action: \(action)")
-                        self.dismissMessage()
-                    } else {
-                        Logger.instance.info(message: "System action not handled")
+        if let url = URL(string: action), url.scheme == "gist" {
+            switch url.host {
+            case "close":
+                Logger.instance.info(message: "Dismissing from action: \(action)")
+                dismissMessage()
+            case "loadPage":
+                if let page = url.queryParameters?["url"],
+                   let pageUrl = URL(string: page),
+                   UIApplication.shared.canOpenURL(pageUrl) {
+                    UIApplication.shared.open(pageUrl)
+                }
+            case "showMessage":
+                dismissMessage {
+                    if let messageId = url.queryParameters?["messageId"],
+                       let properties = url.queryParameters?["properties"],
+                       let decodedData = Data(base64Encoded: properties),
+                       let decodedString = String(data: decodedData, encoding: .utf8),
+                       let properties = self.convertToDictionary(text: decodedString) {
+                        _ = Gist.shared.showMessage(Message(messageId: messageId, properties: properties))
                     }
                 }
+            default: break
             }
         } else {
-            analyticsManager?.logEvent(name: .action,
-                                       route: currentRoute,
-                                       instanceId: currentMessage.instanceId,
-                                       queueId: currentMessage.queueId)
+            if system {
+                analyticsManager?.logEvent(name: .systemAction,
+                                           route: currentRoute,
+                                           instanceId: currentMessage.instanceId,
+                                           queueId: currentMessage.queueId)
+
+                if let url = URL(string: action), UIApplication.shared.canOpenURL(url) {
+                    UIApplication.shared.open(url) { handled in
+                        if handled {
+                            Logger.instance.info(message: "Dismissing from system action: \(action)")
+                            self.dismissMessage()
+                        } else {
+                            Logger.instance.info(message: "System action not handled")
+                        }
+                    }
+                }
+            } else {
+                analyticsManager?.logEvent(name: .action,
+                                           route: currentRoute,
+                                           instanceId: currentMessage.instanceId,
+                                           queueId: currentMessage.queueId)
+            }
         }
     }
 
@@ -147,7 +169,7 @@ class MessageManager: EngineWebDelegate {
                 }
             }
         }
-        
+
         if shouldLogEvent {
             analyticsManager?.logEvent(name: .loaded,
                                        route: currentRoute,
@@ -155,9 +177,20 @@ class MessageManager: EngineWebDelegate {
                                        queueId: currentMessage.queueId)
         }
     }
-    
+
     deinit {
         engine?.cleanEngineWeb()
         engine = nil
+    }
+
+    func convertToDictionary(text: String) -> [String: Any]? {
+        if let data = text.data(using: .utf8) {
+            do {
+                return try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
+            } catch {
+                print(error.localizedDescription)
+            }
+        }
+        return nil
     }
 }
