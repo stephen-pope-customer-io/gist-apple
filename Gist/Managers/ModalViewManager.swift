@@ -11,15 +11,11 @@ class ModalViewManager {
     var viewController: GistModalViewController!
     var position: MessagePosition
 
-    init(view: UIView, position: MessagePosition) {
+    init(gistView: GistView, position: MessagePosition) {
         self.viewController = GistModalViewController()
-        self.viewController.engineView = view
+        self.viewController.gistView = gistView
         self.viewController.setup(position: position)
         self.position = position
-    }
-
-    func sizeChanged(width: CGFloat, height: CGFloat) {
-        self.viewController.updateGistViewConstraints(width: width, height: height)
     }
 
     func showModalView(completionHandler: @escaping () -> Void) {

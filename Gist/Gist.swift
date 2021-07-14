@@ -2,24 +2,21 @@ import Foundation
 import UIKit
 
 public class Gist: GistDelegate {
+    private var messageQueueManager = MessageQueueManager()
     private var messageManagers: [MessageManager] = []
-    private var extensions: [GistExtendable] = []
 
-    public let organizationId: String
+    public var organizationId: String = ""
     weak public var delegate: GistDelegate?
 
-    public init(organizationId: String,
-                extensions: [GistExtendable.Type] = [],
-                logging: Bool = false,
-                env: GistEnvironment = .production) {
+    public static let shared = Gist()
+
+    public func setup(organizationId: String,
+                      logging: Bool = false,
+                      env: GistEnvironment = .production) {
         Settings.Environment = env
         self.organizationId = organizationId
-        self.extensions.append(GistMessageQueue(gist: self))
-        for gistExtension in extensions {
-            self.extensions.append(gistExtension.init(gist: self))
-        }
         Logger.instance.enabled = logging
-        Bootstrap(extensions: self.extensions).setup()
+        messageQueueManager.setup()
     }
 
     // MARK: User
@@ -60,7 +57,7 @@ public class Gist: GistDelegate {
         return false
     }
 
-    public func getMessageView(_ message: Message) -> UIView {
+    public func getMessageView(_ message: Message) -> GistView {
         let messageManager = createMessageManager(organizationId: self.organizationId, message: message)
         return messageManager.getMessageView()
     }
@@ -81,22 +78,11 @@ public class Gist: GistDelegate {
                         "Failed to log view for message: \(message.messageId) with error: \(error)")
                 }
         }
-        for gistExtension in extensions {
-            Logger.instance.debug(message:
-                    "Calling message shown for message: \(message.messageId) to \(gistExtension.name) extension")
-            gistExtension.messageShown(message: message, userToken: userToken)
-        }
         delegate?.messageShown(message: message)
     }
 
     public func messageDismissed(message: Message) {
         Logger.instance.debug(message: "Message with id: \(message.messageId) dismissed")
-        let userToken = UserManager().getUserToken()
-        for gistExtension in extensions {
-            Logger.instance.debug(message:
-                    "Calling message dismissed on message: \(message.messageId) to \(gistExtension.name) extension")
-            gistExtension.messageDismissed(message: message, userToken: userToken)
-        }
         removeMessageManager(instanceId: message.instanceId)
         delegate?.messageDismissed(message: message)
     }
@@ -107,30 +93,11 @@ public class Gist: GistDelegate {
     }
 
     public func action(message: Message, currentRoute: String, action: String) {
-        let userToken = UserManager().getUserToken()
-        for gistExtension in extensions {
-            Logger.instance.debug(message:
-                "Calling action \"\(action)\" performed event on route \(currentRoute) to \(gistExtension.name) extension")
-            gistExtension.actionPerformed(message: message,
-                                          userToken: userToken,
-                                          currentRoute: currentRoute,
-                                          action: action)
-        }
         delegate?.action(message: message, currentRoute: currentRoute, action: action)
     }
 
     public func embedMessage(message: Message, elementId: String) {
-        let userToken = UserManager().getUserToken()
-        for gistExtension in extensions {
-            Logger.instance.debug(message:
-                    "Calling embed message for message: \(message.messageId) to \(gistExtension.name) extension")
-            gistExtension.embedMessage(message: message, userToken: userToken, elementId: elementId)
-        }
         delegate?.embedMessage(message: message, elementId: elementId)
-    }
-
-    public func sizeChanged(message: Message, width: CGFloat, height: CGFloat) {
-        delegate?.sizeChanged(message: message, width: width, height: height)
     }
 
     // MARK: Broadcast
@@ -168,7 +135,7 @@ public class Gist: GistDelegate {
         return messageManagers.first(where: { $0.currentMessage.instanceId == instanceId })
     }
 
-    private func removeMessageManager(instanceId: String) {
+    func removeMessageManager(instanceId: String) {
         return messageManagers.removeAll(where: { $0.currentMessage.instanceId == instanceId })
     }
 }
