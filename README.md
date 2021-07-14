@@ -86,7 +86,7 @@ With optional completion handler.
 These methods should only be used to trigger flows programmatically, if you wish to create an integration with a custom CRM, see Integrations section below.
 
 ## Embedding
-Gist gives you the option to embed a message within your native product. Calling `getMessageView` will return a `UIView`. Actions performed within the view are reported back to the `GistDelegate` delegate and `GistExtenable` extensions.
+Gist gives you the option to embed a message within your native product. Calling `getMessageView` will return a `GistView`. Actions performed within the view are reported back to the `GistDelegate` delegate and `GistExtenable` extensions.
 
 ```swift
 let message = Message(messageId: "message-id")
