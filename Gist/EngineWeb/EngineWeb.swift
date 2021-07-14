@@ -58,7 +58,7 @@ public class EngineWeb: NSObject {
             }
         }
     }
-    
+
     public func cleanEngineWeb() {
         self.webView.removeFromSuperview()
         self.webView.configuration.userContentController.removeAllUserScripts()

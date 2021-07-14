@@ -9,14 +9,14 @@ public protocol GistViewDelegate: AnyObject {
 public class GistView: UIView {
     public weak var delegate: GistViewDelegate?
     private var message: Message?
-    
+
     internal convenience init(message: Message, engineView: UIView) {
         self.init()
         self.message = message
         addSubview(engineView)
         engineView.autoresizingMask = [.flexibleWidth, .flexibleHeight, .flexibleBottomMargin, .flexibleRightMargin]
     }
-    
+
     override public func removeFromSuperview() {
         super.removeFromSuperview()
         if let message = self.message {

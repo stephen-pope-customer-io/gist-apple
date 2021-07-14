@@ -44,6 +44,7 @@
 		A1C9792425793C02002CE8A5 /* GistQueueNetwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1C9792325793C02002CE8A5 /* GistQueueNetwork.swift */; };
 		A1C9792825793C9D002CE8A5 /* BaseNetwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1C9792725793C9D002CE8A5 /* BaseNetwork.swift */; };
 		A1D0BA45269D943A00961615 /* GistView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1D0BA44269D943A00961615 /* GistView.swift */; };
+		A1D0BA47269F073F00961615 /* URLComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1D0BA46269F073F00961615 /* URLComponents.swift */; };
 		A1FF6D9C2578FA4700E18E16 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1FF6D9B2578FA4700E18E16 /* Message.swift */; };
 /* End PBXBuildFile section */
 
@@ -87,6 +88,7 @@
 		A1C9792325793C02002CE8A5 /* GistQueueNetwork.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GistQueueNetwork.swift; sourceTree = "<group>"; };
 		A1C9792725793C9D002CE8A5 /* BaseNetwork.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseNetwork.swift; sourceTree = "<group>"; };
 		A1D0BA44269D943A00961615 /* GistView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GistView.swift; sourceTree = "<group>"; };
+		A1D0BA46269F073F00961615 /* URLComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLComponents.swift; sourceTree = "<group>"; };
 		A1FF6D9B2578FA4700E18E16 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -124,6 +126,7 @@
 				A1446572243DDB1300F69093 /* Logger.swift */,
 				A1446588243F1C8E00F69093 /* Encodable.swift */,
 				A15BF6292670E82900C31ADF /* Environment.swift */,
+				A1D0BA46269F073F00961615 /* URLComponents.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -372,6 +375,7 @@
 				A164A4A0243C9BE0007A4DED /* QueueEndpoint.swift in Sources */,
 				A144657F243DF97600F69093 /* Configuration.swift in Sources */,
 				A1086C59268719070064DF1E /* RouteManager.swift in Sources */,
+				A1D0BA47269F073F00961615 /* URLComponents.swift in Sources */,
 				A11465BF264015CC0057694F /* AnalyticsEventLogEndpoint.swift in Sources */,
 				A15BF626266FA1E600C31ADF /* AnyEncodable.swift in Sources */,
 				A1D0BA45269D943A00961615 /* GistView.swift in Sources */,
