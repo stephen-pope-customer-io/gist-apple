@@ -58,6 +58,12 @@ public class EngineWeb: NSObject {
             }
         }
     }
+    
+    public func cleanEngineWeb() {
+        self.webView.removeFromSuperview()
+        self.webView.configuration.userContentController.removeAllUserScripts()
+        self.webView.configuration.userContentController.removeScriptMessageHandler(forName: "gist")
+    }
 }
 
 //swiftlint:disable cyclomatic_complexity

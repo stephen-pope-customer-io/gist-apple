@@ -6,7 +6,7 @@ public enum GistMessageActions: String {
 }
 
 class MessageManager: EngineWebDelegate {
-    private let engine: EngineWeb
+    private var engine: EngineWeb?
     private let organizationId: String
     private var shouldShowMessage = false
     private var messagePosition: MessagePosition = .top
@@ -15,6 +15,7 @@ class MessageManager: EngineWebDelegate {
     private let analyticsManager: AnalyticsManager?
     var isMessageEmbed = false
     let currentMessage: Message
+    var gistView: GistView!
     private var currentRoute: String
     weak var delegate: GistDelegate?
 
@@ -33,7 +34,10 @@ class MessageManager: EngineWebDelegate {
             properties: message.toEngineRoute().properties)
 
         engine = EngineWeb(configuration: engineWebConfiguration)
-        engine.delegate = self
+        if let engine = engine {
+            engine.delegate = self
+            gistView = GistView(message: self.currentMessage, engineView: engine.view)
+        }
     }
 
     func showMessage(position: MessagePosition) {
@@ -41,15 +45,14 @@ class MessageManager: EngineWebDelegate {
         shouldShowMessage = true
     }
 
-    func getMessageView() -> UIView {
+    func getMessageView() -> GistView {
         isMessageEmbed = true
-        self.delegate?.messageShown(message: self.currentMessage)
-        return engine.view
+        return gistView
     }
 
     private func loadModalMessage() {
         if messageLoaded {
-            modalViewManager = ModalViewManager(view: engine.view, position: messagePosition)
+            modalViewManager = ModalViewManager(gistView: gistView, position: messagePosition)
             modalViewManager?.showModalView { [weak self] in
                 guard let self = self else { return }
                 self.delegate?.messageShown(message: self.currentMessage)
@@ -78,7 +81,8 @@ class MessageManager: EngineWebDelegate {
     func tap(action: String, system: Bool) {
         Logger.instance.info(message: "Action triggered: \(action)")
         delegate?.action(message: currentMessage, currentRoute: self.currentRoute, action: action)
-        
+        gistView.delegate?.action(message: currentMessage, currentRoute: self.currentRoute, action: action)
+
         if action == GistMessageActions.close.rawValue {
             Logger.instance.info(message: "Dismissing from action: \(action)")
             dismissMessage()
@@ -111,10 +115,7 @@ class MessageManager: EngineWebDelegate {
     }
 
     func sizeChanged(width: CGFloat, height: CGFloat) {
-        delegate?.sizeChanged(message: currentMessage, width: width, height: height)
-        if !isMessageEmbed {
-            modalViewManager?.sizeChanged(width: width, height: height)
-        }
+        gistView.delegate?.sizeChanged(message: currentMessage, width: width, height: height)
         Logger.instance.debug(message: "Message size changed Width: \(width) - Height: \(height)")
     }
 
@@ -131,16 +132,32 @@ class MessageManager: EngineWebDelegate {
     func routeLoaded(route: String) {
         Logger.instance.info(message: "Message loaded with route: \(route)")
 
+        var shouldLogEvent = true
         self.currentRoute = route
         if route == currentMessage.messageId && !messageLoaded {
             messageLoaded = true
-            if !isMessageEmbed {
-                loadModalMessage()
+            if isMessageEmbed {
+                self.delegate?.messageShown(message: self.currentMessage)
+            } else {
+                if UIApplication.shared.applicationState == .active {
+                    loadModalMessage()
+                } else {
+                    shouldLogEvent = false
+                    Gist.shared.removeMessageManager(instanceId: currentMessage.instanceId)
+                }
             }
         }
-        analyticsManager?.logEvent(name: .loaded,
-                                   route: currentRoute,
-                                   instanceId: currentMessage.instanceId,
-                                   queueId: currentMessage.queueId)
+        
+        if shouldLogEvent {
+            analyticsManager?.logEvent(name: .loaded,
+                                       route: currentRoute,
+                                       instanceId: currentMessage.instanceId,
+                                       queueId: currentMessage.queueId)
+        }
+    }
+    
+    deinit {
+        engine?.cleanEngineWeb()
+        engine = nil
     }
 }
