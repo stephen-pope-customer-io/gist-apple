@@ -56,7 +56,9 @@ class ViewController: UIViewController, GistDelegate, GistViewDelegate {
         gistView.autoresizingMask = [.flexibleWidth, .flexibleHeight, .flexibleBottomMargin, .flexibleRightMargin]
     }
 
-    func messageShown(message: Message) {}
+    func messageShown(message: Message) {
+        debugPrint("Message embedded: \(message.isEmbedded)")
+    }
 
     func messageDismissed(message: Message) {}
 
