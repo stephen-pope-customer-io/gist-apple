@@ -131,7 +131,7 @@ public class Gist: GistDelegate {
         return messageManagers.first(where: { !$0.isMessageEmbed })
     }
 
-    private func messageManager(instanceId: String) -> MessageManager? {
+    func messageManager(instanceId: String) -> MessageManager? {
         return messageManagers.first(where: { $0.currentMessage.instanceId == instanceId })
     }
 

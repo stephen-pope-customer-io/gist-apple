@@ -20,6 +20,10 @@ public class Message {
 
     var properties = [String: Any]()
 
+    public var isEmbedded: Bool {
+        return Gist.shared.messageManager(instanceId: instanceId)?.isMessageEmbed ?? false
+    }
+    
     public init(messageId: String) {
         self.queueId = nil
         self.gistProperties = GistProperties(routeRule: nil, elementId: nil, position: .center)
