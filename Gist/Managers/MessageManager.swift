@@ -97,13 +97,11 @@ class MessageManager: EngineWebDelegate {
                     UIApplication.shared.open(pageUrl)
                 }
             case "showMessage":
-                dismissMessage {
-                    if let messageId = url.queryParameters?["messageId"],
-                       let properties = url.queryParameters?["properties"],
-                       let decodedData = Data(base64Encoded: properties),
-                       let decodedString = String(data: decodedData, encoding: .utf8),
-                       let properties = self.convertToDictionary(text: decodedString) {
-                        _ = Gist.shared.showMessage(Message(messageId: messageId, properties: properties))
+                if currentMessage.isEmbedded {
+                    self.showNewMessage(url: url)
+                } else {
+                    dismissMessage {
+                        self.showNewMessage(url: url)
                     }
                 }
             default: break
@@ -187,8 +185,23 @@ class MessageManager: EngineWebDelegate {
         engine?.cleanEngineWeb()
         engine = nil
     }
+    
+    private func showNewMessage(url: URL) {
+        var properties: [String: Any]? = nil
+        
+        if let stringProps = url.queryParameters?["properties"],
+           let decodedData = Data(base64Encoded: stringProps),
+           let decodedString = String(data: decodedData, encoding: .utf8),
+           let convertedProps = convertToDictionary(text: decodedString) {
+            properties = convertedProps
+        }
+        
+        if let messageId = url.queryParameters?["messageId"] {
+            _ = Gist.shared.showMessage(Message(messageId: messageId, properties: properties))
+        }
+    }
 
-    func convertToDictionary(text: String) -> [String: Any]? {
+    private func convertToDictionary(text: String) -> [String: Any]? {
         if let data = text.data(using: .utf8) {
             do {
                 return try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
