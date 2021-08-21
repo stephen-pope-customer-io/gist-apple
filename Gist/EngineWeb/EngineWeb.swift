@@ -51,7 +51,7 @@ public class EngineWeb: NSObject {
         if let jsonData = try? JSONEncoder().encode(configuration),
            let jsonString = String(data: jsonData, encoding: .utf8),
            let options = jsonString.data(using: .utf8)?.base64EncodedString() {
-            let url = "\(Settings.Network.renderer)/indexX.html?options=\(options)"
+            let url = "\(Settings.Network.renderer)/index.html?options=\(options)"
             Logger.instance.info(message: "Loading URL: \(url)")
             if let link = URL(string: url) {
                 _timeoutTimer = Timer.scheduledTimer(
