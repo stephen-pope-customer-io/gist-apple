@@ -48,8 +48,10 @@ class GistModalViewController: UIViewController, GistViewDelegate {
     }
 
     func sizeChanged(message: Message, width: CGFloat, height: CGFloat) {
-        self.currentHeight = height
-        self.updateViewConstraints()
+        if (width > 0) {
+            self.currentHeight = height
+            self.updateViewConstraints()
+        }
     }
 
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {

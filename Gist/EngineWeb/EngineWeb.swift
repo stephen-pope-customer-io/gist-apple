@@ -14,7 +14,8 @@ public protocol EngineWebDelegate: AnyObject {
 
 public class EngineWeb: NSObject {
     private var _currentRoute = ""
-
+    private var _timeoutTimer: Timer? = nil
+    
     weak public var delegate: EngineWebDelegate?
     var webView = WKWebView()
 
@@ -50,9 +51,15 @@ public class EngineWeb: NSObject {
         if let jsonData = try? JSONEncoder().encode(configuration),
            let jsonString = String(data: jsonData, encoding: .utf8),
            let options = jsonString.data(using: .utf8)?.base64EncodedString() {
-            let url = "\(Settings.Network.renderer)/index.html?options=\(options)"
+            let url = "\(Settings.Network.renderer)/indexX.html?options=\(options)"
             Logger.instance.info(message: "Loading URL: \(url)")
             if let link = URL(string: url) {
+                _timeoutTimer = Timer.scheduledTimer(
+                    timeInterval: 5.0,
+                    target: self,
+                    selector: #selector(self.forcedTimeout),
+                    userInfo: nil,
+                    repeats: false)
                 let request = URLRequest(url: link)
                 webView.load(request)
             }
@@ -63,6 +70,12 @@ public class EngineWeb: NSObject {
         self.webView.removeFromSuperview()
         self.webView.configuration.userContentController.removeAllUserScripts()
         self.webView.configuration.userContentController.removeScriptMessageHandler(forName: "gist")
+    }
+    
+    @objc
+    func forcedTimeout() {
+        Logger.instance.info(message: "Timeout triggered, triggering message error.")
+        delegate?.error()
     }
 }
 
@@ -80,6 +93,7 @@ extension EngineWeb: WKScriptMessageHandler {
 
         switch engineEventMethod {
         case .bootstrapped:
+            _timeoutTimer?.invalidate()
             delegate?.bootstrapped()
         case .routeLoaded:
             if let route = EngineEventHandler.getRouteLoadedProperties(properties: eventProperties) {
