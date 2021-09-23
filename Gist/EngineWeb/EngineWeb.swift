@@ -14,8 +14,8 @@ public protocol EngineWebDelegate: AnyObject {
 
 public class EngineWeb: NSObject {
     private var _currentRoute = ""
-    private var _timeoutTimer: Timer? = nil
-    
+    private var _timeoutTimer: Timer?
+
     weak public var delegate: EngineWebDelegate?
     var webView = WKWebView()
 
@@ -71,7 +71,7 @@ public class EngineWeb: NSObject {
         self.webView.configuration.userContentController.removeAllUserScripts()
         self.webView.configuration.userContentController.removeScriptMessageHandler(forName: "gist")
     }
-    
+
     @objc
     func forcedTimeout() {
         Logger.instance.info(message: "Timeout triggered, triggering message error.")

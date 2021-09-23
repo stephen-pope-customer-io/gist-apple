@@ -1,7 +1,7 @@
 import Foundation
 
 enum AnalyticsEventLogEndpoint: GistNetworkRequest {
-    case logOrganizationEvent(name: String, route: String, instanceId: String, queueId: String?)
+    case logOrganizationEvent(name: String, route: String, instanceId: String, queueId: String?, campaignId: String?)
 
     var method: HTTPMethod {
         switch self {
@@ -12,8 +12,12 @@ enum AnalyticsEventLogEndpoint: GistNetworkRequest {
 
      var parameters: RequestParameters? {
         switch self {
-        case .logOrganizationEvent(let name, let route, let instanceId, let queueId):
-            return .body(LogEventRequest(name: name, route: route, instanceId: instanceId, queueId: queueId))
+        case .logOrganizationEvent(let name, let route, let instanceId, let queueId, let campaignId):
+            return .body(LogEventRequest(name: name,
+                                         route: route,
+                                         instanceId: instanceId,
+                                         queueId: queueId,
+                                         campaignId: campaignId))
         }
     }
 

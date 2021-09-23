@@ -65,7 +65,8 @@ class MessageManager: EngineWebDelegate {
             analyticsManager?.logEvent(name: .dismissed,
                                        route: currentRoute,
                                        instanceId: currentMessage.instanceId,
-                                       queueId: currentMessage.queueId)
+                                       queueId: currentMessage.queueId,
+                                       campaignId: currentMessage.gistProperties.campaignId)
             modalViewManager.dismissModalView { [weak self] in
                 guard let self = self else { return }
                 self.delegate?.messageDismissed(message: self.currentMessage)
@@ -111,7 +112,8 @@ class MessageManager: EngineWebDelegate {
                 analyticsManager?.logEvent(name: .systemAction,
                                            route: currentRoute,
                                            instanceId: currentMessage.instanceId,
-                                           queueId: currentMessage.queueId)
+                                           queueId: currentMessage.queueId,
+                                           campaignId: currentMessage.gistProperties.campaignId)
 
                 if let url = URL(string: action), UIApplication.shared.canOpenURL(url) {
                     UIApplication.shared.open(url) { handled in
@@ -131,7 +133,8 @@ class MessageManager: EngineWebDelegate {
             analyticsManager?.logEvent(name: .action,
                                        route: currentRoute,
                                        instanceId: currentMessage.instanceId,
-                                       queueId: currentMessage.queueId)
+                                       queueId: currentMessage.queueId,
+                                       campaignId: currentMessage.gistProperties.campaignId)
         }
     }
 
@@ -177,7 +180,8 @@ class MessageManager: EngineWebDelegate {
             analyticsManager?.logEvent(name: .loaded,
                                        route: currentRoute,
                                        instanceId: currentMessage.instanceId,
-                                       queueId: currentMessage.queueId)
+                                       queueId: currentMessage.queueId,
+                                       campaignId: currentMessage.gistProperties.campaignId)
         }
     }
 
@@ -185,17 +189,17 @@ class MessageManager: EngineWebDelegate {
         engine?.cleanEngineWeb()
         engine = nil
     }
-    
+
     private func showNewMessage(url: URL) {
-        var properties: [String: Any]? = nil
-        
+        var properties: [String: Any]?
+
         if let stringProps = url.queryParameters?["properties"],
            let decodedData = Data(base64Encoded: stringProps),
            let decodedString = String(data: decodedData, encoding: .utf8),
            let convertedProps = convertToDictionary(text: decodedString) {
             properties = convertedProps
         }
-        
+
         if let messageId = url.queryParameters?["messageId"] {
             _ = Gist.shared.showMessage(Message(messageId: messageId, properties: properties))
         }
