@@ -15,11 +15,12 @@ class AnalyticsManager {
         self.organizationId = organizationId
     }
 
-    func logEvent(name: AnalyticsEvent, route: String, instanceId: String, queueId: String?) {
+    func logEvent(name: AnalyticsEvent, route: String, instanceId: String, queueId: String?, campaignId: String?) {
         logOrganizationEvent(name: name.rawValue,
                              route: route,
                              instanceId: instanceId,
                              queueId: queueId,
+                             campaignId: campaignId,
                              completionHandler: { result in
                                 switch result {
                                 case .success:
@@ -35,13 +36,15 @@ class AnalyticsManager {
                                       route: String,
                                       instanceId: String,
                                       queueId: String?,
+                                      campaignId: String?,
                                       completionHandler: @escaping (Result<Void, Error>) -> Void) {
         do {
             try GistAnalyticsNetwork(organizationId: organizationId)
                 .request(AnalyticsEventLogEndpoint.logOrganizationEvent(name: name,
                                                                         route: route,
                                                                         instanceId: instanceId,
-                                                                        queueId: queueId),
+                                                                        queueId: queueId,
+                                                                        campaignId: campaignId),
                          completionHandler: { response in
                             switch response {
                             case .success:
