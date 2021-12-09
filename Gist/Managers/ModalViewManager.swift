@@ -66,7 +66,7 @@ class ModalViewManager {
             UIView.animate(withDuration: 0.1, delay: 0, options: [.curveEaseIn], animations: {
                 self.viewController.view.center.y = finalPosition
             }, completion: { _ in
-                self.window.isHidden = false
+                self.window?.isHidden = false
                 self.viewController.removeFromParent()
                 self.window = nil
                 completionHandler()
