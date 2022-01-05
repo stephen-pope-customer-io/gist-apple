@@ -2,8 +2,21 @@
 Gist gives you access to a library of ready built micro-experiences that can be easily dropped into your application without writing a line of code.
 
 ## Installation
+
+### Cocoapods
 ```ruby
-pod 'Gist', '~> 2.1.1'
+pod 'Gist', '~> 2.1.2'
+```
+
+### SPM
+```swift
+let package = Package(
+    ...
+    dependencies: [
+        .package(url: "https://gitlab.com/bourbonltd/gist-apple.git", upToNextMinor: "2.1.2")
+    ],
+    ...
+)
 ```
 
 ## Setup
