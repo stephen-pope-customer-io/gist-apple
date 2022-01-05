@@ -2,9 +2,17 @@
 Gist gives you access to a library of ready built micro-experiences that can be easily dropped into your application without writing a line of code.
 
 ## Installation
+
+### Cocoapods
 ```ruby
-pod 'Gist', '~> 2.1.1'
+pod 'Gist', '~> 2.1.2'
 ```
+
+### SPM
+
+- Go to Package Dependencies
+- Add new dependency
+- Enter the package URL `https://gitlab.com/bourbonltd/gist-apple.git`
 
 ## Setup
 In your `AppDelegate` add Gist as a stored property and initialize it inside the application’s `didFinishLaunchingWithOptions` method.
