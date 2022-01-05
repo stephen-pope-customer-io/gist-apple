@@ -9,15 +9,10 @@ pod 'Gist', '~> 2.1.2'
 ```
 
 ### SPM
-```swift
-let package = Package(
-    ...
-    dependencies: [
-        .package(url: "https://gitlab.com/bourbonltd/gist-apple.git", upToNextMinor: "2.1.2")
-    ],
-    ...
-)
-```
+
+- Go to Package Dependencies
+- Add new dependency
+- Enter the package URL `https://gitlab.com/bourbonltd/gist-apple.git`
 
 ## Setup
 In your `AppDelegate` add Gist as a stored property and initialize it inside the application’s `didFinishLaunchingWithOptions` method.
