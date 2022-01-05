@@ -1,3 +1,5 @@
+import Foundation
+
 extension Encodable {
   func asDictionary() throws -> [String: Any] {
     let data = try JSONEncoder().encode(self)
