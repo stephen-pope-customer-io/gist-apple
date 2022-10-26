@@ -92,8 +92,8 @@ public class Gist: GistDelegate {
         delegate?.messageError(message: message)
     }
 
-    public func action(message: Message, currentRoute: String, action: String) {
-        delegate?.action(message: message, currentRoute: currentRoute, action: action)
+    public func action(message: Message, currentRoute: String, action: String, name: String) {
+        delegate?.action(message: message, currentRoute: currentRoute, action: action, name: name)
     }
 
     public func embedMessage(message: Message, elementId: String) {

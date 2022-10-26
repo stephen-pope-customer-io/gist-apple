@@ -14,6 +14,7 @@ enum EngineEvent: String {
 }
 
 struct TapProperties {
+    let name: String
     let action: String
     let system: Bool
 }
@@ -21,11 +22,12 @@ struct TapProperties {
 class EngineEventHandler {
     static func getTapProperties(properties: EngineEventProperties) -> TapProperties? {
         guard let parameters = properties["parameters"],
+              let name = parameters["name"] as? String,
               let action = parameters["action"] as? String,
               let system = parameters["system"] as? Bool else {
             return nil
         }
-        return TapProperties(action: action, system: system)
+        return TapProperties(name: name, action: action, system: system)
     }
 
     static func getSizeProperties(properties: EngineEventProperties) -> CGSize? {
