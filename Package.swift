@@ -8,12 +8,12 @@ let package = Package(
     platforms: [
         .iOS(.v10)
     ],
-    products: [        
+    products: [
         .library(
             name: "Gist",
-            targets: ["Gist"]),
-    ],    
-    targets: [        
+            targets: ["Gist"])
+    ],
+    targets: [
         .target(
             name: "Gist",
             dependencies: [],

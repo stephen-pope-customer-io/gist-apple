@@ -79,11 +79,11 @@ class MessageManager: EngineWebDelegate {
         Logger.instance.debug(message: "Bourbon Engine bootstrapped")
     }
 
-    func tap(action: String, system: Bool) {
+    func tap(name: String, action: String, system: Bool) {
         var shouldLogAction = true
-        Logger.instance.info(message: "Action triggered: \(action)")
-        delegate?.action(message: currentMessage, currentRoute: self.currentRoute, action: action)
-        gistView.delegate?.action(message: currentMessage, currentRoute: self.currentRoute, action: action)
+        Logger.instance.info(message: "Action triggered: \(action) with name: \(name)")
+        delegate?.action(message: currentMessage, currentRoute: self.currentRoute, action: action, name: name)
+        gistView.delegate?.action(message: currentMessage, currentRoute: self.currentRoute, action: action, name: name)
 
         if let url = URL(string: action), url.scheme == "gist" {
             switch url.host {

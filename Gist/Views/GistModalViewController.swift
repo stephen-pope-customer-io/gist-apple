@@ -69,5 +69,5 @@ class GistModalViewController: UIViewController, GistViewDelegate {
         super.updateViewConstraints()
     }
 
-    func action(message: Message, currentRoute: String, action: String) {}
+    func action(message: Message, currentRoute: String, action: String, name: String) {}
 }

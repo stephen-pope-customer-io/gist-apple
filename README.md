@@ -5,7 +5,7 @@ Gist gives you access to a library of ready built micro-experiences that can be 
 
 ### Cocoapods
 ```ruby
-pod 'Gist', '~> 2.1.2'
+pod 'Gist', '~> 2.2.0'
 ```
 
 ### SPM
@@ -109,7 +109,7 @@ public protocol GistDelegate: AnyObject {
     func messageShown(message: Message)
     func messageDismissed(message: Message)
     func messageError(message: Message)
-    func action(message: Message, currentRoute: String, action: String)
+    func action(message: Message, currentRoute: String, action: String, name: String)
     func embedMessage(message: Message, elementId: String)
 }
 ```

@@ -40,7 +40,7 @@ class ViewController: UIViewController, GistDelegate, GistViewDelegate {
         embedMessage(message: message)
     }
 
-    func action(message: Message, currentRoute: String, action: String) {
+    func action(message: Message, currentRoute: String, action: String, name: String) {
         if action == GistMessageActions.close.rawValue, message.instanceId == embeddedMessage.instanceId {
             gistView.removeFromSuperview()
             embeddedViewHeightConstraint.constant = 0

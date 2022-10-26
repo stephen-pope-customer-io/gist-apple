@@ -4,7 +4,7 @@ import WebKit
 
 public protocol EngineWebDelegate: AnyObject {
     func bootstrapped()
-    func tap(action: String, system: Bool)
+    func tap(name: String, action: String, system: Bool)
     func routeChanged(newRoute: String)
     func routeError(route: String)
     func routeLoaded(route: String)
@@ -80,7 +80,7 @@ public class EngineWeb: NSObject {
     }
 }
 
-//swiftlint:disable cyclomatic_complexity
+// swiftlint:disable cyclomatic_complexity
 extension EngineWeb: WKScriptMessageHandler {
     public func userContentController(_ userContentController: WKUserContentController,
                                       didReceive message: WKScriptMessage) {
@@ -114,7 +114,7 @@ extension EngineWeb: WKScriptMessageHandler {
             }
         case .tap:
             if let tapProperties = EngineEventHandler.getTapProperties(properties: eventProperties) {
-                delegate?.tap(action: tapProperties.action, system: tapProperties.system)
+                delegate?.tap(name: tapProperties.name, action: tapProperties.action, system: tapProperties.system)
             }
         case .error:
             delegate?.error()

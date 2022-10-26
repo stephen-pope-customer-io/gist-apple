@@ -2,7 +2,7 @@ import Foundation
 import UIKit
 
 public protocol GistViewDelegate: AnyObject {
-    func action(message: Message, currentRoute: String, action: String)
+    func action(message: Message, currentRoute: String, action: String, name: String)
     func sizeChanged(message: Message, width: CGFloat, height: CGFloat)
 }
 
