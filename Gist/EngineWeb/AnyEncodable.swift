@@ -1,4 +1,4 @@
-//swiftlint:disable line_length
+// swiftlint:disable line_length
 /*
  Copyright 2018 Read Evaluate Press, LLC
 
@@ -8,7 +8,7 @@
 
  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-//swiftlint:enable line_length
+// swiftlint:enable line_length
 
 #if canImport(Foundation)
 import Foundation
@@ -49,7 +49,7 @@ extension AnyEncodable: _AnyEncodable {}
 
 // MARK: - Encodable
 
-//swiftlint:disable cyclomatic_complexity function_body_length
+// swiftlint:disable cyclomatic_complexity function_body_length
 extension _AnyEncodable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.singleValueContainer()
@@ -191,7 +191,7 @@ extension AnyEncodable: Equatable {
         }
     }
 }
-//swiftlint:enable cyclomatic_complexity function_body_length
+// swiftlint:enable cyclomatic_complexity function_body_length
 
 extension AnyEncodable: CustomStringConvertible {
     public var description: String {

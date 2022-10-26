@@ -80,7 +80,7 @@ public class EngineWeb: NSObject {
     }
 }
 
-//swiftlint:disable cyclomatic_complexity
+// swiftlint:disable cyclomatic_complexity
 extension EngineWeb: WKScriptMessageHandler {
     public func userContentController(_ userContentController: WKUserContentController,
                                       didReceive message: WKScriptMessage) {
