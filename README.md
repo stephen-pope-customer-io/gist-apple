@@ -5,7 +5,7 @@ Gist gives you access to a library of ready built micro-experiences that can be 
 
 ### Cocoapods
 ```ruby
-pod 'Gist', '~> 2.2.0'
+pod 'Gist', '~> 2.2.1'
 ```
 
 ### SPM
