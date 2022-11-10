@@ -9,6 +9,7 @@ class MessageQueueManager {
                                           selector: #selector(checkForMessages),
                                           userInfo: nil,
                                           repeats: true)
+        checkForMessages()
     }
 
     @objc
