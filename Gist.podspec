@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name = 'Gist'
-  s.version = '2.2.3'
+  s.version = '2.2.4'
   s.summary = 'Gist'
   s.description = 'Gist enables you to create embeddable experiences that range from simple welcome messages to complex multi-step flows.'
   s.homepage = 'https://gist.build'
@@ -10,7 +10,7 @@ Pod::Spec.new do |s|
 
   s.ios.deployment_target = '10.0'
 
-  s.source = { :git => 'https://github.com/customerio/gist-apple', :tag => s.version }
+  s.source = { :git => 'https://github.com/customerio/gist-apple.git', :tag => s.version }
 
   s.source_files  = 'Gist/*.{swift,h,m}', 'Gist/**/*.{swift,h,m}'
 end
