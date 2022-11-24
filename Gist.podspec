@@ -10,7 +10,7 @@ Pod::Spec.new do |s|
 
   s.ios.deployment_target = '10.0'
 
-  s.source = { :git => 'https://gitlab.com/bourbonltd/gist-apple', :tag => s.version }
+  s.source = { :git => 'https://github.com/customerio/gist-apple', :tag => s.version }
 
   s.source_files  = 'Gist/*.{swift,h,m}', 'Gist/**/*.{swift,h,m}'
 end
