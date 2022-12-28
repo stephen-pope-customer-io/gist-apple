@@ -5,16 +5,16 @@ public class Gist: GistDelegate {
     private var messageQueueManager = MessageQueueManager()
     private var messageManagers: [MessageManager] = []
 
-    public var organizationId: String = ""
+    public var siteId: String = ""
     weak public var delegate: GistDelegate?
 
     public static let shared = Gist()
 
-    public func setup(organizationId: String,
+    public func setup(siteId: String,
                       logging: Bool = false,
                       env: GistEnvironment = .production) {
         Settings.Environment = env
-        self.organizationId = organizationId
+        self.siteId = siteId
         Logger.instance.enabled = logging
         messageQueueManager.setup()
     }
@@ -50,7 +50,7 @@ public class Gist: GistDelegate {
             Logger.instance.info(message:
                                     "Message cannot be displayed, \(messageManager.currentMessage.messageId) is being displayed.")
         } else {
-            let messageManager = createMessageManager(organizationId: self.organizationId, message: message)
+            let messageManager = createMessageManager(siteId: self.siteId, message: message)
             messageManager.showMessage(position: position)
             return true
         }
@@ -58,7 +58,7 @@ public class Gist: GistDelegate {
     }
 
     public func getMessageView(_ message: Message) -> GistView {
-        let messageManager = createMessageManager(organizationId: self.organizationId, message: message)
+        let messageManager = createMessageManager(siteId: self.siteId, message: message)
         return messageManager.getMessageView()
     }
 
@@ -71,7 +71,7 @@ public class Gist: GistDelegate {
     public func messageShown(message: Message) {
         Logger.instance.debug(message: "Message with route: \(message.messageId) shown")
         let userToken = UserManager().getUserToken()
-        LogManager(organizationId: organizationId)
+        LogManager(siteId: siteId)
             .logView(message: message, userToken: userToken) { response in
                 if case let .failure(error) = response {
                     Logger.instance.error(message:
@@ -100,28 +100,10 @@ public class Gist: GistDelegate {
         delegate?.embedMessage(message: message, elementId: elementId)
     }
 
-    // MARK: Broadcast
-
-    public func getTopics() -> [String] {
-        return TopicsManager.getTopics()
-    }
-
-    public func subscribeToTopic(_ topic: String) {
-        TopicsManager.subscribeToTopic(topic)
-    }
-
-    public func unsubscribeFromTopic(_ topic: String) {
-        TopicsManager.unsubscribeFromTopic(topic)
-    }
-
-    public func clearTopics() {
-        TopicsManager.clearTopics()
-    }
-
     // Message Manager
 
-    private func createMessageManager(organizationId: String, message: Message) -> MessageManager {
-        let messageManager = MessageManager(organizationId: organizationId, message: message)
+    private func createMessageManager(siteId: String, message: Message) -> MessageManager {
+        let messageManager = MessageManager(siteId: siteId, message: message)
         messageManager.delegate = self
         messageManagers.append(messageManager)
         return messageManager

@@ -16,9 +16,9 @@ enum LogEndpoint: GistNetworkRequest {
     var parameters: RequestParameters? {
         switch self {
         case .logUserMessageView(let queueId):
-            return.id(queueId)
+            return .id(queueId)
         case .logMessageView(let messageId):
-            return.id(messageId)
+            return .id(messageId)
         }
     }
 

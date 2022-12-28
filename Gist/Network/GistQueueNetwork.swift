@@ -1,11 +1,11 @@
 import Foundation
 
 class GistQueueNetwork {
-    let organizationId: String
+    let siteId: String
     let userToken: String?
 
-    init(organizationId: String, userToken: String? = nil) {
-        self.organizationId = organizationId
+    init(siteId: String, userToken: String? = nil) {
+        self.siteId = siteId
         self.userToken = userToken
     }
 
@@ -19,7 +19,7 @@ class GistQueueNetwork {
 
         var urlRequest = URLRequest(url: baseURL.appendingPathComponent(request.path))
         urlRequest.httpMethod = request.method.rawValue
-        urlRequest.addValue(organizationId, forHTTPHeaderField: HTTPHeader.organizationId.rawValue)
+        urlRequest.addValue(siteId, forHTTPHeaderField: HTTPHeader.siteId.rawValue)
         if let userToken = userToken {
             urlRequest.addValue(userToken, forHTTPHeaderField: HTTPHeader.userToken.rawValue)
         }

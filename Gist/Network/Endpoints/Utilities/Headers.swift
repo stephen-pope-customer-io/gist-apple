@@ -1,6 +1,6 @@
 enum HTTPHeader: String {
     case contentType = "Content-Type"
-    case organizationId = "X-Bourbon-Organization-Id"
+    case siteId = "X-Gist-CIO-Site-Id"
     case userToken = "X-Gist-User-Token"
 }
 
