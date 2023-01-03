@@ -6,15 +6,19 @@ public class Gist: GistDelegate {
     private var messageManagers: [MessageManager] = []
 
     public var siteId: String = ""
+    public var dataCenter: String = ""
+    
     weak public var delegate: GistDelegate?
 
     public static let shared = Gist()
 
     public func setup(siteId: String,
+                      dataCenter: String,
                       logging: Bool = false,
                       env: GistEnvironment = .production) {
         Settings.Environment = env
         self.siteId = siteId
+        self.dataCenter = dataCenter
         Logger.instance.enabled = logging
         messageQueueManager.setup()
     }
@@ -71,7 +75,7 @@ public class Gist: GistDelegate {
     public func messageShown(message: Message) {
         Logger.instance.debug(message: "Message with route: \(message.messageId) shown")
         let userToken = UserManager().getUserToken()
-        LogManager(siteId: siteId)
+        LogManager(siteId: siteId, dataCenter: dataCenter)
             .logView(message: message, userToken: userToken) { response in
                 if case let .failure(error) = response {
                     Logger.instance.error(message:

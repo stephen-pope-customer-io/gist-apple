@@ -3,14 +3,16 @@ import Foundation
 class QueueManager {
 
     let siteId: String
+    let dataCenter: String
 
-    init(siteId: String) {
+    init(siteId: String, dataCenter: String) {
         self.siteId = siteId
+        self.dataCenter = dataCenter
     }
 
     func fetchUserQueue(userToken: String, completionHandler: @escaping (Result<[UserQueueResponse], Error>) -> Void) {
         do {
-            try GistQueueNetwork(siteId: siteId, userToken: userToken)
+            try GistQueueNetwork(siteId: siteId, dataCenter: dataCenter, userToken: userToken)
                 .request(QueueEndpoint.getUserQueue, completionHandler: { response in
                 switch response {
                 case .success(let (data, response)):
