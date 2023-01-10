@@ -7,27 +7,24 @@ public enum GistMessageActions: String {
 
 class MessageManager: EngineWebDelegate {
     private var engine: EngineWeb?
-    private let organizationId: String
+    private let siteId: String
     private var shouldShowMessage = false
     private var messagePosition: MessagePosition = .top
     private var messageLoaded = false
     private var modalViewManager: ModalViewManager?
-    private let analyticsManager: AnalyticsManager?
     var isMessageEmbed = false
     let currentMessage: Message
     var gistView: GistView!
     private var currentRoute: String
     weak var delegate: GistDelegate?
 
-    init(organizationId: String, message: Message) {
-        self.organizationId = organizationId
+    init(siteId: String, message: Message) {
+        self.siteId = siteId
         self.currentMessage = message
         self.currentRoute = message.messageId
 
-        self.analyticsManager = AnalyticsManager(organizationId: self.organizationId)
-
         let engineWebConfiguration = EngineWebConfiguration(
-            organizationId: self.organizationId,
+            siteId: self.siteId,
             messageId: message.messageId,
             instanceId: message.instanceId,
             endpoint: Settings.Network.gistAPI,
@@ -62,11 +59,6 @@ class MessageManager: EngineWebDelegate {
 
     func dismissMessage(completionHandler: (() -> Void)? = nil) {
         if let modalViewManager = modalViewManager {
-            analyticsManager?.logEvent(name: .dismissed,
-                                       route: currentRoute,
-                                       instanceId: currentMessage.instanceId,
-                                       queueId: currentMessage.queueId,
-                                       campaignId: currentMessage.gistProperties.campaignId)
             modalViewManager.dismissModalView { [weak self] in
                 guard let self = self else { return }
                 self.delegate?.messageDismissed(message: self.currentMessage)
@@ -80,7 +72,6 @@ class MessageManager: EngineWebDelegate {
     }
 
     func tap(name: String, action: String, system: Bool) {
-        var shouldLogAction = true
         Logger.instance.info(message: "Action triggered: \(action) with name: \(name)")
         delegate?.action(message: currentMessage, currentRoute: self.currentRoute, action: action, name: name)
         gistView.delegate?.action(message: currentMessage, currentRoute: self.currentRoute, action: action, name: name)
@@ -88,7 +79,6 @@ class MessageManager: EngineWebDelegate {
         if let url = URL(string: action), url.scheme == "gist" {
             switch url.host {
             case "close":
-                shouldLogAction = false
                 Logger.instance.info(message: "Dismissing from action: \(action)")
                 dismissMessage()
             case "loadPage":
@@ -109,12 +99,6 @@ class MessageManager: EngineWebDelegate {
             }
         } else {
             if system {
-                analyticsManager?.logEvent(name: .systemAction,
-                                           route: currentRoute,
-                                           instanceId: currentMessage.instanceId,
-                                           queueId: currentMessage.queueId,
-                                           campaignId: currentMessage.gistProperties.campaignId)
-
                 if let url = URL(string: action), UIApplication.shared.canOpenURL(url) {
                     UIApplication.shared.open(url) { handled in
                         if handled {
@@ -125,16 +109,7 @@ class MessageManager: EngineWebDelegate {
                         }
                     }
                 }
-                shouldLogAction = false
             }
-        }
-
-        if shouldLogAction {
-            analyticsManager?.logEvent(name: .action,
-                                       route: currentRoute,
-                                       instanceId: currentMessage.instanceId,
-                                       queueId: currentMessage.queueId,
-                                       campaignId: currentMessage.gistProperties.campaignId)
         }
     }
 
@@ -160,7 +135,6 @@ class MessageManager: EngineWebDelegate {
     func routeLoaded(route: String) {
         Logger.instance.info(message: "Message loaded with route: \(route)")
 
-        var shouldLogEvent = true
         self.currentRoute = route
         if route == currentMessage.messageId && !messageLoaded {
             messageLoaded = true
@@ -170,18 +144,9 @@ class MessageManager: EngineWebDelegate {
                 if UIApplication.shared.applicationState == .active {
                     loadModalMessage()
                 } else {
-                    shouldLogEvent = false
                     Gist.shared.removeMessageManager(instanceId: currentMessage.instanceId)
                 }
             }
-        }
-
-        if shouldLogEvent {
-            analyticsManager?.logEvent(name: .loaded,
-                                       route: currentRoute,
-                                       instanceId: currentMessage.instanceId,
-                                       queueId: currentMessage.queueId,
-                                       campaignId: currentMessage.gistProperties.campaignId)
         }
     }
 

@@ -2,16 +2,18 @@ import Foundation
 
 class LogManager {
 
-    let organizationId: String
+    let siteId: String
+    let dataCenter: String
 
-    init(organizationId: String) {
-        self.organizationId = organizationId
+    init(siteId: String, dataCenter: String) {
+        self.siteId = siteId
+        self.dataCenter = dataCenter
     }
 
     func logView(message: Message, userToken: String?, completionHandler: @escaping (Result<Void, Error>) -> Void) {
         do {
             if let queueId = message.queueId, let userToken = userToken {
-                try GistQueueNetwork(organizationId: organizationId, userToken: userToken)
+                try GistQueueNetwork(siteId: siteId, dataCenter: dataCenter, userToken: userToken)
                     .request(LogEndpoint.logUserMessageView(queueId: queueId), completionHandler: { response in
                     switch response {
                     case .success(let (_, response)):
@@ -24,7 +26,7 @@ class LogManager {
                         completionHandler(.failure(error))
                     }})
             } else {
-                try GistQueueNetwork(organizationId: organizationId)
+                try GistQueueNetwork(siteId: siteId,  dataCenter: dataCenter)
                     .request(LogEndpoint.logMessageView(messageId: message.messageId), completionHandler: { response in
                     switch response {
                     case .success(let (_, response)):
