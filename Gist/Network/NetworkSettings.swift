@@ -13,7 +13,7 @@ struct NetworkSettingsProduction: NetworkSettings {
 struct NetworkSettingsDevelopment: NetworkSettings {
     let queueAPI = "https://queue.api.dev.gist.build"
     let gistAPI = "https://api.dev.gist.build"
-    let renderer = "https://renderer.gist.build/1.0"
+    let renderer = "https://code.gist.build/renderer/0.0.20"
 }
 
 struct NetworkSettingsLocal: NetworkSettings {
