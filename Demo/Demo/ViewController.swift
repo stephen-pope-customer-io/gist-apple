@@ -14,8 +14,6 @@ class ViewController: UIViewController, GistDelegate, GistViewDelegate {
 
         Gist.shared.setCurrentRoute("home")
         Gist.shared.setUserToken("ABC123")
-        Gist.shared.subscribeToTopic("announcements")
-        Gist.shared.subscribeToTopic("ios")
         Gist.shared.delegate = self
 
         embedMessage(message: Message(messageId: "example-notice"))

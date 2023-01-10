@@ -1,7 +1,7 @@
 import Foundation
 
 enum QueueEndpoint: GistNetworkRequest {
-    case getUserQueue(topics: [String])
+    case getUserQueue
 
     var method: HTTPMethod {
         switch self {
@@ -10,11 +10,8 @@ enum QueueEndpoint: GistNetworkRequest {
         }
     }
 
-     var parameters: RequestParameters? {
-        switch self {
-        case .getUserQueue(let topics):
-            return .body(MessagesRequest(topics: topics))
-        }
+    var parameters: RequestParameters? {
+        return nil
     }
 
     var path: String {

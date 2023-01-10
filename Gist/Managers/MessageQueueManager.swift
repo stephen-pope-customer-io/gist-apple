@@ -16,8 +16,8 @@ class MessageQueueManager {
     private func checkForMessages() {
         Logger.instance.info(message: "Checking Gist queue service")
         if let userToken = UserManager().getUserToken() {
-            QueueManager(organizationId: Gist.shared.organizationId)
-                .fetchUserQueue(userToken: userToken, topics: TopicsManager.getTopics(), completionHandler: { response in
+            QueueManager(siteId: Gist.shared.siteId, dataCenter: Gist.shared.dataCenter)
+                .fetchUserQueue(userToken: userToken, completionHandler: { response in
                 switch response {
                 case .success(let responses):
                     Logger.instance.info(message: "Gist queue service found \(responses.count) new messages")

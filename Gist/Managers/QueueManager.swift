@@ -2,18 +2,18 @@ import Foundation
 
 class QueueManager {
 
-    let organizationId: String
+    let siteId: String
+    let dataCenter: String
 
-    init(organizationId: String) {
-        self.organizationId = organizationId
+    init(siteId: String, dataCenter: String) {
+        self.siteId = siteId
+        self.dataCenter = dataCenter
     }
 
-    func fetchUserQueue(userToken: String,
-                        topics: [String],
-                        completionHandler: @escaping (Result<[UserQueueResponse], Error>) -> Void) {
+    func fetchUserQueue(userToken: String, completionHandler: @escaping (Result<[UserQueueResponse], Error>) -> Void) {
         do {
-            try GistQueueNetwork(organizationId: organizationId, userToken: userToken)
-                .request(QueueEndpoint.getUserQueue(topics: topics), completionHandler: { response in
+            try GistQueueNetwork(siteId: siteId, dataCenter: dataCenter, userToken: userToken)
+                .request(QueueEndpoint.getUserQueue, completionHandler: { response in
                 switch response {
                 case .success(let (data, response)):
                     if response.statusCode == 204 {

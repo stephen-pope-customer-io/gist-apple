@@ -24,7 +24,7 @@ In your `AppDelegate` add Gist as a stored property and initialize it inside the
 func application(_ application: UIApplication, 
                   didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
 
-        Gist.shared.setup(organizationId: "your-organization-id", logging: true)
+        Gist.shared.setup(siteId: "your-site-id", logging: true)
 
         return true
 }
@@ -48,24 +48,6 @@ Gist is able to show messages when a user reaches a particular route within your
 In your route handler add:
 ```swift
 Gist.shared.setCurrentRoute("user/profile")
-```
-
-## Broadcasts
-Broadcasts enable you to receive messages based on topics the client is subscribed to.
-
-### Subscribing
-```swift
-Gist.shared.subscribeToTopic("announcements")
-```
-
-### Unsubscribing
-```swift
-Gist.shared.unsubscribeFromTopic("announcements")
-```
-
-### Clear All Topics
-```swift
-Gist.shared.clearTopics()
 ```
 
 ## Manually Triggering In-App Messages
