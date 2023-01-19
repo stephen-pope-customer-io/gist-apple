@@ -7,7 +7,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
 
-        Gist.shared.setup(siteId: "38180e5d34fcae872aa7", dataCenter: "us", logging: true, env: .development)
+        Gist.shared.setup(siteId: "a5ec106751ef4b34a0b9", dataCenter: "eu", logging: true, env: .production)
 
         return true
     }
