@@ -41,9 +41,12 @@ public class EngineWeb: NSObject {
         webView.backgroundColor = UIColor.clear
         webView.scrollView.backgroundColor = UIColor.clear
 
-        let contentController = self.webView.configuration.userContentController
-        contentController.add(self, name: "gist")
-
+        let js = "window.parent.postMessage = function(message) {webkit.messageHandlers.gist.postMessage(message)}"
+        let messageHandlerScript = WKUserScript(source: js, injectionTime: .atDocumentEnd, forMainFrameOnly: false)
+        
+        self.webView.configuration.userContentController.add(self, name: "gist")
+        self.webView.configuration.userContentController.addUserScript(messageHandlerScript)
+        
         if #available(iOS 11.0, *) {
             webView.scrollView.contentInsetAdjustmentBehavior = .never
         }
@@ -123,10 +126,7 @@ extension EngineWeb: WKScriptMessageHandler {
 }
 
 extension EngineWeb: WKNavigationDelegate {
-    public func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-        webView.evaluateJavaScript(
-            "window.parent.postMessage = function(message) {webkit.messageHandlers.gist.postMessage(message)}")
-    }
+    public func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {}
 
     public func webViewWebContentProcessDidTerminate(_ webView: WKWebView) {
         delegate?.error()
