@@ -5,13 +5,13 @@ protocol NetworkSettings {
 }
 
 struct NetworkSettingsProduction: NetworkSettings {
-    let queueAPI = "http://gist-queue-consumer-api.cloud.gist.build"
+    let queueAPI = "https://gist-queue-consumer-api.cloud.gist.build"
     let gistAPI = "https://api.gist.build"
     let renderer = "https://renderer.gist.build/1.0"
 }
 
 struct NetworkSettingsDevelopment: NetworkSettings {
-    let queueAPI = "http://gist-queue-consumer-api.cloud.dev.gist.build"
+    let queueAPI = "https://gist-queue-consumer-api.cloud.dev.gist.build"
     let gistAPI = "https://api.dev.gist.build"
     let renderer = "https://renderer.gist.build/1.0"
 }
