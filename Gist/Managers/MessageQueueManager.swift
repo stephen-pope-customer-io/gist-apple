@@ -10,7 +10,8 @@ class MessageQueueManager {
                                           userInfo: nil,
                                           repeats: true)
         
-        // Wait 1 second for app to become active.
+        // Since on app launch there's a short period where the applicationState is still set to "background"
+        // We wait 1 second for the app to become active before checking for messages.
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
             self.checkForMessages()
         }
