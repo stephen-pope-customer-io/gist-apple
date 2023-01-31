@@ -1,15 +1,16 @@
 import Foundation
+import UIKit
 
 class MessageQueueManager {
     private var queueTimer: Timer!
-    
+
     func setup() {
         queueTimer = Timer.scheduledTimer(timeInterval: 10,
                                           target: self,
                                           selector: #selector(checkForMessages),
                                           userInfo: nil,
                                           repeats: true)
-        
+
         // Since on app launch there's a short period where the applicationState is still set to "background"
         // We wait 1 second for the app to become active before checking for messages.
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
@@ -30,7 +31,7 @@ class MessageQueueManager {
                             for queueMessage in responses {
                                 let message = queueMessage.toMessage()
                                 let position = message.gistProperties.position
-                                
+
                                 if let routeRule = message.gistProperties.routeRule {
                                     let cleanRouteRule = routeRule.replacingOccurrences(of: "\\", with: "/")
                                     if let regex = try? NSRegularExpression(pattern: cleanRouteRule) {
@@ -46,7 +47,7 @@ class MessageQueueManager {
                                         continue
                                     }
                                 }
-                                
+
                                 if let elementId = message.gistProperties.elementId {
                                     Logger.instance.info(message: "Embedding message with Element Id \(elementId)")
                                     Gist.shared.embedMessage(message: message, elementId: elementId)
