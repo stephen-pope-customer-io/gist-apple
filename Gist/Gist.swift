@@ -7,7 +7,7 @@ public class Gist: GistDelegate {
 
     public var siteId: String = ""
     public var dataCenter: String = ""
-    
+
     weak public var delegate: GistDelegate?
 
     public static let shared = Gist()

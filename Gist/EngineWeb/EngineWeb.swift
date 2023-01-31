@@ -43,10 +43,10 @@ public class EngineWeb: NSObject {
 
         let js = "window.parent.postMessage = function(message) {webkit.messageHandlers.gist.postMessage(message)}"
         let messageHandlerScript = WKUserScript(source: js, injectionTime: .atDocumentEnd, forMainFrameOnly: false)
-        
+
         self.webView.configuration.userContentController.add(self, name: "gist")
         self.webView.configuration.userContentController.addUserScript(messageHandlerScript)
-        
+
         if #available(iOS 11.0, *) {
             webView.scrollView.contentInsetAdjustmentBehavior = .never
         }

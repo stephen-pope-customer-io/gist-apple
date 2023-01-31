@@ -26,7 +26,7 @@ class LogManager {
                         completionHandler(.failure(error))
                     }})
             } else {
-                try GistQueueNetwork(siteId: siteId,  dataCenter: dataCenter)
+                try GistQueueNetwork(siteId: siteId, dataCenter: dataCenter)
                     .request(LogEndpoint.logMessageView(messageId: message.messageId), completionHandler: { response in
                     switch response {
                     case .success(let (_, response)):
