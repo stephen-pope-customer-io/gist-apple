@@ -3,6 +3,7 @@ import UIKit
 
 class MessageQueueManager {
     private var queueTimer: Timer!
+    private var localMessageStore: [String: Message] = [:]
 
     func setup() {
         queueTimer = Timer.scheduledTimer(timeInterval: 10,
@@ -18,6 +19,26 @@ class MessageQueueManager {
         }
     }
 
+    func checkLocalStoreForMessages() {
+        localMessageStore.forEach { (message) in
+            handleMessage(message: message.value)
+        }
+    }
+
+    func removeMessageFromLocalStore(message: Message) {
+        guard let queueId = message.queueId else {
+            return
+        }
+        localMessageStore.removeValue(forKey: queueId)
+    }
+
+    private func addMessageToLocalStore(message: Message) {
+        guard let queueId = message.queueId else {
+            return
+        }
+        localMessageStore.updateValue(message, forKey: queueId)
+    }
+
     @objc
     private func checkForMessages() {
         if UIApplication.shared.applicationState != .background {
@@ -30,36 +51,11 @@ class MessageQueueManager {
                             Logger.instance.info(message: "Gist queue service found \(responses.count) new messages")
                             for queueMessage in responses {
                                 let message = queueMessage.toMessage()
-                                let position = message.gistProperties.position
-
-                                if let routeRule = message.gistProperties.routeRule {
-                                    let cleanRouteRule = routeRule.replacingOccurrences(of: "\\", with: "/")
-                                    if let regex = try? NSRegularExpression(pattern: cleanRouteRule) {
-                                        let range = NSRange(location: 0, length: Gist.shared.getCurrentRoute().utf16.count)
-                                        if regex.firstMatch(in: Gist.shared.getCurrentRoute(), options: [], range: range) == nil {
-                                            Logger.instance.debug(message:
-                                                                    "Current route is \(Gist.shared.getCurrentRoute()), needed \(cleanRouteRule)")
-                                            continue
-                                        }
-                                    } else {
-                                        Logger.instance.info(message:
-                                                                "Problem processing route rule message regex: \(cleanRouteRule)")
-                                        continue
-                                    }
-                                }
-
-                                if let elementId = message.gistProperties.elementId {
-                                    Logger.instance.info(message: "Embedding message with Element Id \(elementId)")
-                                    Gist.shared.embedMessage(message: message, elementId: elementId)
-                                    continue
-                                } else {
-                                    _ = Gist.shared.showMessage(message, position: position)
-                                }
-                                break
+                                self.handleMessage(message: message)
                             }
+                            break
                         case .failure(let error):
-                            Logger.instance.error(message:
-                                                    "Error fetching messages from Gist queue service. \(error.localizedDescription)")
+                            Logger.instance.error(message: "Error fetching messages from Gist queue service. \(error.localizedDescription)")
                         }
                     })
             } else {
@@ -67,6 +63,33 @@ class MessageQueueManager {
             }
         } else {
             Logger.instance.info(message: "Application in background, skipping queue check.")
+        }
+    }
+
+    private func handleMessage(message: Message) {
+        let position = message.gistProperties.position
+
+        if let routeRule = message.gistProperties.routeRule {
+            let cleanRouteRule = routeRule.replacingOccurrences(of: "\\", with: "/")
+            if let regex = try? NSRegularExpression(pattern: cleanRouteRule) {
+                let range = NSRange(location: 0, length: Gist.shared.getCurrentRoute().utf16.count)
+                if regex.firstMatch(in: Gist.shared.getCurrentRoute(), options: [], range: range) == nil {
+                    Logger.instance.debug(message: "Current route is \(Gist.shared.getCurrentRoute()), needed \(cleanRouteRule)")
+                    self.addMessageToLocalStore(message: message)
+                    return
+                }
+            } else {
+                Logger.instance.info(message: "Problem processing route rule message regex: \(cleanRouteRule)")
+                return
+            }
+        }
+
+        if let elementId = message.gistProperties.elementId {
+            Logger.instance.info(message: "Embedding message with Element Id \(elementId)")
+            Gist.shared.embedMessage(message: message, elementId: elementId)
+            return
+        } else {
+            _ = Gist.shared.showMessage(message, position: position)
         }
     }
 }

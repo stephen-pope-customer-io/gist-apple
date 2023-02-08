@@ -1,9 +1,10 @@
 excluded:
   - Pods
   - Demo/Pods
-line_length: 130
+line_length: 170
 identifier_name:
   min_length:
     error: 2
   excluded:
     - id
+    - js
