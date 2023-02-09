@@ -31,6 +31,7 @@ public class Gist: GistDelegate {
 
     public func clearUserToken() {
         UserManager().clearUserToken()
+        messageQueueManager.clearUserMessagesFromLocalStore()
     }
 
     // MARK: Route
@@ -41,6 +42,7 @@ public class Gist: GistDelegate {
 
     public func setCurrentRoute(_ currentRoute: String) {
         RouteManager.setCurrentRoute(currentRoute)
+        messageQueueManager.fetchUserMessagesFromLocalStore()
     }
 
     public func clearCurrentRoute() {
@@ -51,8 +53,7 @@ public class Gist: GistDelegate {
 
     public func showMessage(_ message: Message, position: MessagePosition = .center) -> Bool {
         if let messageManager = getModalMessageManager() {
-            Logger.instance.info(message:
-                                    "Message cannot be displayed, \(messageManager.currentMessage.messageId) is being displayed.")
+            Logger.instance.info(message: "Message cannot be displayed, \(messageManager.currentMessage.messageId) is being displayed.")
         } else {
             let messageManager = createMessageManager(siteId: self.siteId, message: message)
             messageManager.showMessage(position: position)
@@ -74,6 +75,7 @@ public class Gist: GistDelegate {
 
     public func messageShown(message: Message) {
         Logger.instance.debug(message: "Message with route: \(message.messageId) shown")
+        messageQueueManager.removeMessageFromLocalStore(message: message)
         let userToken = UserManager().getUserToken()
         LogManager(siteId: siteId, dataCenter: dataCenter)
             .logView(message: message, userToken: userToken) { response in

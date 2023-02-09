@@ -27,6 +27,10 @@ class ViewController: UIViewController, GistDelegate, GistViewDelegate {
         debugPrint("Message \(willShow ? "will be shown" : "will not show")")
     }
 
+    @IBAction func changeRoute(_ sender: Any) {
+        Gist.shared.setCurrentRoute("test")
+    }
+
     func sizeChanged(message: Message, width: CGFloat, height: CGFloat) {
         if message.instanceId == embeddedMessage.instanceId {
             embeddedViewHeightConstraint.constant = height
