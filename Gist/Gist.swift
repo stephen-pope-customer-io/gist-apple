@@ -31,6 +31,7 @@ public class Gist: GistDelegate {
 
     public func clearUserToken() {
         UserManager().clearUserToken()
+        messageQueueManager.clearUserMessagesFromLocalStore()
     }
 
     // MARK: Route
@@ -41,7 +42,7 @@ public class Gist: GistDelegate {
 
     public func setCurrentRoute(_ currentRoute: String) {
         RouteManager.setCurrentRoute(currentRoute)
-        messageQueueManager.checkLocalStoreForMessages()
+        messageQueueManager.fetchUserMessagesFromLocalStore()
     }
 
     public func clearCurrentRoute() {

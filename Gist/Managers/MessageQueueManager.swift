@@ -3,26 +3,32 @@ import UIKit
 
 class MessageQueueManager {
     private var queueTimer: Timer!
+    // The local message store is used to keep messages that can't be displayed because the route rule doesnt match.
     private var localMessageStore: [String: Message] = [:]
 
     func setup() {
         queueTimer = Timer.scheduledTimer(timeInterval: 10,
                                           target: self,
-                                          selector: #selector(checkForMessages),
+                                          selector: #selector(fetchUserMessages),
                                           userInfo: nil,
                                           repeats: true)
 
         // Since on app launch there's a short period where the applicationState is still set to "background"
         // We wait 1 second for the app to become active before checking for messages.
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-            self.checkForMessages()
+            self.fetchUserMessages()
         }
     }
 
-    func checkLocalStoreForMessages() {
+    func fetchUserMessagesFromLocalStore() {
+        Logger.instance.info(message: "Checking local store with \(localMessageStore.count) messages")
         localMessageStore.forEach { (message) in
             handleMessage(message: message.value)
         }
+    }
+
+    func clearUserMessagesFromLocalStore() {
+        localMessageStore.removeAll()
     }
 
     func removeMessageFromLocalStore(message: Message) {
@@ -40,7 +46,7 @@ class MessageQueueManager {
     }
 
     @objc
-    private func checkForMessages() {
+    private func fetchUserMessages() {
         if UIApplication.shared.applicationState != .background {
             Logger.instance.info(message: "Checking Gist queue service")
             if let userToken = UserManager().getUserToken() {
@@ -53,7 +59,6 @@ class MessageQueueManager {
                                 let message = queueMessage.toMessage()
                                 self.handleMessage(message: message)
                             }
-                            break
                         case .failure(let error):
                             Logger.instance.error(message: "Error fetching messages from Gist queue service. \(error.localizedDescription)")
                         }
