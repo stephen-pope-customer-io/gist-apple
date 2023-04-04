@@ -36,7 +36,7 @@ public class EngineWeb: NSObject {
     init(configuration: EngineWebConfiguration) {
         super.init()
 
-        _elapsedTimer.start(title: configuration.messageId)
+        _elapsedTimer.start(title: "Engine render for message: \(configuration.messageId)")
         
         webView.translatesAutoresizingMaskIntoConstraints = false
         webView.navigationDelegate = self
@@ -109,7 +109,7 @@ extension EngineWeb: WKScriptMessageHandler {
             }
         case .routeChanged:
             if let route = EngineEventHandler.getRouteChangedProperties(properties: eventProperties) {
-                _elapsedTimer.start(title: route)
+                _elapsedTimer.start(title: "Engine render for message: \(route)")
                 delegate?.routeChanged(newRoute: route)
             }
         case .routeError:

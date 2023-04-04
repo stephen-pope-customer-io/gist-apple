@@ -14,7 +14,7 @@ class ElapsedTimer {
             return
         }
         let timeElapsed = ((CFAbsoluteTimeGetCurrent() - startTime) * 1000).rounded() / 1000.0
-        Logger.instance.info(message: "Timer \(title) elapsed in \(timeElapsed) seconds")
+        Logger.instance.info(message: "\(title) timer elapsed in \(timeElapsed) seconds")
         self.startTime = nil
     }
 }
