@@ -8,7 +8,6 @@ public enum GistMessageActions: String {
 class MessageManager: EngineWebDelegate {
     private var engine: EngineWeb?
     private let siteId: String
-    private var shouldShowMessage = false
     private var messagePosition: MessagePosition = .top
     private var messageLoaded = false
     private var modalViewManager: ModalViewManager?
@@ -16,6 +15,7 @@ class MessageManager: EngineWebDelegate {
     let currentMessage: Message
     var gistView: GistView!
     private var currentRoute: String
+    private var elapsedTimer = ElapsedTimer()
     weak var delegate: GistDelegate?
 
     init(siteId: String, message: Message) {
@@ -38,8 +38,8 @@ class MessageManager: EngineWebDelegate {
     }
 
     func showMessage(position: MessagePosition) {
+        elapsedTimer.start(title: "Displaying modal for message: \(currentMessage.messageId)")
         messagePosition = position
-        shouldShowMessage = true
     }
 
     func getMessageView() -> GistView {
@@ -53,6 +53,7 @@ class MessageManager: EngineWebDelegate {
             modalViewManager?.showModalView { [weak self] in
                 guard let self = self else { return }
                 self.delegate?.messageShown(message: self.currentMessage)
+                self.elapsedTimer.end()
             }
         }
     }
